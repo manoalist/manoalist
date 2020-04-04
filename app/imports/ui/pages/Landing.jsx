@@ -37,7 +37,7 @@ export default class Landing extends React.Component {
   render() {
     // if correct authentication, direct to page category
     if (this.state.redirectToReferer) {
-      return <Redirect to="/add"/>;
+      return <Redirect to="/cate"/>;
     }
     // Otherwise return the Login form.
     return (
