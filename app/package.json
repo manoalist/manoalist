@@ -1,5 +1,5 @@
 {
-  "name": "meteor-application-template-react",
+  "name": "manoalist",
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.8.3",
