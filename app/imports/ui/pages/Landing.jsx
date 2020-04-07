@@ -11,8 +11,9 @@ export default class Landing extends React.Component {
         <div>
           <Container className={'topLanding'} fluid>
             <Grid textAlign={'center'} style={{ paddingTop: '200px' }}>
-              <Grid.Column width={3}><Icon inverted name={'box'}
-                                           size={'huge'}/></Grid.Column>
+              <Grid.Column width={3}><Icon style={{ background: 'rgba(0, 0,' +
+                    ' 0, 0.4)' }} inverted name={'xbox'}
+                                           size={'massive'}/></Grid.Column>
               <Grid.Column width={3} textAlign={'left'}>
                 <p style={topRightStyle}>Slogan: here is an slogan</p>
                 <Button content={'Sign Up'} floated={'left'} as={NavLink} exact to={'/signup'}/>
@@ -29,31 +30,22 @@ export default class Landing extends React.Component {
                          textAlign={'center'}>
               <Icon name={'cart'}
                     size={'huge'}/>
-              <Header as={'h3'}>This is a friendly platform for UH students to
-                facilitate buying and selling
-                of student-related goods and services. Users must be UH
-                students,
-                faculty, or staff</Header>
+              <Header as={'h3'}>You can sign in to our home page to see what is on the list.
+                The items on the list is from other users. Contact the seller if you are
+                interested to his/her item.</Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
               <Icon name={'handshake outline'}
                     size={'huge'}/>
-              <Header as={'h3'}>This is a friendly platform for UH students to
-                facilitate buying and selling
-                of student-related goods and services. Users must be UH
-                students,
-                faculty, or staff<br/>Sign in to start shopping!</Header>
+              <Header as={'h3'}>You can post a request to ask for items that no one post in the for sell list. </Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
-              <Icon name={'handshake outline'}
+              <Icon name={'star'}
                     size={'huge'}/>
-              <Header as={'h3'}>This is a friendly platform for UH students to
-                facilitate buying and selling
-                of student-related goods and services. Users must be UH
-                students,
-                faculty, or staff<br/>Sign in to start shopping!</Header>
+              <Header as={'h3'}>You can rating the seller after purchase and leave a comment for him/her so
+                other buyers can review comments to see whether they can buy stuffs from this seller.</Header>
             </Grid.Column>
           </Grid>
           <Header as={'h3'} textAlign={'center'}>FOR BUYER</Header>
@@ -62,32 +54,23 @@ export default class Landing extends React.Component {
                 className={'landing'}>
             <Grid.Column width={4}
                          textAlign={'center'}>
-              <Icon name={'cart'}
+              <Icon name={'send'}
                     size={'huge'}/>
-              <Header as={'h3'}>Plenty of items waiting you to discover. Numbers
-                of categories,
-                here has everything you want, everything you need. Shop Right
-                Now!</Header>
+              <Header as={'h3'}>You can post a item if you want to sell it. It will appears on the for
+                sell list so buyers can view your items.</Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
-              <Icon name={'handshake outline'}
+              <Icon name={'heart'}
                     size={'huge'}/>
-              <Header as={'h3'}>This is a friendly platform for UH students to
-                facilitate buying and selling
-                of student-related goods and services. Users must be UH
-                students,
-                faculty, or staff<br/>Sign in to start shopping!</Header>
+              <Header as={'h3'}>You can view the list of request to see is there anything you can
+                sell to those buyers in need.</Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
-              <Icon name={'handshake outline'}
+              <Icon name={'check square'}
                     size={'huge'}/>
-              <Header as={'h3'}>This is a friendly platform for UH students to
-                facilitate buying and selling
-                of student-related goods and services. Users must be UH
-                students,
-                faculty, or staff<br/>Sign in to start shopping!</Header>
+              <Header as={'h3'}>Check with buyer to make the deal in-person in campus.</Header>
             </Grid.Column>
           </Grid>
         </div>
