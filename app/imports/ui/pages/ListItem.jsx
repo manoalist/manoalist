@@ -53,10 +53,9 @@ export default withTracker(({ match }) => {
       stuffs: Stuffs.find({}).fetch(),
       ready: subscription.ready(),
     };
-  } else {
+  }
     return {
       stuffs: Stuffs.find({ name: documentName }).fetch(),
       ready: subscription.ready(),
     };
-  }
 })(ListItem);
