@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { Container, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
 
 /**
  * Signin component is similar to signup component, but we create a new user instead.
@@ -38,14 +38,19 @@ class Signin extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
+         <div style={{backgroundColor: '#fafafa'}}>
         <Container>
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
             <Grid.Column className={'login'}>
               <Form onSubmit={this.submit}>
+
                 <Segment stacked>
-                  <Header as="h2" textAlign="center">
+                  <Header as="h1" textAlign="center" style={{color: '#024731', marginBottom: '25px'}}>
                     Log In
                   </Header>
+                  <div className={'logoinmenu'}>
+                  <Image src={'/images/manoalist-logo.png'} size={'medium'} centered/>
+                  </div>
                   <Form.Input
                       label="Username"
                       icon="user"
@@ -64,7 +69,7 @@ class Signin extends React.Component {
                       type="password"
                       onChange={this.handleChange}
                   />
-                  <Form.Button color={'green'} content="Log in"/>
+                  <Form.Button style={{color: 'white', backgroundColor:'#024731'}} content="Log in"/>
 
                     No account? <Link to="/signup"> Sign Up!</Link>
 
@@ -84,6 +89,7 @@ class Signin extends React.Component {
             </Grid.Column>
           </Grid>
         </Container>
+         </div>
     );
   }
 }
