@@ -40,6 +40,7 @@ class Signup extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
+        <div style={{backgroundColor:'#fafafa'}}>
       <Container>
         <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
           <Grid.Column className={'logup'}>
@@ -91,6 +92,7 @@ class Signup extends React.Component {
           </Grid.Column>
         </Grid>
       </Container>
+        </div>
     );
   }
 }
