@@ -8,7 +8,7 @@ const Categories = new Mongo.Collection('Categories');
 /** Define a schema to specify the structure of each document in the collection. */
 const CategorySchema = new SimpleSchema({
   group: String,
-  category: String,
+  name: String,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
