@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Header, Icon, Dropdown } from 'semantic-ui-react';
+import { Menu, Icon, Dropdown, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -20,29 +20,28 @@ class NavBar extends React.Component {
                          activeClassName=""
                          exact
                          to="/cate">
-                <Header inverted
-                        as='h1'>manoalist</Header>
+                <Image src={'/images/manoalist-logo.png'} size={'small'}/>
               </Menu.Item>
           ) : (
               <Menu.Item as={NavLink}
                          activeClassName=""
                          exact
                          to="/">
-                <Header inverted
-                        as='h1'>manoalist</Header>
+                <Image src={'/images/manoalist-logo.png'} size={'small'}/>
               </Menu.Item>
           )}
           {this.props.currentUser ? (
-              [<Menu.Item as={NavLink}
+              [<Menu.Item position={'right'}
+                          as={NavLink}
                           activeClassName="active"
                           exact
                           to="/add"
-                          key='add'>Add Stuff</Menu.Item>,
+                          key='add'>BROWSE</Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
                            to="/list/all"
-                           key='list'>List Stuff</Menu.Item>]
+                           key='list'>SELL</Menu.Item>]
           ) : ''}
           {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
               <Menu.Item as={NavLink}
@@ -53,15 +52,15 @@ class NavBar extends React.Component {
           ) : ''}
 
           {this.props.currentUser === '' ? (
-              <Menu.Item position="right"
-                         as={NavLink}
+              <Menu.Item position={'right'}
+                          as={NavLink}
                          activeClassName="active"
                          exact
                          to="/signin">
                 <Icon name={'user'}/>
                 sign in
               </Menu.Item>) : (
-              <Menu.Item position="right">
+              <Menu.Item>
                 <Dropdown pointing={'top right'} icon={'user'}>
                   <Dropdown.Menu>
                     <Dropdown.Item text="Profile" icon={'user circle'} as={NavLink} exact to="/list"/>

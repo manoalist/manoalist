@@ -1,21 +1,21 @@
 import React from 'react';
-import { Button, Container, Grid, Header, Icon } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Icon, Image } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 export default class Landing extends React.Component {
   render() {
     // const topLandingStyle = { backgroundImage: 'url("https://i0.wp.com/www.hawaii.edu/news/wp-content/uploads/' +
     //       '2019/05/manoa-ranking-beautiful-affordable-schools.jpg?w=676&ssl=1")', height: '500px' };
-    const topRightStyle = { color: 'white', fontSize: '24px', background: 'rgba(0, 0, 0, 0.4)' };
+    const topRightStyle = { color: 'white', fontSize: '30px', background: 'rgba(0, 0, 0, 0.4)' };
     return (
         <div>
           <Container className={'topLanding'} fluid>
             <Grid textAlign={'center'} style={{ paddingTop: '200px' }}>
-              <Grid.Column width={3}><Icon style={{ background: 'rgba(0, 0,' +
-                    ' 0, 0.4)' }} inverted name={'xbox'}
-                                           size={'massive'}/></Grid.Column>
+              <Grid.Column width={3}>
+                <Image src={'/images/manoalist-logo.png'} style={{ background: 'rgba(255, 255, 255, 0.4)' }}/>
+              </Grid.Column>
               <Grid.Column width={3} textAlign={'left'}>
-                <p style={topRightStyle}>Slogan: here is an slogan</p>
+                <p style={topRightStyle}>Connecting campus</p>
                 <Button content={'Sign Up'} floated={'left'} as={NavLink} exact to={'/signup'}/>
               </Grid.Column>
             </Grid>
