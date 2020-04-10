@@ -15,7 +15,7 @@ import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
 import Categories from '../pages/Categories';
 import ListItem from '../pages/ListItem';
-import Signin from '../pages/Signin';
+// import Signin from '../pages/Signin';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -26,7 +26,7 @@ class App extends React.Component {
             <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>
-              <Route path="/signin" component={Signin}/>
+              {/* <Route path="/signin" component={Signin}/> */}
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/list/:name" component={ListItem}/>
               <ProtectedRoute path="/cate" component={Categories}/>

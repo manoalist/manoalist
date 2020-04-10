@@ -16,7 +16,7 @@ export default class Landing extends React.Component {
               </Grid.Column>
               <Grid.Column width={3} textAlign={'left'}>
                 <p style={topRightStyle}>Connecting campus</p>
-                <Button content={'Sign Up'} floated={'left'} as={NavLink} exact to={'/signup'}/>
+                <Button content={'Sign In'} floated={'left'} as={NavLink} exact to={'/signin'}/>
               </Grid.Column>
             </Grid>
           </Container>

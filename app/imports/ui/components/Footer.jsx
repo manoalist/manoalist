@@ -3,7 +3,6 @@ import {
   Image,
   Grid,
   List,
-  Container,
   Divider,
   Icon,
   Header,
@@ -36,10 +35,6 @@ class Footer extends React.Component {
                 <Button content={'Register'} size={'huge'} color={'green'}/>
               </Grid.Column>
             </Grid>
-            <Divider hidden/>
-            <Container textAlign={'center'}><p>Department of Information and Computer Sciences <br/>
-              University of Hawaii<br/>
-              Honolulu, HI 96822</p></Container>
         </footer>
     );
   }
