@@ -16,6 +16,7 @@ class Footer extends React.Component {
     const divStyle = { margonTop: '15px', backgroundColor: '#D4D3D3' };
     return (
         <footer style={divStyle}>
+          <Divider/>
             <Grid columns={3} container>
               <Grid.Column>
                 <Image src={'/images/manoalist-logo.png'} size={'large'}/>

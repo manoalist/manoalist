@@ -44,7 +44,7 @@ export default class Signin extends React.Component {
   render() {
     // if correct authentication, direct to page category
     if (this.state.redirectToReferer) {
-      return <Redirect to="/cate"/>;
+      return <Redirect to="/home"/>;
     }
     // Otherwise return the Login form.
     return (

@@ -19,7 +19,7 @@ class NavBar extends React.Component {
               <Menu.Item as={NavLink}
                          activeClassName=""
                          exact
-                         to="/cate">
+                         to="/home">
                 <Image src={'/images/manoalist-logo.png'} size={'small'}/>
               </Menu.Item>
           ) : (
@@ -63,7 +63,7 @@ class NavBar extends React.Component {
               <Menu.Item>
                 <Dropdown pointing={'top right'} icon={'user'}>
                   <Dropdown.Menu>
-                    <Dropdown.Item text="Profile" icon={'user circle'} as={NavLink} exact to="/list"/>
+                    <Dropdown.Item text="Profile" icon={'user circle'} as={NavLink} exact to="/profile"/>
                     <Dropdown.Item icon="sign out"
                                    text="Sign Out"
                                    as={NavLink}
