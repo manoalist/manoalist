@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { Container, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { Accounts } from 'meteor/accounts-base';
+
 
 /**
  * Signup component is similar to signin component, but we create a new user instead.
@@ -11,7 +12,7 @@ class Signup extends React.Component {
   /** Initialize state fields. */
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '', error: '', redirectToReferer: false };
+    this.state = { email: '', password: '', confirm:'', error: '', redirectToReferer: false };
   }
 
   /** Update the form controls each time the user interacts with them. */
@@ -21,14 +22,18 @@ class Signup extends React.Component {
 
   /** Handle Signup submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
-    const { email, password } = this.state;
+    const { email, password, confirm } = this.state;
+    if (this.state.password === this.state.confirm ){
     Accounts.createUser({ email, username: email, password }, (err) => {
+
       if (err) {
         this.setState({ error: err.reason });
       } else {
         this.setState({ error: '', redirectToReferer: true });
       }
-    });
+    })}else{
+      this.setState({error: 'Password does not match your confirmation'});
+    };
   };
 
   /** Display the signup form. Redirect to add page after successful registration and login. */
@@ -39,21 +44,23 @@ class Signup extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
+        <div style={{backgroundColor:'#fafafa'}}>
       <Container>
         <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Register your account
-            </Header>
+          <Grid.Column style={{marginTop: '65px', marginBottom: '100px'}}>
             <Form onSubmit={this.submit}>
               <Segment stacked>
+                <Header as="h2" textAlign="centered" style={{color: '#024731', marginBottom: '25px'}}>
+                  Create Account
+                </Header>
+                <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{marginTop:'15px'}} centered/>
                 <Form.Input
-                  label="Email"
+                  label="Username"
                   icon="user"
                   iconPosition="left"
                   name="email"
                   type="email"
-                  placeholder="E-mail address"
+                  placeholder="Username or E-mail address"
                   onChange={this.handleChange}
                 />
                 <Form.Input
@@ -65,12 +72,19 @@ class Signup extends React.Component {
                   type="password"
                   onChange={this.handleChange}
                 />
-                <Form.Button content="Submit"/>
+                <Form.Input
+                    label="Confirm Password"
+                    icon="lock"
+                    iconPosition="left"
+                    name="confirm"
+                    placeholder="Confirm Password"
+                    type="password"
+                    onChange={this.handleChange}
+                />
+                <Form.Button color={'green'} content="Sign up"/>
+                Already have an account? <Link to="/signin">Login</Link>
               </Segment>
             </Form>
-            <Message>
-              Already have an account? Login <Link to="/signin">here</Link>
-            </Message>
             {this.state.error === '' ? (
               ''
             ) : (
@@ -83,6 +97,7 @@ class Signup extends React.Component {
           </Grid.Column>
         </Grid>
       </Container>
+        </div>
     );
   }
 }
