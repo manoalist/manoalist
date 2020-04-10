@@ -11,7 +11,7 @@ class CategoryItem extends React.Component {
           <Table.Cell>{this.props.category.group}</Table.Cell>
           <Table.Cell>{this.props.category.name}</Table.Cell>
           <Table.Cell>
-            <Link to={`/edit/${this.props.stuff._id}`}>Edit</Link>
+            <Link to={`/edit/${this.props.category._id}`}>Edit</Link>
           </Table.Cell>
         </Table.Row>
     );
