@@ -1,105 +1,79 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
-import { Meteor } from 'meteor/meteor';
-import { Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Icon, Image } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 
-/**
- * Landing page overrides the form’s submit event and call Meteor’s loginWithPassword().
- * Authentication errors modify the component’s state to be displayed
- */
 export default class Landing extends React.Component {
-
-  /** Initialize component state with properties for login and redirection. */
-  constructor(props) {
-    super(props);
-    this.state = { email: '', password: '', error: '', redirectToReferer: false };
-  }
-
-  /** Update the form controls each time the user interacts with them. */
-  handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value });
-  };
-
-  /** Handle Landing submission using Meteor's account mechanism. */
-  submit = () => {
-    const { email, password } = this.state;
-    Meteor.loginWithPassword(email, password, (err) => {
-      if (err) {
-        this.setState({ error: err.reason });
-      } else {
-        this.setState({ error: '', redirectToReferer: true });
-      }
-    });
-  };
-
-  /** Render the signin form. */
   render() {
-    // if correct authentication, direct to page category
-    if (this.state.redirectToReferer) {
-      return <Redirect to="/cate"/>;
-    }
-    // Otherwise return the Login form.
+    // const topLandingStyle = { backgroundImage: 'url("https://i0.wp.com/www.hawaii.edu/news/wp-content/uploads/' +
+    //       '2019/05/manoa-ranking-beautiful-affordable-schools.jpg?w=676&ssl=1")', height: '500px' };
+    const topRightStyle = { color: 'white', fontSize: '30px', background: 'rgba(0, 0, 0, 0.4)' };
     return (
-        <Grid textAlign="center" centered className={'landing'}>
-          <Grid.Column width={4}>
-            <Header as="h2" textAlign="center">
-              Login to your account
-            </Header>
-            <Form onSubmit={this.submit}>
-              <Segment stacked>
-                <Form.Input
-                  label="Email"
-                  icon="user"
-                  iconPosition="left"
-                  name="email"
-                  type="email"
-                  placeholder="E-mail address"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  label="Password"
-                  icon="lock"
-                  iconPosition="left"
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                  onChange={this.handleChange}
-                />
-                <Form.Button content="Submit"/>
-              </Segment>
-            </Form>
-            <Message>
-              <Link to="/signup">Click here to Register</Link>
-            </Message>
-            {this.state.error === '' ? (
-              ''
-            ) : (
-              <Message
-                error
-                header="Login was not successful"
-                content={this.state.error}
-              />
-            )}
-          </Grid.Column>
-          <Grid.Column width={2}/>
-          <Grid.Column width={4} textAlign={'center'}>
-            <Icon name={'cart'} size={'huge'}/>
-            <Header as={'h3'}>Plenty of items waiting you to discover. Numbers of categories,
-              here has everything you want, everything you need. Shop Right Now!</Header>
-          </Grid.Column>
-          <Grid.Column textAlign={'center'} width={4}>
-            <Icon name={'handshake outline'} size={'huge'}/>
-            <Header as={'h3'}>This is a friendly platform for UH students to facilitate buying and selling
-              of student-related goods and services. Users must be UH students,
-              faculty, or staff<br/>Sign in to start shopping!</Header>
-          </Grid.Column>
-        </Grid>
+        <div>
+          <Container className={'topLanding'} fluid>
+            <Grid textAlign={'center'} style={{ paddingTop: '200px' }}>
+              <Grid.Column width={3}>
+                <Image src={'/images/manoalist-logo.png'} style={{ background: 'rgba(255, 255, 255, 0.4)' }}/>
+              </Grid.Column>
+              <Grid.Column width={3} textAlign={'left'}>
+                <p style={topRightStyle}>Connecting campus</p>
+                <Button content={'Sign Up'} floated={'left'} as={NavLink} exact to={'/signup'}/>
+              </Grid.Column>
+            </Grid>
+          </Container>
+
+          <Header as={'h2'} textAlign={'center'}>HOW IT WORKS</Header>
+          <Header as={'h3'} textAlign={'center'}>FOR SELLER</Header>
+          <Grid textAlign="center"
+                centered
+                className={'landing'}>
+            <Grid.Column width={4}
+                         textAlign={'center'}>
+              <Icon name={'cart'}
+                    size={'huge'}/>
+              <Header as={'h3'}>You can sign in to our home page to see what is on the list.
+                The items on the list is from other users. Contact the seller if you are
+                interested to his/her item.</Header>
+            </Grid.Column>
+            <Grid.Column textAlign={'center'}
+                         width={4}>
+              <Icon name={'handshake outline'}
+                    size={'huge'}/>
+              <Header as={'h3'}>You can post a request to ask for items that no one post in the for sell list. </Header>
+            </Grid.Column>
+            <Grid.Column textAlign={'center'}
+                         width={4}>
+              <Icon name={'star'}
+                    size={'huge'}/>
+              <Header as={'h3'}>You can rating the seller after purchase and leave a comment for him/her so
+                other buyers can review comments to see whether they can buy stuffs from this seller.</Header>
+            </Grid.Column>
+          </Grid>
+          <Header as={'h3'} textAlign={'center'}>FOR BUYER</Header>
+          <Grid textAlign="center"
+                centered
+                className={'landing'}>
+            <Grid.Column width={4}
+                         textAlign={'center'}>
+              <Icon name={'send'}
+                    size={'huge'}/>
+              <Header as={'h3'}>You can post a item if you want to sell it. It will appears on the for
+                sell list so buyers can view your items.</Header>
+            </Grid.Column>
+            <Grid.Column textAlign={'center'}
+                         width={4}>
+              <Icon name={'heart'}
+                    size={'huge'}/>
+              <Header as={'h3'}>You can view the list of request to see is there anything you can
+                sell to those buyers in need.</Header>
+            </Grid.Column>
+            <Grid.Column textAlign={'center'}
+                         width={4}>
+              <Icon name={'check square'}
+                    size={'huge'}/>
+              <Header as={'h3'}>Check with buyer to make the deal in-person in campus.</Header>
+            </Grid.Column>
+          </Grid>
+        </div>
     );
   }
 }
-
-/** Ensure that the React Router location object is available in case we need to redirect. */
-Landing.propTypes = {
-  location: PropTypes.object,
-};
