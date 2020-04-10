@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
+import { Meteor } from 'meteor/meteor';
 
 /**
  * Signin component is similar to signup component, but we create a new user instead.
@@ -38,17 +39,17 @@ class Signin extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
-         <div style={{backgroundColor: '#fafafa'}}>
+         <div style={{ backgroundColor: '#fafafa' }}>
         <Container>
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-            <Grid.Column style={{marginTop: '65px', marginBottom: '100px'}}>
+            <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
               <Form onSubmit={this.submit}>
 
                 <Segment stacked>
-                  <Header as="h1" textAlign="center" style={{color: '#024731', marginBottom: '25px'}}>
+                  <Header as="h1" textAlign="center" style={{ color: '#024731', marginBottom: '25px' }}>
                     Log In
                   </Header>
-                  <div style={{marginBottom:'15px',}}>
+                  <div style={{ marginBottom: '15px' }}>
                   <Image src={'/images/manoalist-logo.png'} size={'medium'} centered/>
                   </div>
                   <Form.Input
@@ -69,7 +70,7 @@ class Signin extends React.Component {
                       type="password"
                       onChange={this.handleChange}
                   />
-                  <Form.Button style={{color: 'white', backgroundColor:'#024731'}} content="Log in"/>
+                  <Form.Button style={{ color: 'white', backgroundColor: '#024731' }} content="Log in"/>
 
                     No account? <Link to="/signup"> Sign Up!</Link>
 

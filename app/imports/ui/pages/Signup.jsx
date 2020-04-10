@@ -12,7 +12,7 @@ class Signup extends React.Component {
   /** Initialize state fields. */
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '', confirm:'', error: '', redirectToReferer: false };
+    this.state = { email: '', password: '', confirm: '', error: '', redirectToReferer: false };
   }
 
   /** Update the form controls each time the user interacts with them. */
@@ -22,8 +22,8 @@ class Signup extends React.Component {
 
   /** Handle Signup submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
-    const { email, password, confirm } = this.state;
-    if (this.state.password === this.state.confirm ){
+    const { email, password } = this.state;
+    if (this.state.password === this.state.confirm) {
     Accounts.createUser({ email, username: email, password }, (err) => {
 
       if (err) {
@@ -31,9 +31,10 @@ class Signup extends React.Component {
       } else {
         this.setState({ error: '', redirectToReferer: true });
       }
-    })}else{
-      this.setState({error: 'Password does not match your confirmation'});
-    };
+    });
+} else {
+      this.setState({ error: 'Password does not match your confirmation' });
+    }
   };
 
   /** Display the signup form. Redirect to add page after successful registration and login. */
@@ -44,16 +45,16 @@ class Signup extends React.Component {
       return <Redirect to={from}/>;
     }
     return (
-        <div style={{backgroundColor:'#fafafa'}}>
+        <div style={{ backgroundColor: '#fafafa' }}>
       <Container>
         <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-          <Grid.Column style={{marginTop: '65px', marginBottom: '100px'}}>
+          <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
             <Form onSubmit={this.submit}>
               <Segment stacked>
-                <Header as="h2" textAlign="centered" style={{color: '#024731', marginBottom: '25px'}}>
+                <Header as="h2" textAlign="centered" style={{ color: '#024731', marginBottom: '25px' }}>
                   Create Account
                 </Header>
-                <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{marginTop:'15px'}} centered/>
+                <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{ marginTop: '15px' }} centered/>
                 <Form.Input
                   label="Username"
                   icon="user"
