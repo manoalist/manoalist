@@ -11,7 +11,6 @@ import AddStuff from '../pages/AddStuff';
 import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import Landing from '../pages/Landing';
-import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
 import Categories from '../pages/Categories';
@@ -26,7 +25,7 @@ class App extends React.Component {
             <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>
-              <Route path="/signin" component={Signin}/>
+              <Route path="/signin" component={Landing}/>
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/list/:name" component={ListItem}/>
               <ProtectedRoute path="/cate" component={Categories}/>

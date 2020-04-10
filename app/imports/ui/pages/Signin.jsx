@@ -41,14 +41,14 @@ class Signin extends React.Component {
          <div style={{backgroundColor: '#fafafa'}}>
         <Container>
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-            <Grid.Column className={'login'}>
+            <Grid.Column style={{marginTop: '65px', marginBottom: '100px'}}>
               <Form onSubmit={this.submit}>
 
                 <Segment stacked>
                   <Header as="h1" textAlign="center" style={{color: '#024731', marginBottom: '25px'}}>
                     Log In
                   </Header>
-                  <div className={'logoinmenu'}>
+                  <div style={{marginBottom:'15px',}}>
                   <Image src={'/images/manoalist-logo.png'} size={'medium'} centered/>
                   </div>
                   <Form.Input

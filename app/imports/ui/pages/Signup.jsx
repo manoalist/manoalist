@@ -47,7 +47,7 @@ class Signup extends React.Component {
         <div style={{backgroundColor:'#fafafa'}}>
       <Container>
         <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-          <Grid.Column className={'logup'}>
+          <Grid.Column style={{marginTop: '65px', marginBottom: '100px'}}>
             <Form onSubmit={this.submit}>
               <Segment stacked>
                 <Header as="h2" textAlign="centered" style={{color: '#024731', marginBottom: '25px'}}>
