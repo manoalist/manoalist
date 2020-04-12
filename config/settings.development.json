@@ -9,5 +9,20 @@
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
+  ],
+
+  "defaultItems": [
+    { "categoryGroup": "School","categoryName": "TextBook",
+      "picture": "https://cs.cheggcdn.com/covers2/10950000/10959034_1465801599_Width288.jpg",
+      "name": "Introduction To Algorithms",
+      "quantity": 1,"price": 45, "owner": "john@foo.com", "description": "Used textbook for ICS311. Everything is good." },
+    { "categoryGroup": "School","categoryName": "TextBook",
+      "picture": "https://cs.cheggcdn.com/covers2/67850000/67855677_1563311379_Width288.jpg",
+      "name": "College Algebra",
+      "quantity": 2,"price": 40, "owner": "john@foo.com", "description": "Used textbook for MATH. A little bit old, some pages are noted." },
+    { "categoryGroup": "Sport","categoryName": "Basketball",
+      "picture": "https://images.footlocker.com/is/image/EBFL2/174878_a1?wid=640&hei=640&fmt=png-alpha",
+      "name": "Spalding basketball",
+      "quantity": 3,"price": 130, "owner": "admin@foo.com", "description": "New basketball, never used." }
   ]
 }
