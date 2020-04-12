@@ -18,10 +18,16 @@ if (Stuffs.find().count() === 0) {
   }
 }
 
-/** This subscription publishes only the documents associated with the logged in user */
-Meteor.publish('Items', function publish() {
-  if (this.userId) {
-    return Items.find({});
+/** Initialize the database with a default data document. */
+function addItems(data) {
+  console.log(`  Adding: ${data.name} (${data.owner})`);
+  Items.insert(data);
+}
+
+/** Initialize the collection if empty. */
+if (Items.find().count() === 0) {
+  if (Meteor.settings.defaultItems) {
+    console.log('Creating default items.');
+    Meteor.settings.defaultItems.map(data => addItems(data));
   }
-  return this.ready();
-});
+}
