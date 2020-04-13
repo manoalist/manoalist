@@ -22,7 +22,7 @@ export default class Landing extends React.Component {
           </Container>
 
           <Header as={'h2'} textAlign={'center'}>HOW IT WORKS</Header>
-          <Header as={'h3'} textAlign={'center'}>FOR SELLER</Header>
+          <Header as={'h3'} textAlign={'center'}>FOR BUYER</Header>
           <Grid textAlign="center"
                 centered
                 className={'landing'}>
@@ -48,7 +48,7 @@ export default class Landing extends React.Component {
                 other buyers can review comments to see whether they can buy stuffs from this seller.</Header>
             </Grid.Column>
           </Grid>
-          <Header as={'h3'} textAlign={'center'}>FOR BUYER</Header>
+          <Header as={'h3'} textAlign={'center'}>FOR SELLER</Header>
           <Grid textAlign="center"
                 centered
                 className={'landing'}>

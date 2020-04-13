@@ -26,6 +26,16 @@
       "picture": "https://images.footlocker.com/is/image/EBFL2/174878_a1?wid=640&hei=640&fmt=png-alpha",
       "name": "Spalding basketball",
       "quantity": 3,"price": 130, "owner": "admin@foo.com", "description": "New basketball, never used.",
-      "createdAt":  "Sun Apr 12 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)" }
+      "createdAt":  "Sun Apr 12 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)" },
+    { "categoryGroup": "School","categoryName": "Calculator",
+      "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Casio-fx115ES-5564.jpg/440px-Casio-fx115ES-5564.jpg",
+      "name": "CASIO Scientific calculator",
+      "quantity": 1,"price": 80, "owner": "admin@foo.com", "description": "Used 2 years, eighty percent new. All keys work fine.",
+      "createdAt":  "Mon Apr 13 2020 01:55:32 GMT-1000 (Hawaii-Aleutian Standard Time)" },
+    { "categoryGroup": "Electronics","categoryName": "Phone",
+      "picture": "https://cdn.tmobile.com/content/dam/t-mobile/en-p/cell-phones/apple/apple-iphone-7/matte-black/Apple-iPhone7-MatBlack-1-3x.jpg",
+      "name": "Iphone 7",
+      "quantity": 1,"price": 300, "owner": "admin@foo.com", "description": "Home button is not working, else are functioning well.",
+      "createdAt":  "Mon Apr 13 2020 01:03:32 GMT-1000 (Hawaii-Aleutian Standard Time)" }
   ]
 }
