@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Stuffs } from '../../api/stuff/Stuff';
+import { Items } from '../../api/item/Item';
 
 /** This subscription publishes only the documents associated with the logged in user */
 Meteor.publish('Stuff', function publish() {
@@ -15,6 +16,14 @@ Meteor.publish('Stuff', function publish() {
 Meteor.publish('StuffAdmin', function publish() {
   if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
     return Stuffs.find();
+  }
+  return this.ready();
+});
+
+/** This subscription publishes only the documents associated with the logged in user */
+Meteor.publish('Items', function publish() {
+  if (this.userId) {
+    return Items.find({});
   }
   return this.ready();
 });
