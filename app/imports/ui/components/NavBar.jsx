@@ -5,6 +5,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Menu, Icon, Dropdown, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
+import { Categories } from '../../api/category/Category';
+import CategoryItem from './CategoryItem';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 class NavBar extends React.Component {
@@ -31,12 +33,11 @@ class NavBar extends React.Component {
               </Menu.Item>
           )}
           {this.props.currentUser ? (
-              [<Menu.Item position={'right'}
-                          as={NavLink}
-                          activeClassName="active"
-                          exact
-                          to="/add"
-                          key='add'>BROWSE</Menu.Item>,
+              [<Dropdown item text={'BROWSE'} position={'right'} key={'li'}>
+
+                  {this.props.categories.map((category) => <CategoryItem key={category._id} category={category} />)}
+
+              </Dropdown>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
@@ -92,11 +93,14 @@ class NavBar extends React.Component {
 /** Declare the types of all properties. */
 NavBar.propTypes = {
   currentUser: PropTypes.string,
+  categories: PropTypes.array.isRequired,
 };
+
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 const NavBarContainer = withTracker(() => ({
   currentUser: Meteor.user() ? Meteor.user().username : '',
+  categories: Categories.find({}).fetch(),
 }))(NavBar);
 
 /** Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter */
