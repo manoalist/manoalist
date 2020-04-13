@@ -15,6 +15,7 @@ const ItemSchema = new SimpleSchema({
   price: Number,
   owner: String,
   description: String,
+  createdAt: Date,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

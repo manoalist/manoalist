@@ -16,6 +16,7 @@ class ItemItem extends React.Component {
               <Card.Meta>price: ${this.props.item.price}</Card.Meta>
               <Card.Meta>quantity: {this.props.item.quantity}</Card.Meta>
               <Card.Description>{this.props.item.description}</Card.Description>
+              <Card.Meta>post at {this.props.item.createdAt.toLocaleDateString('en-US')}</Card.Meta>
           </Card.Content>
           <Card.Content extra>
                 Contact Information: <a href={'/profile'}>{this.props.item.owner}</a>
