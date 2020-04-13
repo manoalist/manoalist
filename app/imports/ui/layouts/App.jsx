@@ -29,7 +29,8 @@ class App extends React.Component {
               <Route exact path="/" component={Landing}/>
                <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Signup}/>
-              <ProtectedRoute path="/list/:name" component={ListItem}/>
+              <ProtectedRoute path="/list/:group/:name" component={ListItem}/>
+              <ProtectedRoute path="/list" component={ListItem}/>
               <ProtectedRoute path="/cate" component={Categories}/>
               <ProtectedRoute path="/home" component={Home}/>
               <ProtectedRoute path="/add" component={AddStuff}/>

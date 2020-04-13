@@ -37,7 +37,7 @@ export default class Home extends React.Component {
 
   render() {
     if (this.state.directToList) {
-      return <Redirect to={`/list/${this.state.searchWords}`}/>;
+      return <Redirect to={`/list/${this.state.searchWords}/search`}/>;
     }
     return (
         <div>
@@ -50,13 +50,10 @@ export default class Home extends React.Component {
                    centered/>
             <Input className={'searchInput'}
                    size='large'
-                   action={{
-                     icon: 'search',
-                     onClick: () => this.handleClick(),
-                   }}
-                   actionPosition={'left'}
+                   icon='search'
                    placeholder='Search...'
-                   onChange={this.handleInputChange} onKeyDown={ this.pressEnter }/>
+                   onChange={this.handleInputChange}
+                   onKeyDown={ this.pressEnter }/>
           </Container>
           <Container>
             <Divider hidden/>
