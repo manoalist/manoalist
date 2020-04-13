@@ -1,19 +1,13 @@
 import React from 'react';
-import { Dropdown, Menu } from 'semantic-ui-react';
+import { Dropdown, Menu, Item, Icon, MenuMenu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class CategoryItem extends React.Component {
   render() {
     return (
-        <Dropdown.Item text={this.props.category.group}>
-          <Menu>
-            <Menu.Item>
-            {this.props.category.name}
-            </Menu.Item>
-          </Menu>
-        </Dropdown.Item>
+        <Dropdown.Item>{this.props.category.group}</Dropdown.Item>
     );
   }
 }

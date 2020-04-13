@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/Stuff.js';
-import { Categories } from '../../api/category/Category';
+import { Categories } from '../../api/category/Category.js';
 
 /* eslint-disable no-console */
 
@@ -26,8 +26,8 @@ function addCategories(data) {
 
 /** Initialize the collection if empty. */
 if (Categories.find().count() === 0) {
-  if (Meteor.settings.defaultCategories) {
+  if (Meteor.settings.defaultCategory) {
     console.log('Creating default data.');
-    Meteor.settings.defaultCategories.map(data => addCategories(data));
+    Meteor.settings.defaultCategory.map(data => addCategories(data));
   }
 }

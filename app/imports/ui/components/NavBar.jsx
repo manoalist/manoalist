@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Icon, Dropdown, Image } from 'semantic-ui-react';
+import { Menu, Icon, Dropdown, Image, DropdownMenu } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { Categories } from '../../api/category/Category';
 import CategoryItem from './CategoryItem';
@@ -33,11 +33,13 @@ class NavBar extends React.Component {
               </Menu.Item>
           )}
           {this.props.currentUser ? (
-              [<Dropdown item text={'BROWSE'} position={'right'} key={'li'}>
-
+              [<Menu.Item position={'right'} key={'browse'}>
+                  <Dropdown text={'BROWSE'}>
+                  <DropdownMenu>
                   {this.props.categories.map((category) => <CategoryItem key={category._id} category={category} />)}
-
-              </Dropdown>,
+                  </DropdownMenu>
+              </Dropdown>
+              </Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
@@ -96,11 +98,12 @@ NavBar.propTypes = {
   categories: PropTypes.array.isRequired,
 };
 
-
+const subscription = Meteor.subscribe('Categories');
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 const NavBarContainer = withTracker(() => ({
   currentUser: Meteor.user() ? Meteor.user().username : '',
   categories: Categories.find({}).fetch(),
+  ready: subscription.ready(),
 }))(NavBar);
 
 /** Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter */
