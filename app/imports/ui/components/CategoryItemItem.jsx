@@ -16,7 +16,6 @@ class CategoryItemItem extends React.Component {
 /** Require a document to be passed to this component. */
 CategoryItemItem.propTypes = {
   category: PropTypes.object.isRequired,
-  previous: PropTypes.string.isRequired,
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */

@@ -10,11 +10,12 @@ import { Categories } from '../../api/category/Category';
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class CategoryItem extends React.Component {
   render() {
+    const names = Categories.find({ group: this.props.group }).fetch();
     return (
           <Dropdown.Item>
-        <Dropdown text={this.props.category.group} pointing={'left'}>
+        <Dropdown text={this.props.group} pointing={'left'}>
         <Dropdown.Menu>
-          {this.props.categories.map((category) => <CategoryItemItem key={category._id} category={category} />)}
+          {names.map((category) => <CategoryItemItem key={category._id} category={category} />)}
         </Dropdown.Menu>
         </Dropdown>
           </Dropdown.Item>
@@ -25,7 +26,7 @@ class CategoryItem extends React.Component {
 
 /** Require a document to be passed to this component. */
 CategoryItem.propTypes = {
-  category: PropTypes.object.isRequired,
+  group: PropTypes.string.isRequired,
   categories: PropTypes.array.isRequired,
 };
 const subscription = Meteor.subscribe('Categories');

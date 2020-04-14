@@ -10,8 +10,25 @@ import CategoryItem from './CategoryItem';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 class NavBar extends React.Component {
+  getGroup(category, array) {
+    const temp = category.group;
+    let isInArray = false;
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] === temp) {
+        isInArray = true;
+      }
+    }
+    if (!isInArray) {
+      array.push(temp);
+    }
+    array.sort();
+  }
+
   render() {
     const menuStyle = { marginBottom: '10px', background: '#024731' };
+    const array = [];
+    this.props.categories.map((category) => this.getGroup(category, array));
+    console.log(array);
     return (
         <Menu style={menuStyle}
               attached="top"
@@ -36,7 +53,7 @@ class NavBar extends React.Component {
               [
                   <Dropdown text={'Shopping'} pointing className={'link item'} position={'right'} key={'browse'}>
                     <Dropdown.Menu>
-                  {this.props.categories.map((category) => <CategoryItem key={category._id} category={category} />)}
+                  {array.map((group) => <CategoryItem key={array.indexOf(group)} group={group} />)}
                     </Dropdown.Menu>
 
               </Dropdown>,
