@@ -23,7 +23,7 @@ export default class HomeAdmin extends React.Component {
                  size={'huge'}
                  centered/>
           <Divider hidden/>
-          <Container style={{ height: '500px', verticalAlign: 'middle' }}>
+          <Container style={{ height: '500px', verticalAlign: 'middle'}}>
             <Grid columns={3}
                   container>
               <Grid.Column as={NavLink}
@@ -57,9 +57,19 @@ export default class HomeAdmin extends React.Component {
               </Grid.Column>
             </Grid>
             <Divider hidden/>
-            <Segment style={{ height: '300px' }}>
-              <p>{text}</p>
-            </Segment>
+            <Segment.Group textAlign={'center'} style={{ height: '300px', width: '400px', overflow: 'auto' }}>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+              <Segment>{text}<br/></Segment>
+            </Segment.Group>
           </Container>
         </div>
     );
