@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Icon, Dropdown, Image, DropdownMenu } from 'semantic-ui-react';
+import { Menu, Icon, Dropdown, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { Categories } from '../../api/category/Category';
 import CategoryItem from './CategoryItem';
@@ -33,13 +33,13 @@ class NavBar extends React.Component {
               </Menu.Item>
           )}
           {this.props.currentUser ? (
-              [<Menu.Item position={'right'} key={'browse'}>
-                  <Dropdown text={'BROWSE'}>
-                  <DropdownMenu>
+              [
+                  <Dropdown text={'Shopping'} pointing className={'link item'} position={'right'} key={'browse'}>
+                    <Dropdown.Menu>
                   {this.props.categories.map((category) => <CategoryItem key={category._id} category={category} />)}
-                  </DropdownMenu>
-              </Dropdown>
-              </Menu.Item>,
+                    </Dropdown.Menu>
+
+              </Dropdown>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact

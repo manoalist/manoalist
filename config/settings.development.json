@@ -15,6 +15,7 @@
     {"group":  "School", "name":  "TextBook"},
     {"group":  "Sporting", "name":  "Basketball"},
     {"group":  "General", "name":  "Shirts"},
-    {"group":  "Tickets", "name":  "Concert"}
+    {"group":  "Tickets", "name":  "Concert"},
+    {"group":  "School", "name":  "backpack"}
   ]
 }
