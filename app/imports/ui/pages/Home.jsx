@@ -7,7 +7,7 @@ import {
   Header,
   Input,
   Image,
-  Divider,
+  Divider, Loader,
 } from 'semantic-ui-react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -41,6 +41,11 @@ class Home extends React.Component {
   };
 
   render() {
+    return (this.props.ready) ? this.renderPage() :
+        <Loader active>Getting data</Loader>;
+  }
+
+  renderPage() {
     const newList = Items.find({}, { limit: 4, sort: { createdAt: 1 } }).fetch();
     const popularList = Items.find({}, { limit: 4, sort: { createdAt: -1 } }).fetch();
     if (this.state.directToList) {
