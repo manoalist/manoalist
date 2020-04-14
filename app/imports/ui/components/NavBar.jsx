@@ -28,7 +28,6 @@ class NavBar extends React.Component {
     const menuStyle = { marginBottom: '10px', background: '#024731' };
     const array = [];
     this.props.categories.map((category) => this.getGroup(category, array));
-    console.log(array);
     return (
         <Menu style={menuStyle}
               attached="top"
@@ -39,24 +38,32 @@ class NavBar extends React.Component {
                          activeClassName=""
                          exact
                          to="/home">
-                <Image src={'/images/manoalist-logo.png'} size={'small'}/>
+                <Image src={'/images/manoalist-logo.png'}
+                       size={'small'}/>
               </Menu.Item>
           ) : (
               <Menu.Item as={NavLink}
                          activeClassName=""
                          exact
                          to="/">
-                <Image src={'/images/manoalist-logo.png'} size={'small'}/>
+                <Image src={'/images/manoalist-logo.png'}
+                       size={'small'}/>
               </Menu.Item>
           )}
           {this.props.currentUser ? (
               [
-                  <Dropdown text={'Shopping'} pointing className={'link item'} position={'right'} key={'browse'}>
-                    <Dropdown.Menu>
-                  {array.map((group) => <CategoryItem key={array.indexOf(group)} group={group} />)}
+                <Menu.Item position={'right'}
+                           key={'shopping'}>
+                  <Dropdown text={'Shopping'}
+                            className={'link item'}
+                            position={'right'}
+                            key={'browse'}>
+                    <Dropdown.Menu className={'firstMenu'}>
+                      {array.map((group) => <CategoryItem key={array.indexOf(group)} group={group}/>)}
                     </Dropdown.Menu>
 
-              </Dropdown>,
+                  </Dropdown>
+                </Menu.Item>,
                 <Menu.Item as={NavLink}
                            activeClassName="active"
                            exact
@@ -73,7 +80,7 @@ class NavBar extends React.Component {
 
           {this.props.currentUser === '' ? (
               <Menu.Item position={'right'}
-                          as={NavLink}
+                         as={NavLink}
                          activeClassName="active"
                          exact
                          to="/signin">
@@ -81,9 +88,14 @@ class NavBar extends React.Component {
                 sign in
               </Menu.Item>) : (
               <Menu.Item>
-                <Dropdown pointing={'top right'} icon={'user'}>
+                <Dropdown pointing={'top right'}
+                          icon={'user'}>
                   <Dropdown.Menu>
-                    <Dropdown.Item text="Profile" icon={'user circle'} as={NavLink} exact to="/profile"/>
+                    <Dropdown.Item text="Profile"
+                                   icon={'user circle'}
+                                   as={NavLink}
+                                   exact
+                                   to="/profile"/>
                     <Dropdown.Item icon="sign out"
                                    text="Sign Out"
                                    as={NavLink}

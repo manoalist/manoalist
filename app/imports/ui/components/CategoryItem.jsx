@@ -12,13 +12,14 @@ class CategoryItem extends React.Component {
   render() {
     const names = Categories.find({ group: this.props.group }).fetch();
     return (
-          <Dropdown.Item>
-        <Dropdown text={this.props.group} pointing={'left'}>
-        <Dropdown.Menu>
-          {names.map((category) => <CategoryItemItem key={category._id} category={category} />)}
-        </Dropdown.Menu>
-        </Dropdown>
-          </Dropdown.Item>
+        <Dropdown.Item>
+          <a style={{ color: 'black' }} href={`#/list/${this.props.group}/null`}>{this.props.group}</a>
+          <Dropdown>
+            <Dropdown.Menu>
+                {names.map((category) => <CategoryItemItem key={category._id} category={category}/>)}
+            </Dropdown.Menu>
+          </Dropdown>
+        </Dropdown.Item>
 
     );
   }

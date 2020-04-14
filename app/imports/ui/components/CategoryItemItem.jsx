@@ -1,14 +1,14 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class CategoryItemItem extends React.Component {
   render() {
     return (
-    <Dropdown.Item>{this.props.category.name}</Dropdown.Item>
-
+    <Dropdown.Item as={NavLink} exact to={`/list/${this.props.category.group}/${this.props.category.name}`}>
+      {this.props.category.name}</Dropdown.Item>
     );
   }
 }
