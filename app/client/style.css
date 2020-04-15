@@ -8,3 +8,6 @@
   border-radius: 20px;
   width: 500px;
 }
+
+.ui.dropdown.link.item:hover .firstMenu {display: block}
+.ui.menu .ui.dropdown .menu > .item:hover .menu {display: block}

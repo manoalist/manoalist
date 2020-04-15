@@ -37,5 +37,15 @@
       "name": "Iphone 7",
       "quantity": 1,"price": 300, "owner": "admin@foo.com", "description": "Home button is not working, else are functioning well.",
       "createdAt":  "Mon Apr 13 2020 01:03:32 GMT-1000 (Hawaii-Aleutian Standard Time)" }
+  ],
+
+  "defaultCategory": [
+    {"group":  "School", "name":  "TextBook"},
+    {"group":  "School", "name":  "Calculator"},
+    {"group":  "Sport", "name":  "Basketball"},
+    {"group":  "General", "name":  "Shirts"},
+    {"group":  "Electronics", "name":  "Phone"},
+    {"group":  "Tickets", "name":  "Concert"},
+    {"group":  "School", "name":  "backpack"}
   ]
 }
