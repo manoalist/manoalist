@@ -9,13 +9,5 @@
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
-  ],
-
-  "defaultCategory": [
-    {"group":  "School", "name":  "TextBook"},
-    {"group":  "Sporting", "name":  "Basketball"},
-    {"group":  "General", "name":  "Shirts"},
-    {"group":  "Tickets", "name":  "Concert"},
-    {"group":  "School", "name":  "backpack"}
   ]
 }
