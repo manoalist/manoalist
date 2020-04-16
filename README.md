@@ -1,3 +1,3 @@
 
 
-For details, please see http://ics-software-engineering.github.io/meteor-application-template-react/
+For details, please see http://manoalist.github.io/manoalist/
