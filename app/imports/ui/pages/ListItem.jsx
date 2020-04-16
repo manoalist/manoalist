@@ -23,9 +23,12 @@ class ListItem extends React.Component {
           <Header as="h2"
                   textAlign="center">List Stuff</Header>
           <Card.Group itemsPerRow={4}>
-            {this.props.items.map((item, index) => <ItemItem
-                key={index}
-                item={item}/>)}
+            {this.props.items
+                .filter(item => item.forSale === true)
+                .filter(item => item.approvedForSale === true)
+                .filter(item => item.sold === false)
+                .filter(item => item.flagged === false)
+                .map((item, index) => <ItemItem key={index} item={item}/>)}
           </Card.Group>
         </Container>
     );
