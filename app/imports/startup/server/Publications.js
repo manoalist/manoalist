@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Stuffs } from '../../api/stuff/Stuff';
 import { Items } from '../../api/item/Item';
+import { Categories } from '../../api/category/Category';
 
 /** This subscription publishes only the documents associated with the logged in user */
 Meteor.publish('Stuff', function publish() {
@@ -26,4 +27,9 @@ Meteor.publish('Items', function publish() {
     return Items.find({});
   }
   return this.ready();
+});
+
+/** This subscription publishes all documents regardless of user. */
+Meteor.publish('Categories', function publish() {
+  return Categories.find();
 });
