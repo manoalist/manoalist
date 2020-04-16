@@ -4,14 +4,9 @@
   background-size: cover;
 }
 
-.ui[class*="left action"].input > input{
+.ui.icon.input > input{
   border-radius: 20px;
   width: 500px;
-}
-
-.ui[class*="left action"].input > .dropdown, .ui[class*="left action"].input > .button, .ui[class*="left action"].input > .buttons > .button{
-  border-bottom-left-radius: 50%!important;
-  border-top-left-radius: 50%!important;
 }
 
 .profile-page {
@@ -22,3 +17,5 @@
   margin-top: 1em;
   min-height: 150px;
 }
+.ui.dropdown.link.item:hover .firstMenu {display: block}
+.ui.menu .ui.dropdown .menu > .item:hover .menu {display: block}
