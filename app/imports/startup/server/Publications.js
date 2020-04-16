@@ -29,7 +29,7 @@ Meteor.publish('Items', function publish() {
   return this.ready();
 });
 
-/** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
+/** This subscription publishes all documents regardless of user. */
 Meteor.publish('Categories', function publish() {
   return Categories.find();
 });
