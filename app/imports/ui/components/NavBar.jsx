@@ -38,8 +38,7 @@ class NavBar extends React.Component {
                          activeClassName=""
                          exact
                          to="/home">
-                <Image src={'/images/manoalist-logo.png'}
-                       size={'small'}/>
+                <Image src={'/images/ml-logo-whitefont.png'} size={'small'}/>
               </Menu.Item>
           ) : (
               <Menu.Item as={NavLink}
