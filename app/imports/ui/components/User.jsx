@@ -8,7 +8,7 @@ class User extends React.Component {
   render() {
     return (
         <div>
-          <Image src='https://react.semantic-ui.com/images/wireframe/image.png' size='small' />
+          <Image src='/images/default-profile.jpg' size='small' />
           <Input placeholder={'First Name'} disabled></Input>
           <Input placeholder={'Last Name'} disabled></Input>
           <TextArea placeholder={'Description'} disabled></TextArea>

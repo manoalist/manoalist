@@ -13,3 +13,12 @@
   border-bottom-left-radius: 50%!important;
   border-top-left-radius: 50%!important;
 }
+
+.profile-page {
+  margin: 1em!important;
+}
+
+.ratings-box {
+  margin-top: 1em;
+  min-height: 150px;
+}
