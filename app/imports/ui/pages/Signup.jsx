@@ -49,39 +49,38 @@ Content
 Our Service allows you to post, link, store, share and otherwise make available certain information, text, graphics, 
 or other material ("Content").`;
     if (this.state.password === this.state.confirm) {
-    Accounts.createUser({ email, username: email, password }, (err) => {
-
-      if (err) {
-        this.setState({ error: err.reason });
-      } else {
-        swal({
-          title: 'Terms of Use',
-          text: writeup,
-          closeOnClickOutside: false,
-          closeOnEsc: false,
-          buttons: {
-            cancel: {
-              text: 'Cancel',
-              value: false,
-              visible: true,
-              closeModal: true
-            },
-            confirm: {
-              text: 'I Agree',
-              value: true,
-              visible: true,
-              closeModal: true
+      swal({
+        title: 'Terms of Use',
+        text: writeup,
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+        buttons: {
+          cancel: {
+            text: 'Cancel',
+            value: false,
+            visible: true,
+            closeModal: true
+          },
+          confirm: {
+            text: 'I Agree',
+            value: true,
+            visible: true,
+            closeModal: true
+          }
+        }
+      }).then((value) => {
+        if (value) {
+          this.submit;
+          swal('Congrats!', 'Your account has been created.', 'success');
+          Accounts.createUser({ email, username: email, password }, (err) => {
+            if (err) {
+              this.setState({ error: err.reason });
+            } else {
+              this.setState({ error: '', redirectToReferer: true });
             }
-          }
-        }).then((value) => {
-          if (value) {
-            this.submit;
-            swal('Congrats!', 'Your account has been created.', 'success');
-            this.setState({ error: '', redirectToReferer: true });
-          }
-        });
-      }
-    });
+          });
+        }
+      });
     } else {
       this.setState({ error: 'Password does not match your confirmation' });
     }
