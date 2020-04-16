@@ -9,5 +9,13 @@
   width: 500px;
 }
 
+.profile-page {
+  margin: 1em!important;
+}
+
+.ratings-box {
+  margin-top: 1em;
+  min-height: 150px;
+}
 .ui.dropdown.link.item:hover .firstMenu {display: block}
 .ui.menu .ui.dropdown .menu > .item:hover .menu {display: block}
