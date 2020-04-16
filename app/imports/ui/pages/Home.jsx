@@ -22,6 +22,9 @@ export default class Home extends React.Component {
           <Container>
             <Divider hidden/>
             <Header as={'h2'}>New Listings</Header>
+            <Segment>
+              <Card.Group
+            </Segment>
           </Container>
           <Divider hidden/>
           <Container>
