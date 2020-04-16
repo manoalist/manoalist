@@ -56,7 +56,7 @@ or other material ("Content").`;
         closeOnEsc: false,
         buttons: {
           cancel: {
-            text: 'Cancel',
+            text: 'Decline',
             value: false,
             visible: true,
             closeModal: true
