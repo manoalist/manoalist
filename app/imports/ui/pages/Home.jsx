@@ -22,8 +22,27 @@ export default class Home extends React.Component {
           <Container>
             <Divider hidden/>
             <Header as={'h2'}>New Listings</Header>
-            <Segment>
-              <Card.Group
+            <Segment><Grid columns={5}>
+              <Grid.Column>
+                <Image src={'http://clipart-library.com/img/2008785.jpg'}
+                       size={'small'}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Image src={'http://clipart-library.com/img/2008785.jpg'}
+                       size={'small'}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Image src={'http://clipart-library.com/img/2008785.jpg'}
+                       size={'small'}/>
+              </Grid.Column>
+              <Grid.Column>
+                <Image src={'http://clipart-library.com/img/2008785.jpg'}
+                       size={'small'}/>
+              </Grid.Column>
+              <Grid.Column textAlign={'center'} verticalAlign={'middle'} as={NavLink} exact to={'/list'}>
+                <Header as="h2" content={'SEE ALL'}/>
+              </Grid.Column>
+            </Grid>
             </Segment>
           </Container>
           <Divider hidden/>
