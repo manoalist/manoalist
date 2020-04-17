@@ -36,7 +36,7 @@ class Profile extends React.Component {
                                 </Grid.Row>
                                 <Grid.Row>
                                     0
-                                </Grid.Row> 
+                                </Grid.Row>
                             </Grid.Column>
                         </Grid.Row>
                       </Grid>

@@ -1,15 +1,15 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Header, Grid, Icon, Container, Image, Divider, Segment } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
-import { Items } from '../../api/item/Item';
 import PropTypes from 'prop-types';
-import { withTracker } from 'meteor/react-meteor-data';
+import { Items } from '../../api/item/Item';
 import AdminBan from '../components/AdminBan';
 import AdminApproveItem from '../components/AdminApproveItem';
 
 class HomeAdmin extends React.Component {
   render() {
-    const adminStyle = { backgroundColor: '#BBF7AA' };
     return (
         <div>
           <Image src={'/images/manoalist-circle.png'}
@@ -19,8 +19,8 @@ class HomeAdmin extends React.Component {
                   content={'Administrator Page'}
                   textAlign={'center'}/>
           <Divider hidden/>
-          <Container style={{verticalAlign: 'middle'}}>
-            <Grid columns={3}
+          <Container style={{ verticalAlign: 'middle' }}>
+            <Grid columns={ 3 }
                   container>
               <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
                 <Icon name={'spy'} size={'huge'}/>
@@ -69,11 +69,9 @@ HomeAdmin.propTypes = {
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
-  // Get access to Stuff documents.
   const subscription = Meteor.subscribe('Items');
   return {
     items: Items.find({}).fetch(),
     ready: subscription.ready(),
   };
 })(HomeAdmin);
-

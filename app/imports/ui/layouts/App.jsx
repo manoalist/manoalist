@@ -18,7 +18,7 @@ import ListItem from '../pages/ListItem';
 import Signin from '../pages/Signin';
 import Home from '../pages/Home';
 import HomeAdmin from '../pages/HomeAdmin';
-import Profile from '../pages/Profile'
+import Profile from '../pages/Profile';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -33,6 +33,7 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <ProtectedRoute path="/list/:group/:name" component={ListItem}/>
               <ProtectedRoute path="/list" component={ListItem}/>
+              <ProtectedRoute path="/list/admin" component={ListStuffAdmin}/>
               <ProtectedRoute path="/cate" component={Categories}/>
               <ProtectedRoute path="/home" component={Home}/>
               <ProtectedRoute path="/add" component={AddStuff}/>

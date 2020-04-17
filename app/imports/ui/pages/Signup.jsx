@@ -59,18 +59,17 @@ or other material ("Content").`;
             text: 'Decline',
             value: false,
             visible: true,
-            closeModal: true
+            closeModal: true,
           },
           confirm: {
             text: 'I Agree',
             value: true,
             visible: true,
-            closeModal: true
-          }
-        }
+            closeModal: true,
+          },
+        },
       }).then((value) => {
         if (value) {
-          this.submit;
           swal('Congrats!', 'Your account has been created.', 'success');
           Accounts.createUser({ email, username: email, password }, (err) => {
             if (err) {
