@@ -1,9 +1,12 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Container, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { Accounts } from 'meteor/accounts-base';
+import { User } from '../../api/user/User';
 
 
 /**
@@ -75,6 +78,16 @@ or other material ("Content").`;
             if (err) {
               this.setState({ error: err.reason });
             } else {
+              User.insert({
+                email,
+                image: '/images/default-profile.jpg',
+                isBanned: false,
+              },
+              (error) => {
+                if (error) {
+                  swal('Error', error.message, 'error');
+                }
+              });
               this.setState({ error: '', redirectToReferer: true });
             }
           });
@@ -94,58 +107,58 @@ or other material ("Content").`;
     }
     return (
         <div style={{ backgroundColor: '#fafafa' }}>
-      <Container>
-        <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-          <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
-            <Form onSubmit={this.submit}>
-              <Segment stacked>
-                <Header as="h2" textAlign="centered" style={{ color: '#024731', marginBottom: '25px' }}>
-                  Create Account
-                </Header>
-                <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{ marginTop: '15px' }} centered/>
-                <Form.Input
-                  label="Username"
-                  icon="user"
-                  iconPosition="left"
-                  name="email"
-                  type="email"
-                  placeholder="Username or E-mail address"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  label="Password"
-                  icon="lock"
-                  iconPosition="left"
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                    label="Confirm Password"
-                    icon="lock"
-                    iconPosition="left"
-                    name="confirm"
-                    placeholder="Confirm Password"
-                    type="password"
-                    onChange={this.handleChange}
-                />
-                <Form.Button color={'green'} content="Sign up"/>
-                Already have an account? <Link to="/signin">Login</Link>
-              </Segment>
-            </Form>
-            {this.state.error === '' ? (
-              ''
-            ) : (
-              <Message
-                error
-                header="Registration was not successful"
-                content={this.state.error}
-              />
-            )}
-          </Grid.Column>
-        </Grid>
-      </Container>
+          <Container>
+            <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
+              <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
+                <Form onSubmit={this.submit}>
+                  <Segment stacked>
+                    <Header as="h2" textAlign="centered" style={{ color: '#024731', marginBottom: '25px' }}>
+                      Create Account
+                    </Header>
+                    <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{ marginTop: '15px' }} centered/>
+                    <Form.Input
+                      label="Username"
+                      icon="user"
+                      iconPosition="left"
+                      name="email"
+                      type="email"
+                      placeholder="Username or E-mail address"
+                      onChange={this.handleChange}
+                    />
+                    <Form.Input
+                      label="Password"
+                      icon="lock"
+                      iconPosition="left"
+                      name="password"
+                      placeholder="Password"
+                      type="password"
+                      onChange={this.handleChange}
+                    />
+                    <Form.Input
+                        label="Confirm Password"
+                        icon="lock"
+                        iconPosition="left"
+                        name="confirm"
+                        placeholder="Confirm Password"
+                        type="password"
+                        onChange={this.handleChange}
+                    />
+                    <Form.Button color={'green'} content="Sign up"/>
+                    Already have an account? <Link to="/signin">Login</Link>
+                  </Segment>
+                </Form>
+                {this.state.error === '' ? (
+                  ''
+                ) : (
+                  <Message
+                    error
+                    header="Registration was not successful"
+                    content={this.state.error}
+                  />
+                )}
+              </Grid.Column>
+            </Grid>
+          </Container>
         </div>
     );
   }
@@ -156,4 +169,11 @@ Signup.propTypes = {
   location: PropTypes.object,
 };
 
-export default Signup;
+/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
+export default withTracker(() => {
+  // Get access to Stuff documents.
+  const subscription = Meteor.subscribe('User');
+  return {
+    ready: subscription.ready(),
+  };
+})(Signup);

@@ -172,5 +172,18 @@
     {"group":  "Electronics", "name":  "Phone"},
     {"group":  "Tickets", "name":  "Concert"},
     {"group":  "School", "name":  "backpack"}
+  ],
+
+  "defaultUsers": [
+    { "email": "john@foo.com", "firstName": "John", "lastName": "Doe",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/default-profile.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "admin@foo.com", "firstName": "Admin", "lastName": "Admin",
+      "description": "A simple member who plans to oversee all sales",
+      "image": "/images/default-profile.jpg", "mobileNumber": "8087654321",
+      "carrier": "AT&T", "isBanned": false
+    }
   ]
 }
