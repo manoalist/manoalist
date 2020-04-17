@@ -1,77 +1,77 @@
 import React from 'react';
-import {
-  Header,
-  Grid,
-  Icon,
-  Container,
-  Image,
-  Divider,
-  Segment,
-} from 'semantic-ui-react';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Header, Grid, Icon, Container, Image, Divider, Segment } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Items } from '../../api/item/Item';
+import AdminBan from '../components/AdminBan';
+import AdminApproveItem from '../components/AdminApproveItem';
 
-export default class HomeAdmin extends React.Component {
+class HomeAdmin extends React.Component {
   render() {
-    const adminStyle = { backgroundColor: '#BBF7AA' };
-    const text = 'admin@foo.com create a item at Apr 13 2020';
     return (
         <div>
-          <Header as={'h2'}
-                  content={'Welcome! Administrators!'}
-                  textAlign={'center'}/>
-          <Image src={'/images/manoalist-logo.png'}
-                 size={'huge'}
+          <Image src={'/images/manoalist-circle.png'}
+                 size={'small'}
                  centered/>
+          <Header as={'h2'}
+                  content={'Administrator Page'}
+                  textAlign={'center'}/>
           <Divider hidden/>
-          <Container style={{ height: '500px', verticalAlign: 'middle'}}>
-            <Grid columns={3}
+          <Container style={{ verticalAlign: 'middle' }}>
+            <Grid columns={ 3 }
                   container>
-              <Grid.Column as={NavLink}
-                           exact
-                           to={'/list'}
-                           textAlign={'center'}
-                           style={adminStyle}>
-                <Icon name={'spy'}
-                      size={'massive'}/>
-                <Header as={'h3'}
-                        content={'Monitor Items '}/>
+              <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
+                <Icon name={'spy'} size={'huge'}/>
+                <Header as={'h3'} content={'Monitor Items'}/>
               </Grid.Column>
-              <Grid.Column as={NavLink}
-                           exact
-                           to={'/list'}
-                           textAlign={'center'}>
-                <Icon name={'add circle'}
-                      size={'massive'}/>
-                <Header as={'h3'}
-                        content={'Create new categories'}/>
+              <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
+                <Icon name={'add circle'} size={'huge'}/>
+                <Header as={'h3'} content={'Create New Categories'}/>
               </Grid.Column>
-              <Grid.Column as={NavLink}
-                           exact
-                           to={'/list'}
-                           textAlign={'center'}
-                           style={adminStyle}>
-                <Icon name={'comment alternate outline'}
-                      size={'massive'}/>
-                <Header as={'h3'}
-                        content={'Send notification'}/>
+              <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
+                <Icon name={'comment alternate outline'} size={'huge'}/>
+                <Header as={'h3'} content={'Send Notification'}/>
               </Grid.Column>
             </Grid>
             <Divider hidden/>
-            <Segment.Group textAlign={'center'} style={{ height: '300px', width: '400px', overflow: 'auto' }}>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-              <Segment>{text}<br/></Segment>
-            </Segment.Group>
+            <Grid columns={2}>
+              <Grid.Column floated='left' width={6}>
+                <Header dividing>Reported Items</Header>
+                <Segment.Group raised>
+                  {this.props.items
+                    .filter(item => item.sold === false)
+                    .filter(item => item.flagged === true)
+                    .map((item, index) => <AdminBan key={index} item={item}/>)}
+                </Segment.Group>
+              </Grid.Column>
+              <Grid.Column floated='right' width={10}>
+                <Header dividing>Items Pending Approval</Header>
+                <Segment.Group raised>
+                  {this.props.items
+                    .filter(item => item.forSale === true)
+                    .filter(item => item.approvedForSale === false)
+                    .map((item, index) => <AdminApproveItem key={index} item={item}/>)}
+                </Segment.Group>
+              </Grid.Column>
+            </Grid>
           </Container>
         </div>
     );
   }
 }
+
+HomeAdmin.propTypes = {
+  ready: PropTypes.bool.isRequired,
+  items: PropTypes.array.isRequired,
+};
+
+/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
+export default withTracker(() => {
+  const subscription = Meteor.subscribe('Items');
+  return {
+    items: Items.find({}).fetch(),
+    ready: subscription.ready(),
+  };
+})(HomeAdmin);

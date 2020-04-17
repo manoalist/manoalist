@@ -16,6 +16,10 @@ const ItemSchema = new SimpleSchema({
   owner: String,
   description: String,
   createdAt: Date,
+  forSale: Boolean,
+  approvedForSale: Boolean,
+  sold: Boolean,
+  flagged: Boolean,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

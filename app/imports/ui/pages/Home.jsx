@@ -1,14 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import {
-  Container,
-  Segment,
-  Grid,
-  Header,
-  Input,
-  Image,
-  Divider, Loader,
-} from 'semantic-ui-react';
+import { Container, Segment, Grid, Header, Input, Image, Divider, Loader } from 'semantic-ui-react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -69,7 +61,7 @@ class Home extends React.Component {
           </Container>
           <Container>
             <Divider hidden/>
-            <Header as={'h2'}>New Listings</Header>
+            <Header as='h2'>New Listings</Header>
             <Segment><Grid columns={5}>
               {newList.map((item, index) => <HomeItem
                   key={index}
@@ -88,7 +80,7 @@ class Home extends React.Component {
           <Divider hidden/>
           <Container>
             <Divider hidden/>
-            <Header as={'h2'}>POPULAR</Header>
+            <Header as='h2'>POPULAR</Header>
             <Segment><Grid columns={5}>
               {popularList.map((item, index) => <HomeItem
                   key={index}
