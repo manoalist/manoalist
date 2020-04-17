@@ -16,13 +16,35 @@ class Signup extends React.Component {
   /** Initialize state fields. */
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '', confirm: '', error: '', redirectToReferer: false };
+    this.state = { email: '', password: '', confirm: '', error: '', redirectToReferer: false,
+      errorEmail: '', errorPassword: '' };
   }
 
   /** Update the form controls each time the user interacts with them. */
   handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => this.validateInput(name, value));
   };
+
+  validateInput(fieldName, value) {
+    switch (fieldName) {
+      case 'email':
+        if (!/^([a-z0-9_-]+)@hawaii.edu$/.test(value)) {
+          this.setState({ errorEmail: 'your email is not a valid uh email: username@hawaii.edu' });
+        } else {
+          this.setState({ errorEmail: '' });
+        }
+        break;
+      case 'password':
+        if (value.length < 8) {
+          this.setState({ errorPassword: 'your password is too short, at least 8 characters long' });
+        } else {
+          this.setState({ errorPassword: '' });
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   /** Handle Signup submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
@@ -51,7 +73,11 @@ without limitation, ownership provisions, warranty disclaimers, indemnity and li
 Content
 Our Service allows you to post, link, store, share and otherwise make available certain information, text, graphics, 
 or other material ("Content").`;
-    if (this.state.password === this.state.confirm) {
+    if (this.state.password !== this.state.confirm) {
+      this.setState({ error: 'Password does not match your confirmation' });
+    }
+    if (this.state.password === this.state.confirm
+        && this.state.errorEmail === '' && this.state.errorPassword === '') {
       swal({
         title: 'Terms of Use',
         text: writeup,
@@ -73,11 +99,11 @@ or other material ("Content").`;
         },
       }).then((value) => {
         if (value) {
-          swal('Congrats!', 'Your account has been created.', 'success');
           Accounts.createUser({ email, username: email, password }, (err) => {
             if (err) {
               this.setState({ error: err.reason });
             } else {
+              swal('Congrats!', 'Your account has been created.', 'success');
               User.insert({
                 email,
                 image: '/images/default-profile.jpg',
@@ -93,8 +119,6 @@ or other material ("Content").`;
           });
         }
       });
-    } else {
-      this.setState({ error: 'Password does not match your confirmation' });
     }
   };
 
@@ -107,58 +131,62 @@ or other material ("Content").`;
     }
     return (
         <div style={{ backgroundColor: '#fafafa' }}>
-          <Container>
-            <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-              <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
-                <Form onSubmit={this.submit}>
-                  <Segment stacked>
-                    <Header as="h2" textAlign="centered" style={{ color: '#024731', marginBottom: '25px' }}>
-                      Create Account
-                    </Header>
-                    <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{ marginTop: '15px' }} centered/>
-                    <Form.Input
-                      label="Username"
-                      icon="user"
-                      iconPosition="left"
-                      name="email"
-                      type="email"
-                      placeholder="Username or E-mail address"
-                      onChange={this.handleChange}
-                    />
-                    <Form.Input
-                      label="Password"
-                      icon="lock"
-                      iconPosition="left"
-                      name="password"
-                      placeholder="Password"
-                      type="password"
-                      onChange={this.handleChange}
-                    />
-                    <Form.Input
-                        label="Confirm Password"
-                        icon="lock"
-                        iconPosition="left"
-                        name="confirm"
-                        placeholder="Confirm Password"
-                        type="password"
-                        onChange={this.handleChange}
-                    />
-                    <Form.Button color={'green'} content="Sign up"/>
-                    Already have an account? <Link to="/signin">Login</Link>
-                  </Segment>
-                </Form>
-                {this.state.error === '' ? (
-                  ''
-                ) : (
-                  <Message
-                    error
-                    header="Registration was not successful"
-                    content={this.state.error}
-                  />
-                )}
-              </Grid.Column>
-            </Grid>
-          </Container>
+      <Container>
+        <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
+          <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
+            <Form onSubmit={this.submit} error>
+              <Segment stacked>
+                <Header as="h2" textAlign="center" style={{ color: '#024731', marginBottom: '25px' }}>
+                  Create Account
+                </Header>
+                <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{ marginTop: '15px' }} centered/>
+                <Form.Input
+                  label="email"
+                  icon="user"
+                  iconPosition="left"
+                  name="email"
+                  type="email"
+                  placeholder="XXXX@hawaii.edu"
+                  onChange={this.handleChange}
+                />
+                {this.state.errorEmail === '' ? ('') : (
+                    <Message error content={this.state.errorEmail}/>)}
+                <Form.Input
+                  label="Password"
+                  icon="lock"
+                  iconPosition="left"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  onChange={this.handleChange}
+                />
+                {this.state.errorPassword === '' ? ('') : (
+                    <Message error content={this.state.errorPassword}/>)}
+                <Form.Input
+                    label="Confirm Password"
+                    icon="lock"
+                    iconPosition="left"
+                    name="confirm"
+                    placeholder="Confirm Password"
+                    type="password"
+                    onChange={this.handleChange}
+                />
+                <Form.Button color={'green'} content="Sign up"/>
+                Already have an account? <Link to="/signin">Login</Link>
+              </Segment>
+            </Form>
+            {this.state.error === '' ? (
+              ''
+            ) : (
+              <Message
+                error
+                header="Registration was not successful"
+                content={this.state.error}
+              />
+            )}
+          </Grid.Column>
+        </Grid>
+      </Container>
         </div>
     );
   }
