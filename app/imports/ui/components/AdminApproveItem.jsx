@@ -9,7 +9,9 @@ class AdminApproveItem extends React.Component {
     return (
       <Segment>
         <Header as='h4'>
-          {this.props.item.name}<Button floated='right' color='green' size='tiny'>Approve</Button>
+          {this.props.item.name}
+          <Button floated='right' color='green' size='tiny'>Approve</Button>
+          <Button floated='right' size='tiny'>Delete</Button>
           <Header.Subheader>
             {this.props.item.owner}
           </Header.Subheader>
