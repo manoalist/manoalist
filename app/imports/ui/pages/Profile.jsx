@@ -14,7 +14,7 @@ class Profile extends React.Component {
         <Grid columns={2} className='profile-page'>
           <Grid.Column width={4}>
             <Segment>
-                <UserInfo user={this.props.user}></UserInfo>
+                <UserInfo user={this.props.user}/>
             </Segment>
           </Grid.Column>
           <Grid.Column width={12}>
