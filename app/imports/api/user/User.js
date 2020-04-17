@@ -3,15 +3,18 @@ import SimpleSchema from 'simpl-schema';
 import { Tracker } from 'meteor/tracker';
 
 /** Define a Mongo collection to hold the data. */
-const User = new Mongo.Collection('Users');
+const User = new Mongo.Collection('User');
 
 /** Define a schema to specify the structure of each document in the collection. */
 const UserSchema = new SimpleSchema({
-  id: String, // Account id
-  firstName: String,
-  lastName: String,
-  description: String,
+  email: String, // Account id
+  firstName: { type: String, defaultValue: '' },
+  lastName: { type: String, defaultValue: '' },
+  description: { type: String, defaultValue: '' },
   image: String,
+  mobileNumber: { type: String, defaultValue: '' },
+  carrier: { type: String, defaultValue: '' },
+  isBanned: Boolean,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

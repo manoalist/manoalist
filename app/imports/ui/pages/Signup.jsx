@@ -1,9 +1,12 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Container, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { Accounts } from 'meteor/accounts-base';
+import { User } from '../../api/user/User';
 
 
 /**
@@ -101,6 +104,16 @@ or other material ("Content").`;
               this.setState({ error: err.reason });
             } else {
               swal('Congrats!', 'Your account has been created.', 'success');
+              User.insert({
+                email,
+                image: '/images/default-profile.jpg',
+                isBanned: false,
+              },
+              (error) => {
+                if (error) {
+                  swal('Error', error.message, 'error');
+                }
+              });
               this.setState({ error: '', redirectToReferer: true });
             }
           });
@@ -184,4 +197,11 @@ Signup.propTypes = {
   location: PropTypes.object,
 };
 
-export default Signup;
+/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
+export default withTracker(() => {
+  // Get access to Stuff documents.
+  const subscription = Meteor.subscribe('User');
+  return {
+    ready: subscription.ready(),
+  };
+})(Signup);

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/Stuff.js';
 import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
+import { User } from '../../api/user/User';
 
 /* eslint-disable no-console */
 
@@ -16,6 +17,20 @@ if (Stuffs.find().count() === 0) {
   if (Meteor.settings.defaultData) {
     console.log('Creating default data.');
     Meteor.settings.defaultData.map(data => addData(data));
+  }
+}
+
+/** Initialize the database with a default data document. */
+function addUser(data) {
+  console.log(`  Adding: ${data.email}`);
+  User.insert(data);
+}
+
+/** Initialize the collection if empty. */
+if (User.find().count() === 0) {
+  if (Meteor.settings.defaultData) {
+    console.log('Creating default data.');
+    Meteor.settings.defaultUsers.map(data => addUser(data));
   }
 }
 
