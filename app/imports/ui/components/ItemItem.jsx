@@ -12,15 +12,25 @@ class ItemItem extends React.Component {
   reportItem(id) {
     swal({
       title: 'Report',
-      text: 'Please provide the reason for reporting:',
+      text: 'Please provide the reason for reporting\n(no more than 100 words):',
       content: 'input',
       buttons: {
         cancel: 'Cancel',
         confirm: 'Report',
       },
     }).then((value) => {
-        Items.update({ _id: id.toString() }, { $set: { flagged: 'true' } });
-        Items.update({ _id: id.toString() }, { $set: { reportReason: value } });
+      let str = value;
+      if (value !== null) {
+        str = str.replace(/(^\s*)|(\s*$)/gi, '');
+        str = str.replace(/[ ]{2,}/gi, ' ');
+        str = str.replace(/\n /, '\n');
+        if (str.split(' ').length <= 100) {
+          Items.update({ _id: id.toString() }, { $set: { flagged: 'true' } });
+          Items.update({ _id: id.toString() }, { $set: { reportReason: value } });
+        } else {
+          swal('Error', 'Input cannot exceed 100 words', 'error');
+        }
+      }
     });
   }
 
@@ -41,7 +51,7 @@ class ItemItem extends React.Component {
                 Contact Information: <a href={'/profile'}>{this.props.item.owner}</a>
           </Card.Content>
           <Card.Content extra>
-            <Button content={'report'}
+            <Button content={'report'} disabled={this.props.item.flagged}
                     color={'red'} onClick={this.handleClick}/>
             <Button toggle icon={'heart'} color={'red'} inverted floated={'right'}/>
           </Card.Content>
