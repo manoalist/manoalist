@@ -66,7 +66,7 @@ class NavBar extends React.Component {
                            activeClassName="active"
                            exact
                            to="/list/all"
-                           key='list'>SELL</Menu.Item>]
+                           key='list'>Sell</Menu.Item>]
           ) : ''}
           {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
               <Menu.Item as={NavLink}
@@ -83,7 +83,7 @@ class NavBar extends React.Component {
                          exact
                          to="/signin">
                 <Icon name={'user'}/>
-                sign in
+                Sign In
               </Menu.Item>) : (
               <Menu.Item>
                 <Dropdown pointing={'top right'}
@@ -111,7 +111,7 @@ class NavBar extends React.Component {
                            exact
                            to="/signup">
                   <Icon name={'add user'}/>
-                  sign up
+                  Sign Up
                 </Menu.Item>) : ('')}
           </Menu.Item>
         </Menu>

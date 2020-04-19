@@ -46,7 +46,7 @@
       "categoryGroup": "Sport",
       "categoryName": "Basketball",
       "picture": "https://images.footlocker.com/is/image/EBFL2/174878_a1?wid=640&hei=640&fmt=png-alpha",
-      "name": "Spalding basketball",
+      "name": "Spalding Basketball",
       "quantity": 3,
       "price": 130,
       "owner": "admin@foo.com",
@@ -61,7 +61,7 @@
       "categoryGroup": "School",
       "categoryName": "Calculator",
       "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Casio-fx115ES-5564.jpg/440px-Casio-fx115ES-5564.jpg",
-      "name": "CASIO Scientific calculator",
+      "name": "CASIO Scientific Calculator",
       "quantity": 1,
       "price": 80,
       "owner": "admin@foo.com",
@@ -136,7 +136,7 @@
       "categoryGroup": "School",
       "categoryName": "Calculator",
       "picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Casio-fx115ES-5564.jpg/440px-Casio-fx115ES-5564.jpg",
-      "name": "CASIO Scientific calculator",
+      "name": "CASIO Scientific Calculator",
       "quantity": 1,
       "price": 80,
       "owner": "admin@foo.com",
@@ -171,7 +171,7 @@
     {"group":  "General", "name":  "Shirts"},
     {"group":  "Electronics", "name":  "Phone"},
     {"group":  "Tickets", "name":  "Concert"},
-    {"group":  "School", "name":  "backpack"}
+    {"group":  "School", "name":  "Backpack"}
   ],
 
   "defaultUsers": [
