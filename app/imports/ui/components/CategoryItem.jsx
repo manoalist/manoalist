@@ -9,6 +9,7 @@ import { Categories } from '../../api/category/Category';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class CategoryItem extends React.Component {
+
   render() {
     const names = Categories.find({ group: this.props.group }).fetch();
     return (
