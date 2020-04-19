@@ -1,10 +1,29 @@
 import React from 'react';
-import { Card, Image, Container } from 'semantic-ui-react';
+import { Card, Image, Container, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import swal from 'sweetalert';
 import { withRouter } from 'react-router-dom';
+import { Items } from '../../api/item/Item';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class ItemItem extends React.Component {
+  handleClick = () => this.reportItem(this.props.item._id);
+
+  reportItem(id) {
+    swal({
+      title: 'Report',
+      text: 'Please provide the reason for reporting:',
+      content: 'input',
+      buttons: {
+        cancel: 'Cancel',
+        confirm: 'Report',
+      },
+    }).then((value) => {
+        Items.update({ _id: id.toString() }, { $set: { flagged: 'true' } });
+        Items.update({ _id: id.toString() }, { $set: { reportReason: value } });
+    });
+  }
+
   render() {
     return (
         <Card centered>
@@ -20,6 +39,11 @@ class ItemItem extends React.Component {
           </Card.Content>
           <Card.Content extra>
                 Contact Information: <a href={'/profile'}>{this.props.item.owner}</a>
+          </Card.Content>
+          <Card.Content extra>
+            <Button content={'report'}
+                    color={'red'} onClick={this.handleClick}/>
+            <Button toggle icon={'heart'} color={'red'} inverted floated={'right'}/>
           </Card.Content>
         </Card>
     );
