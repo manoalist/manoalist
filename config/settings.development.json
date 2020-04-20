@@ -25,7 +25,8 @@
       "forSale": true,
       "approvedForSale": true,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "School",
@@ -40,7 +41,8 @@
       "forSale": true,
       "approvedForSale": false,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "Sport",
@@ -55,7 +57,8 @@
       "forSale": true,
       "approvedForSale": true,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "School",
@@ -70,7 +73,8 @@
       "forSale": false,
       "approvedForSale": true,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "Electronics",
@@ -85,7 +89,8 @@
       "forSale": true,
       "approvedForSale": true,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "School",
@@ -100,7 +105,8 @@
       "forSale": true,
       "approvedForSale": true,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "School",
@@ -115,7 +121,8 @@
       "forSale": true,
       "approvedForSale": false,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "Sport",
@@ -130,7 +137,8 @@
       "forSale": true,
       "approvedForSale": true,
       "sold": false,
-      "flagged": true
+      "flagged": true,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "School",
@@ -145,7 +153,8 @@
       "forSale": true,
       "approvedForSale": true,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     },
     {
       "categoryGroup": "Electronics",
@@ -160,7 +169,8 @@
       "forSale": true,
       "approvedForSale": true,
       "sold": false,
-      "flagged": false
+      "flagged": false,
+      "reportReason": "None"
     }
   ],
 
