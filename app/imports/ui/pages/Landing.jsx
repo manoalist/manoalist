@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Divider, Grid, Header, Icon, Image, Tab, Menu, Step } from 'semantic-ui-react';
+import { Button, Container, Divider, Grid, Header, Icon, Image, Tab, Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 export default class Landing extends React.Component {
