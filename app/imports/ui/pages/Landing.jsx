@@ -18,19 +18,19 @@ export default class Landing extends React.Component {
                          textAlign={'center'}>
               <Icon name={'cart'}
                     size={'huge'}/>
-              <Header as={'h2'}>Sign in to our home page and start shopping!</Header>
+              <Header as={'h2'}>Sign in and start shopping!</Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
               <Icon name={'heart'}
                     size={'huge'}/>
-              <Header as={'h2'}>Like items so you can view it later. </Header>
+              <Header as={'h2'}>Like items and view it later! </Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
               <Icon name={'star'}
                     size={'huge'}/>
-              <Header as={'h2'}>Please rate and leave a comment for seller after purchase</Header>
+              <Header as={'h2'}>Rate and leave a comment!</Header>
             </Grid.Column>
           </Grid>
         </Tab.Pane>,
@@ -45,19 +45,19 @@ export default class Landing extends React.Component {
                          textAlign={'center'}>
               <Icon name={'send'}
                     size={'huge'}/>
-              <Header as={'h2'}>Post the item that you want to sell on our item list.</Header>
+              <Header as={'h2'}>Post the item to sell!</Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
               <Icon name={'handshake outline'}
                     size={'huge'}/>
-              <Header as={'h2'}>Wait customers contact you and promote your product.</Header>
+              <Header as={'h2'}>Contact customers and sell items!</Header>
             </Grid.Column>
             <Grid.Column textAlign={'center'}
                          width={4}>
               <Icon name={'dollar'}
                     size={'huge'}/>
-              <Header as={'h2'}>Meet buyer and close deal in-person in campus.</Header>
+              <Header as={'h2'}>Meet buyer and close deal!</Header>
             </Grid.Column>
           </Grid>
         </Tab.Pane>,
