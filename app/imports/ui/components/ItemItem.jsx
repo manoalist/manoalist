@@ -1,12 +1,13 @@
 import React from 'react';
 import { Card, Image, Container } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class ItemItem extends React.Component {
   render() {
     return (
+        <Link to={`/details/${this.props.item._id}`}>
         <Card centered>
           <Container style={{ height: '300px' }}>
               <Image centered src={this.props.item.picture} style={{ maxHeight: '300px' }}/>
@@ -22,6 +23,7 @@ class ItemItem extends React.Component {
                 Contact Information: <a href={'/profile'}>{this.props.item.owner}</a>
           </Card.Content>
         </Card>
+        </Link>
     );
   }
 }
