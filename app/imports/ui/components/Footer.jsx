@@ -8,11 +8,11 @@ import { NavLink, withRouter } from 'react-router-dom';
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 class Footer extends React.Component {
   render() {
-    const divStyle = { marginTop: '15px', backgroundColor: '#024731' };
+    const divStyle = { marginTop: '15px', backgroundColor: '#024731', flexShrink: 0 };
     return (
         <footer style={divStyle}>
           <Divider/>
-            <Grid columns={3} container>
+            <Grid columns={3} container style={{ marginTop: 0, marginBottom: 0 }}>
               <Grid.Column>
                 <Header as={'h3'}>Information</Header>
                 <List size={'large'} inverted>
