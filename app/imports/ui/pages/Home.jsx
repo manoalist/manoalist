@@ -45,34 +45,20 @@ class Home extends React.Component {
     }
     return (
         <div>
-          <Container className={'topLanding'}
-                     fluid
-                     textAlign={'center'}
-                     style={{ marginTop: '-10px' }}>
-            <Image src={'/images/manoalist-logo.png'}
-                   size={'huge'}
-                   centered/>
-            <Input className={'searchInput'}
-                   size='large'
-                   icon='search'
-                   placeholder='Search...'
-                   onChange={this.handleInputChange}
-                   onKeyDown={ this.pressEnter }/>
+          <Container className={'topLanding'} fluid textAlign={'center'}
+                     style={{ paddingTop: '25px', marginTop: '-10px' }}>
+            <Image src={'/images/manoalist-circle.png'} size={'small'} centered/>
+            <Input className={'searchInput'} size='large' icon='search' placeholder='Search...'
+                   onChange={this.handleInputChange} onKeyDown={ this.pressEnter }
+                   style={{ marginTop: '25px' }}/>
           </Container>
           <Container>
             <Divider hidden/>
             <Header as='h2'>New Listings</Header>
             <Segment><Grid columns={5}>
-              {newList.map((item, index) => <HomeItem
-                  key={index}
-                  item={item}/>)}
-              <Grid.Column textAlign={'center'}
-                           verticalAlign={'middle'}
-                           as={NavLink}
-                           exact
-                           to={'/list'}>
-                <Header as="h2"
-                        content={'SEE ALL'}/>
+              {newList.map((item, index) => <HomeItem key={index} item={item}/>)}
+              <Grid.Column textAlign={'center'} verticalAlign={'middle'} as={NavLink} exact to={'/list'}>
+                <Header as="h2" content={'SEE ALL'}/>
               </Grid.Column>
             </Grid>
             </Segment>
@@ -82,16 +68,9 @@ class Home extends React.Component {
             <Divider hidden/>
             <Header as='h2'>POPULAR</Header>
             <Segment><Grid columns={5}>
-              {popularList.map((item, index) => <HomeItem
-                  key={index}
-                  item={item}/>)}
-              <Grid.Column textAlign={'center'}
-                           verticalAlign={'middle'}
-                           as={NavLink}
-                           exact
-                           to={'/list'}>
-                <Header as="h2"
-                        content={'SEE ALL'}/>
+              {popularList.map((item, index) => <HomeItem key={index} item={item}/>)}
+              <Grid.Column textAlign={'center'} verticalAlign={'middle'} as={NavLink} exact to={'/list'}>
+                <Header as="h2" content={'SEE ALL'}/>
               </Grid.Column>
             </Grid>
             </Segment>
