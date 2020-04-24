@@ -9,7 +9,7 @@ class AdminApproveItem extends React.Component {
 
   approveItem =() => Items.update({ _id: this.props.item._id.toString() }, { $set: { approvedForSale: 'true' } });
 
-  deleteItem = () => Items.update({ _id: this.props.item._id.toString() }, { $set: { forSale: 'false' } });
+  deleteItem = () => Items.remove({ _id: this.props.item._id.toString() });
 
   render() {
     return (
