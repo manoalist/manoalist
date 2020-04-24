@@ -26,27 +26,27 @@ class App extends React.Component {
   render() {
     return (
         <Router>
-          <div>
-            <NavBar/>
-            <Switch>
-              <Route exact path="/" component={Landing}/>
-               <Route path="/signin" component={Signin}/>
-              <Route path="/signup" component={Signup}/>
-              <Route path="/contact" component={Contact}/>
-              <ProtectedRoute path="/list/:group/:name" component={ListItem}/>
-              <ProtectedRoute path="/list" component={ListItem}/>
-              <ProtectedRoute path="/list/admin" component={ListStuffAdmin}/>
-              <ProtectedRoute path="/cate" component={Categories}/>
-              <ProtectedRoute path="/home" component={Home}/>
-              <ProtectedRoute path="/add" component={AddStuff}/>
-              <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
-              <ProtectedRoute path="/profile" component={Profile}/>
-              <AdminProtectedRoute path="/admin" component={HomeAdmin}/>
-              <ProtectedRoute path="/signout" component={Signout}/>
-              <Route component={NotFound}/>
-            </Switch>
+            <div style={{ flex: '1 0 auto' }}>
+              <NavBar/>
+              <Switch>
+                <Route exact path="/" component={Landing}/>
+                <Route path="/signin" component={Signin}/>
+                <Route path="/signup" component={Signup}/>
+                <Route path="/contact" component={Contact}/>
+                <ProtectedRoute path="/list/:group/:name" component={ListItem}/>
+                <ProtectedRoute path="/list" component={ListItem}/>
+                <ProtectedRoute path="/list/admin" component={ListStuffAdmin}/>
+                <ProtectedRoute path="/cate" component={Categories}/>
+                <ProtectedRoute path="/home" component={Home}/>
+                <ProtectedRoute path="/add" component={AddStuff}/>
+                <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
+                <ProtectedRoute path="/profile" component={Profile}/>
+                <AdminProtectedRoute path="/admin" component={HomeAdmin}/>
+                <ProtectedRoute path="/signout" component={Signout}/>
+                <Route component={NotFound}/>
+              </Switch>
+            </div>
             <Footer/>
-          </div>
         </Router>
     );
   }
