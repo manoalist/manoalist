@@ -139,7 +139,7 @@ or other material ("Content").`;
                 <Header as="h2" textAlign="center" style={{ color: '#024731', marginBottom: '25px' }}>
                   Create Account
                 </Header>
-                <Image src={'/images/manoalist-logo.png'} size={'medium'} style={{ marginTop: '15px' }} centered/>
+                <Image src={'/images/manoalist-circle.png'} size={'tiny'} style={{ marginTop: '15px' }} centered/>
                 <Form.Input
                   label="email"
                   icon="user"
