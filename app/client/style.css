@@ -28,3 +28,7 @@
 .user-info, .row {
   display: block!important;
 }
+
+.add-item-form {
+  padding: 2em 12em 5em 12em;
+}
