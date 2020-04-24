@@ -40,14 +40,6 @@ function addItems(data) {
   Items.insert(data);
 }
 
-/** Initialize the collection if empty. */
-if (Items.find().count() === 0) {
-  if (Meteor.settings.defaultItems) {
-    console.log('Creating default items.');
-    Meteor.settings.defaultItems.map(data => addItems(data));
-  }
-}
-
 /** Initialize the database with a default data document. */
 function addCategories(data) {
   console.log(`  Adding: ${data.group} (${data.name})`);

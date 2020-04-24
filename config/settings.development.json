@@ -50,10 +50,6 @@
     {"group":  "Sport", "name":  "Basketball"},
     {"group":  "Sport", "name":  "Football"},
     {"group":  "Sport", "name":  "Volleyball"},
-    {"group":  "Sport", "name":  "Hiking"},
-    {"group":  "Tickets", "name":  "Concert"},
-    {"group":  "Tickets", "name":  "Football"},
-    {"group":  "Tickets", "name":  "Volleyball"},
-    {"group":  "Tickets", "name":  "Basketball"}
+    {"group":  "Sport", "name":  "Hiking"}
   ]
 }
