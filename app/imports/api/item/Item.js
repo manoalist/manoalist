@@ -20,6 +20,7 @@ const ItemSchema = new SimpleSchema({
   approvedForSale: Boolean,
   sold: Boolean,
   flagged: Boolean,
+  reportReason: String,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

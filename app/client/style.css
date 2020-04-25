@@ -1,6 +1,26 @@
-.topLanding {
-  background: url("https://i0.wp.com/honoluluicc.org/wp-content/uploads/2017/08/uh-manoa-campus-center-1.jpg?fit=1466%2C669&ssl=1") center no-repeat;
-  height: 500px;
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%
+}
+
+#fancy-font {
+  font-family: 'Lobster', sans-serif;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.topLanding{
+  background: url("/images/KellerHallMain.jpg") center no-repeat;
+  height: 400px;  
   background-size: cover;
 }
 

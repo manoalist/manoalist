@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Roles } from 'meteor/alanning:roles';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
@@ -31,12 +32,16 @@ class Signin extends React.Component {
     });
   };
 
-  /** Display the signup form. Redirect to add page after successful registration and login. */
+  /** Display the signup form. Redirect to home page after successful registration and login. */
   render() {
+    const isAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
     const { from } = this.props.location.state || { from: { pathname: '/home' } };
     // if correct authentication, redirect to from: page instead of signup screen
     if (this.state.redirectToReferer) {
-      return <Redirect to={from}/>;
+      if (isAdmin) {
+        return <Redirect to={'/admin'}/>;
+      }
+        return <Redirect to={from}/>;
     }
     return (
          <div style={{ backgroundColor: '#fafafa' }}>
@@ -50,7 +55,7 @@ class Signin extends React.Component {
                     Log In
                   </Header>
                   <div style={{ marginBottom: '15px' }}>
-                  <Image src={'/images/manoalist-logo.png'} size={'medium'} centered/>
+                  <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered/>
                   </div>
                   <Form.Input
                       label="Username"

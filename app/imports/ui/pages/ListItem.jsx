@@ -27,7 +27,6 @@ class ListItem extends React.Component {
                 .filter(item => item.forSale === true)
                 .filter(item => item.approvedForSale === true)
                 .filter(item => item.sold === false)
-                .filter(item => item.flagged === false)
                 .map((item, index) => <ItemItem key={index} item={item}/>)}
           </Card.Group>
         </Container>

@@ -37,7 +37,7 @@ class HomeAdmin extends React.Component {
             </Grid>
             <Divider hidden/>
             <Grid columns={2}>
-              <Grid.Column floated='left' width={6}>
+              <Grid.Column floated='left' width={8}>
                 <Header dividing>Reported Items</Header>
                 <Segment.Group raised>
                   {this.props.items
@@ -46,7 +46,7 @@ class HomeAdmin extends React.Component {
                     .map((item, index) => <AdminBan key={index} item={item}/>)}
                 </Segment.Group>
               </Grid.Column>
-              <Grid.Column floated='right' width={10}>
+              <Grid.Column floated='right' width={8}>
                 <Header dividing>Items Pending Approval</Header>
                 <Segment.Group raised>
                   {this.props.items

@@ -1,38 +1,46 @@
 import React from 'react';
-import { Container, Image, Grid, List, Divider, Icon, Header, Button } from 'semantic-ui-react';
+import { Container, Grid, List, Divider, Icon, Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 class Footer extends React.Component {
   render() {
-    const divStyle = { marginTop: '15px', backgroundColor: '#D4D3D3' };
+    const divStyle = { marginTop: '15px', backgroundColor: '#024731', flexShrink: 0 };
     return (
         <footer style={divStyle}>
           <Divider/>
-            <Grid columns={3} container>
+            <Grid columns={3} container style={{ marginTop: 0, marginBottom: 0 }}>
               <Grid.Column>
-                <Image src={'/images/manoalist-logo.png'} size={'medium'}/>
-              </Grid.Column>
-              <Grid.Column>
-                <List size={'large'}>
-                <List.Item><a href={'/#/about'}>About US
+                <Header as={'h3'} inverted>Information</Header>
+                <hr />
+                <List size={'large'} inverted>
+                <List.Item><a href={'/#/about'}><Icon name={'user secret'}/>About Us
                 </a></List.Item>
-                  <List.Item><a href={'/#'}>Home</a></List.Item>
+                  <List.Item><a href={'/#'}><Icon name={'privacy'}/>Terms & Conditions</a></List.Item>
                   <List.Item>
                     <a href={'https://manoalist.github.io/'}><Icon name={'github'}/>more information</a>
                   </List.Item>
               </List>
               </Grid.Column>
+
+              <Grid.Column>
+                <Header as={'h3'} inverted>Customer Service</Header>
+                <hr />
+                <List size={'large'} inverted>
+                  <List.Item><a href={'/#/contact'}><Icon name={'mail'}/>Contact Us</a></List.Item>
+                </List>
+              </Grid.Column>
+
               <Grid.Column>
                 {this.props.currentUser ? (
-                  <Header as={'h3'}>Welcome {this.props.currentUser}</Header>
+                  <Header as={'h3'} inverted>Welcome {this.props.currentUser}</Header>
                 ) : (
                   <Container>
-                  <Header as={'h3'}>NOT A MEMBER?</Header>
-                  <Button content={'Register'} size={'huge'} color={'green'}/>
+                  <Header as={'h3'} inverted>NOT A MEMBER?</Header>
+                  <Button content={'Register'} size={'small'} color={'blue'} as={NavLink} exact to={'/signup'}/>
                   </Container>
                 )}
               </Grid.Column>
