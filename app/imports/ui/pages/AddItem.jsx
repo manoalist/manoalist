@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Container } from 'semantic-ui-react';
+import { Grid, Segment, Header, Container, Image } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, SubmitField, LongTextField, TextField, NumField, SelectField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
@@ -19,7 +19,6 @@ const formSchema = new SimpleSchema({
   name: String,
   quantity: Number,
   price: Number,
-  owner: String,
   description: String,
 });
 
@@ -40,8 +39,8 @@ class AddItem extends React.Component {
 
   /** On submit, insert the data. */
   submit(data, formRef) {
-    const { categoryGroup, categoryName, picture, name, quantity, price, owner, description } = data;
-    const user = Meteor.user().username;
+    const { categoryGroup, categoryName, picture, name, quantity, price, description } = data;
+    const owner = Meteor.user().username;
     const createdAt = new Date();
     const forSale = true;
     const approvedForSale = true;
@@ -50,8 +49,8 @@ class AddItem extends React.Component {
     const reportReason = 'None';
 
     Items.insert({
-          categoryGroup, categoryName, picture, name, quantity, price, owner, description, createdAt,
-          forSale, approvedForSale, sold, flagged, reportReason, user,
+          categoryGroup, categoryName, picture, name, quantity, price, description, createdAt,
+          forSale, approvedForSale, sold, flagged, reportReason, owner,
         },
         (error) => {
           if (error) {
@@ -66,50 +65,57 @@ class AddItem extends React.Component {
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   render() {
     let fRef = null;
-    const array = _.uniq(_.pluck((Categories.find({}).fetch()), 'group'));
-    const groups = _.map(array, function (cat) {
+    const getGroups = _.uniq(_.pluck((Categories.find({}).fetch()), 'group'));
+    const groups = _.map(getGroups, function (cat) {
       return { key: cat, value: cat, label: cat };
     });
 
-    const groupName = this.state.group;
-
-    const cats = Categories.find({}).fetch();
-    const lol = _.filter(cats, function (item) {
-      return item.group === groupName;
+    const currentGroup = this.state.group;
+    const getNames = _.filter((Categories.find({}).fetch()), function (item) {
+      return item.group === currentGroup;
     });
-    const names = _.pluck(lol, 'name');
-    const names2 = _.map(names, function (cat) {
+    const names = _.map((_.pluck(getNames, 'name')), function (cat) {
       return { key: cat, value: cat, label: cat };
     });
 
     return (
         <Container className='add-item-form'>
+          <Image centered size='tiny' src={'/images/manoalist-circle.png'}/>
           <Header as='h2' textAlign='center'>Create a Listing</Header>
           <Segment>
             <AutoForm ref={ref => {
               fRef = ref;
             }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}>
-              <TextField name='name' placeholder='What are you selling?'/>
-              <TextField name='picture' label='Image' placeholder='Insert the URL to your photo.'/>
-              <TextField name='owner' label='Email' placeholder='Enter your email here.'/>
-              <LongTextField name='description' label='Description' placeholder='Describe your item.'/>
-              <Grid stackable columns={4}>
-                <Grid.Column><NumField name='price' decimal={false} icon={'dollar'} iconLeft/></Grid.Column>
-                <Grid.Column><NumField name='quantity' decimal={false}/></Grid.Column>
-                <Grid.Column>
-                  <SelectField placeholder='Select a category' value={this.state.group}
-                               onChange={this.handleChange} options={groups} name='categoryGroup'
-                               label='Category Group'/>
-                </Grid.Column>
-                <Grid.Column>
-                  <SelectField name='categoryName' placeholder='Select a category' options={names2} label='Subcategory'
-                  />
-                </Grid.Column>
-                <Grid.Column>
+              <Grid stackable container>
+                <Grid.Row>
+                  <TextField name='name' label='Item Name' placeholder='What are you selling?'/>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid columns={'equal'}>
+                    <Grid.Column><NumField name='price' decimal={false} icon={'dollar'} iconLeft/></Grid.Column>
+                    <Grid.Column><NumField name='quantity' decimal={false}/></Grid.Column>
+                  </Grid>
+                </Grid.Row>
+                <Grid.Row>
+                  <TextField name='picture' label='Image' placeholder='Insert the URL to your photo.'/>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid columns={'equal'}>
+                    <Grid.Column><SelectField placeholder='Select a category' value={this.state.group}
+                                              onChange={this.handleChange} options={groups} name='categoryGroup'
+                                              label='Main Category'/></Grid.Column>
+                    <Grid.Column><SelectField name='categoryName' placeholder='Select a category' options={names}
+                                              label='Subcategory'/></Grid.Column>
+                  </Grid>
+                </Grid.Row>
+                <Grid.Row>
+                  <LongTextField name='description' label='Description' placeholder='Describe your item.'/>
+                </Grid.Row>
+                <Grid.Row>
                   <SubmitField value='List'/>
-                </Grid.Column>
+                </Grid.Row>
+                <ErrorsField/>
               </Grid>
-              <ErrorsField/>
             </AutoForm>
           </Segment>
         </Container>
