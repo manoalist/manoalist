@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Image, Container, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Items } from '../../api/item/Item';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
@@ -36,6 +36,7 @@ class ItemItem extends React.Component {
 
   render() {
     return (
+        <Link to={`/details/${this.props.item._id}`}>
         <Card centered>
           <Container style={{ height: '300px' }}>
               <Image centered src={this.props.item.picture} style={{ maxHeight: '300px' }}/>
@@ -56,6 +57,7 @@ class ItemItem extends React.Component {
             <Button toggle icon={'heart'} color={'red'} inverted floated={'right'}/>
           </Card.Content>
         </Card>
+        </Link>
     );
   }
 }
