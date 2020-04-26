@@ -51,5 +51,6 @@
     {"group":  "Sport", "name":  "Football"},
     {"group":  "Sport", "name":  "Volleyball"},
     {"group":  "Sport", "name":  "Hiking"}
-  ]
+  ],
+  "loadAssetsFile": true
 }
