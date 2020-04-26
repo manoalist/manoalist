@@ -18,6 +18,7 @@ import HomeAdmin from '../pages/HomeAdmin';
 import Profile from '../pages/Profile';
 import ItemPage from '../pages/ItemPage';
 import Contact from '../pages/Contact';
+import AddCategory from '../pages/AddCategory';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -38,6 +39,7 @@ class App extends React.Component {
                 <ProtectedRoute path="/profile" component={Profile}/>
                 <ProtectedRoute path="/details/:_id" component={ItemPage}/>
                 <AdminProtectedRoute path="/admin" component={HomeAdmin}/>
+                <Route path="/addCate" component={AddCategory}/>
                 <ProtectedRoute path="/signout" component={Signout}/>
                 <Route component={NotFound}/>
               </Switch>
