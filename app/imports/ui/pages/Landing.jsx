@@ -1,10 +1,9 @@
 import React from 'react';
-import { Button, Container, Divider, Grid, Header, Icon, Image, Tab, Menu } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Icon, Image, Tab, Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 export default class Landing extends React.Component {
   render() {
-    const topRightStyle = { color: 'white', fontSize: '30px', background: 'rgba(0, 0, 0, 0.4)' };
     const panes = [
       {
         menuItem: (<Menu.Item key={'buyer'}><Header as={'h3'} content={'BUYER'}/></Menu.Item>),
@@ -48,7 +47,7 @@ export default class Landing extends React.Component {
     return (
         <div>
           <Container className={'topLanding'} textAlign={'center'} fluid style={{ marginTop: '-10px' }}>
-            <Header as={'h1'} textAlign={'center'} style={{ paddingTop: '25px', fontSize: '50px'}}
+            <Header as={'h1'} textAlign={'center'} style={{ paddingTop: '25px', fontSize: '50px' }}
                     inverted id='fancy-font'>Shop with Aloha</Header>
             <Image src={'/images/manoalist-circle.png'} size='small' centered/>
             <Button animated color='blue' style={{ marginTop: '50px' }} as={NavLink} exact to={'/signin'}>

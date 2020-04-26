@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/Stuff.js';
-import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
 
@@ -32,12 +31,6 @@ if (User.find().count() === 0) {
     console.log('Creating default data.');
     Meteor.settings.defaultUsers.map(data => addUser(data));
   }
-}
-
-/** Initialize the database with a default data document. */
-function addItems(data) {
-  console.log(`  Adding: ${data.name} (${data.owner})`);
-  Items.insert(data);
 }
 
 /** Initialize the database with a default data document. */
