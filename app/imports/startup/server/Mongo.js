@@ -61,3 +61,11 @@ if (Categories.find().count() === 0) {
     Meteor.settings.defaultCategory.map(data => addCategories(data));
   }
 }
+
+/** Load Assets File. */
+if ((Meteor.settings.loadAssetsFile) && (Items.find().count() < 20)) {
+  const assetsFileName = 'data.json';
+  console.log(`Loading data from private/${assetsFileName}`);
+  const jsonData = JSON.parse(Assets.getText(assetsFileName));
+  jsonData.defaultItems.map(items => addItems(items));
+}
