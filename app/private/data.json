@@ -1,4 +1,33 @@
 {
+  "defaultCategory": [
+    {"group":  "Clothes", "name":  "Shirts"},
+    {"group":  "Clothes", "name":  "Shorts"},
+    {"group":  "Clothes", "name":  "Hats"},
+    {"group":  "Electronics", "name":  "Phone"},
+    {"group":  "Electronics", "name":  "Laptop"},
+    {"group":  "Electronics", "name":  "Computer"},
+    {"group":  "Electronics", "name":  "Tablet"},
+    {"group":  "Electronics", "name":  "Printers"},
+    {"group":  "Electronics", "name":  "Headphones"},
+    {"group":  "Electronics", "name":  "Fans"},
+    {"group":  "Home", "name":  "Bedding"},
+    {"group":  "Home", "name":  "Shelving"},
+    {"group":  "Home", "name":  "Art"},
+    {"group":  "Home", "name":  "Desks"},
+    {"group":  "Home", "name":  "Chair"},
+    {"group":  "Home", "name":  "Storage"},
+    {"group":  "Home", "name":  "Lamps"},
+    {"group":  "Home", "name":  "Glassware"},
+    {"group":  "School", "name":  "TextBook"},
+    {"group":  "School", "name":  "Calculator"},
+    {"group":  "School", "name":  "Backpack"},
+    {"group":  "School", "name":  "Supplies"},
+    {"group":  "Sport", "name":  "Basketball"},
+    {"group":  "Sport", "name":  "Football"},
+    {"group":  "Sport", "name":  "Volleyball"},
+    {"group":  "Sport", "name":  "Hiking"}
+  ],
+
   "defaultItems": [
     {
       "categoryGroup": "School",

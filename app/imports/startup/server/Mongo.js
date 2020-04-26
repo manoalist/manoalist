@@ -24,32 +24,21 @@ function addItems(data) {
   Items.insert(data);
 }
 
-/** Initialize the collection if empty. */
-if (Items.find().count() === 0) {
-  if (Meteor.settings.defaultItems) {
-    console.log('Creating default items.');
-    Meteor.settings.defaultItems.map(data => addItems(data));
-  }
-}
-
 /** Initialize the database with a default data document. */
 function addCategories(data) {
   console.log(`  Adding: ${data.group} (${data.name})`);
   Categories.insert(data);
 }
 
-/** Initialize the collection if empty. */
-if (Categories.find().count() === 0) {
-  if (Meteor.settings.defaultCategory) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultCategory.map(data => addCategories(data));
-  }
-}
-
 /** Load Assets File. */
-if ((Meteor.settings.loadAssetsFile) && (Items.find().count() < 20)) {
+if (Meteor.settings.loadAssetsFile) {
   const assetsFileName = 'data.json';
   console.log(`Loading data from private/${assetsFileName}`);
   const jsonData = JSON.parse(Assets.getText(assetsFileName));
-  jsonData.defaultItems.map(items => addItems(items));
+  if (Items.find().count() === 0) {
+    jsonData.defaultItems.map(data => addItems(data));
+  }
+  if (Categories.find().count() === 0) {
+    jsonData.defaultCategory.map(data => addCategories(data));
+  }
 }
