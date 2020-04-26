@@ -19,8 +19,8 @@ class Contact extends React.Component {
 
   /** Handle Signin submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
-    const { firstName, lastName, issueType, opinion, email } = this.state;
-    Contactus.insert({ firstName, lastName, issueType, opinion, email });
+    const { firstName, lastName, issueType, content, email } = this.state;
+    Contactus.insert({ firstName, lastName, issueType, content, email });
     swal('Success', 'We will contact you soon', 'success');
   };
 
@@ -35,19 +35,17 @@ class Contact extends React.Component {
           <Segment>
         <Form onSubmit={this.submit}>
           <Form.Group widths='equal'>
-            <Form.Field
-                id='form-input-control-first-name'
-                control={Input}
+            <Form.Input
                 label='First name'
                 name='firstName'
+                type='firstName'
                 placeholder='First name'
                 onChange={this.handleChange}
             />
-            <Form.Field
-                id='form-input-control-last-name'
-                control={Input}
+            <Form.Input
                 label='Last name'
                 name='lastName'
+                type='lastName'
                 placeholder='Last name'
                 onChange={this.handleChange}
             />
@@ -62,11 +60,10 @@ class Contact extends React.Component {
                 onChange={this.handleChange}
             />
           </Form.Group>
-          <Form.Field
-              id='form-textarea-control-opinion'
-              control={TextArea}
-              label='Opinion'
+          <Form.TextArea
+              label='content'
               name='content'
+              type='content'
               placeholder='Describe your opinion...'
               onChange={this.handleChange}
           />
