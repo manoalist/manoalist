@@ -1,11 +1,13 @@
 import React from 'react';
-import { Grid, Header, Image, Segment, Button, Container, Input, Divider, Message } from 'semantic-ui-react';
+import { Grid, Header, Image, Segment, Button, Container,
+  Input, Divider, Message, Dropdown, Select } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Categories } from '../../api/category/Category';
+import { Items } from '../../api/item/Item';
 
 class AddCategory extends React.Component {
   constructor(props) {
@@ -14,6 +16,9 @@ class AddCategory extends React.Component {
       newGroup: '',
       newName: '',
       error: '',
+      deleteGroup: '',
+      deleteName: '',
+      deleteError: '',
     };
   }
 
@@ -60,9 +65,34 @@ class AddCategory extends React.Component {
     }
     };
 
+  handleGroupChange = (e, { value }) => {
+    this.setState({ deleteGroup: value });
+  };
+
+  handleNameChange = (e, { value }) => {
+    this.setState({ deleteName: value });
+  };
+
+  handleDeleteClick = () => {
+    const numOfItemsInCategory = this.props.items
+        .filter((item) => item.categoryGroup === this.state.deleteGroup)
+        .filter((item) => item.categoryName === this.state.deleteName).length;
+    if (numOfItemsInCategory > 0) {
+      this.setState({ deleteError: 'ERROR: There are items in this category!!!' });
+    } else {
+      Categories.remove({ _id: this.props.categories.filter((category) => category.group === this.state.deleteGroup)
+            .find((category) => category.name === this.state.deleteName)._id });
+    }
+  };
+
   render() {
     const array = [];
+    const options = [];
+    const deleteOptions = [];
     this.props.categories.map((category) => this.getGroup(category, array));
+    array.map((category) => options.push({ text: category, value: category }));
+    this.props.categories.filter((cate) => cate.group === this.state.deleteGroup)
+        .map((category) => deleteOptions.push({ text: category.name, value: category.name }));
     return (
         <div>
             <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
@@ -97,7 +127,10 @@ class AddCategory extends React.Component {
                 )}
               </Grid.Column>
             </Grid>
-          <Container><Segment stacked>
+          {/* the list of category */}
+          <Container>
+            <Header as={'h1'} content={'Category List'}/>
+            <Segment stacked>
             <Grid container>
               {array.map((group) => <Grid.Row key={array.indexOf(group)}
                                               group={group}
@@ -110,17 +143,59 @@ class AddCategory extends React.Component {
           </Segment>
           <Divider/>
           </Container>
+
+          <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
+            <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
+              <Segment stacked style={{ backgroundColor: '#FFF6F6', borderColor: '#912D2B' }}>
+                <Header as="h1" textAlign="center" style={{ color: '#912D2B', marginBottom: '25px' }}>
+                  Delete Category
+                </Header>
+                <div style={{ marginBottom: '15px' }}>
+                  <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered/>
+                </div>
+                <Container textAlign={'center'}>
+                  <Grid columns={2}>
+                    <Grid.Column><Header color={'green'} content={'Category Group'}/>
+                    <Select onChange={this.handleGroupChange} options={options} clearable/>
+                  </Grid.Column>
+                    <Grid.Column><Header color={'teal'} content={'Category Name'}/>
+                      <Dropdown clearable
+                                options={deleteOptions}
+                                onChange={this.handleNameChange}
+                                selection/>
+                    </Grid.Column></Grid>
+                  <Divider hidden/>
+                  <Button style={{ float: 'right' }}
+                          onClick={this.handleDeleteClick} color={'red'}>Delete</Button>
+                </Container>
+                <Divider hidden/>
+                <Divider hidden/>
+              </Segment>
+              {this.state.deleteError === '' ? (
+                  ''
+              ) : (
+                  <Message
+                      error
+                      header="Deleting was not successful"
+                      content={this.state.deleteError}
+                  />
+              )}
+            </Grid.Column>
+          </Grid>
         </div>
     );
   }
 }
 AddCategory.propTypes = {
   categories: PropTypes.array.isRequired,
+  items: PropTypes.array.isRequired,
 };
 const subscription = Meteor.subscribe('Categories');
+const subscription2 = Meteor.subscribe('Items');
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 const AddContainer = withTracker(() => ({
   categories: Categories.find({}).fetch(),
-  ready: subscription.ready(),
+  items: Items.find({}).fetch(),
+  ready: subscription.ready() && subscription2.ready(),
 }))(AddCategory);
 export default withRouter(AddContainer);

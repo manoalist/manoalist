@@ -26,7 +26,7 @@ class HomeAdmin extends React.Component {
                 <Icon name={'spy'} size={'huge'}/>
                 <Header as={'h3'} content={'Monitor Items'}/>
               </Grid.Column>
-              <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
+              <Grid.Column as={NavLink} exact to={'/addCate'} textAlign={'center'}>
                 <Icon name={'add circle'} size={'huge'}/>
                 <Header as={'h3'} content={'Create New Categories'}/>
               </Grid.Column>
