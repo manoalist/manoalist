@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
+import { Contactus } from '../../api/mail/Contactus';
 
 /* eslint-disable no-console */
 /** Initialize the database with a default data document. */
@@ -30,6 +31,13 @@ function addCategories(data) {
   Categories.insert(data);
 }
 
+/** Initialize the database with a default data document. */
+function addContactus(data) {
+  console.log(`  Adding: ${data.firstName} (${data.lastName})`);
+  Contactus.insert(data);
+}
+
+
 /** Load Assets File. */
 if (Meteor.settings.loadAssetsFile) {
   const assetsFileName = 'data.json';
@@ -41,4 +49,7 @@ if (Meteor.settings.loadAssetsFile) {
   if (Categories.find().count() === 0) {
     jsonData.defaultCategory.map(data => addCategories(data));
   }
+  // if (Contactus.find().count() === 0) {
+  //   jsonData.defaultContactus.map(data => addContactus(data));
+  // }
 }

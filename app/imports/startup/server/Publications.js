@@ -3,6 +3,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
+import { Contactus } from '../../api/mail/Contactus';
 
 /** This subscription publishes only the documents associated with the logged in user */
 Meteor.publish('User', function publish() {
@@ -33,4 +34,9 @@ Meteor.publish('Items', function publish() {
 /** This subscription publishes all documents regardless of user. */
 Meteor.publish('Categories', function publish() {
   return Categories.find();
+});
+
+/** This subscription publishes all documents regardless of user. */
+Meteor.publish('Contactus', function publish() {
+  return Contactus.find();
 });

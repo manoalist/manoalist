@@ -24,5 +24,9 @@
     }
   ],
 
+  "defaultContactus": [
+    { "firstName": "bb", "lastName": "aa", "issueType": "Bug", "content": "nothing", "email": "testing@foo.com" }
+  ],
+
   "loadAssetsFile": true
 }
