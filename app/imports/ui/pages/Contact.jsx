@@ -1,4 +1,6 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Form, Input, TextArea, Select, Container, Segment, Button } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { Contactus } from '../../api/mail/Contactus';
@@ -92,4 +94,10 @@ class Contact extends React.Component {
     );
   }
 }
-export default Contact;
+export default withTracker(() => {
+  // Get access to Contactus documents.
+  const subscription = Meteor.subscribe('Contactus');
+  return {
+    ready: subscription.ready(),
+  };
+})(Contact);
