@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, List, Divider, Icon, Header, Button } from 'semantic-ui-react';
+import { Container, Grid, List, Icon, Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -11,7 +11,6 @@ class Footer extends React.Component {
     const divStyle = { marginTop: '15px', backgroundColor: '#024731', flexShrink: 0 };
     return (
         <footer style={divStyle}>
-          <Divider/>
             <Grid columns={3} container style={{ marginTop: 0, marginBottom: 0 }}>
               <Grid.Column>
                 <Header as={'h3'} inverted>Information</Header>
