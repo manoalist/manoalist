@@ -43,7 +43,7 @@ class ListItem extends React.Component {
           <Divider/>
           <Container textAlign={'center'}>
             <Pagination
-                defaultActivePage={5}
+                defaultActivePage={1}
                 ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
                 firstItem={{ content: <Icon name='angle double left' />, icon: true }}
                 lastItem={{ content: <Icon name='angle double right' />, icon: true }}
