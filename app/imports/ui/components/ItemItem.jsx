@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Image, Container, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { Items } from '../../api/item/Item';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
@@ -36,8 +36,7 @@ class ItemItem extends React.Component {
 
   render() {
     return (
-        <Link to={`/details/${this.props.item._id}`}>
-        <Card centered>
+        <Card centered as={NavLink} exact to={`/details/${this.props.item._id}`}>
           <Container style={{ height: '300px' }}>
               <Image centered src={this.props.item.picture} style={{ maxHeight: '300px' }}/>
           </Container>
@@ -49,7 +48,7 @@ class ItemItem extends React.Component {
               <Card.Meta>post at {this.props.item.createdAt.toLocaleDateString('en-US')}</Card.Meta>
           </Card.Content>
           <Card.Content extra>
-                Contact Information: <a href={'/profile'}>{this.props.item.owner}</a>
+                Contact Information: {this.props.item.owner}
           </Card.Content>
           <Card.Content extra>
             <Button content={'report'} disabled={this.props.item.flagged}
@@ -57,7 +56,6 @@ class ItemItem extends React.Component {
             <Button toggle icon={'heart'} color={'red'} inverted floated={'right'}/>
           </Card.Content>
         </Card>
-        </Link>
     );
   }
 }
