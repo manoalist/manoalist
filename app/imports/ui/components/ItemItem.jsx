@@ -36,20 +36,23 @@ class ItemItem extends React.Component {
 
   render() {
     return (
-        <Card centered as={NavLink} exact to={`/details/${this.props.item._id}`}>
-          <Container style={{ height: '300px' }}>
-              <Image centered src={this.props.item.picture} style={{ maxHeight: '300px' }}/>
+        <Card centered>
+          <Container style={{ height: '300px' }} as={NavLink} exact to={`/details/${this.props.item._id}`}>
+            <Image centered
+                   src={this.props.item.picture}
+                   style={{ maxHeight: '300px' }}/>
           </Container>
-          <Card.Content>
-              <Card.Header>{this.props.item.name}</Card.Header>
+            <Card.Content>
+              <Card.Header as={NavLink} exact to={`/details/${this.props.item._id}`}>
+                {this.props.item.name}</Card.Header>
               <Card.Meta>price: ${this.props.item.price}</Card.Meta>
               <Card.Meta>quantity: {this.props.item.quantity}</Card.Meta>
               <Card.Description>{this.props.item.description}</Card.Description>
               <Card.Meta>post at {this.props.item.createdAt.toLocaleDateString('en-US')}</Card.Meta>
-          </Card.Content>
-          <Card.Content extra>
-                Contact Information: {this.props.item.owner}
-          </Card.Content>
+            </Card.Content>
+            <Card.Content extra>
+              Contact Information: {this.props.item.owner}
+            </Card.Content>
           <Card.Content extra>
             <Button content={'report'} disabled={this.props.item.flagged}
                     color={'red'} onClick={this.handleClick}/>
