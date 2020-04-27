@@ -6,7 +6,6 @@ import { Items } from '../../api/item/Item';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class AdminApproveItem extends React.Component {
-
   approveItem =() => Items.update({ _id: this.props.item._id }, { $set: { approvedForSale: 'true' } });
 
   deleteItem = () => Items.remove({ _id: this.props.item._id });
