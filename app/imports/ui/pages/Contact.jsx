@@ -1,15 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Form, Input, TextArea, Select, Container, Segment, Button } from 'semantic-ui-react';
+import { Form, Input, Select, Container, Segment, Button, Message } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { Contactus } from '../../api/mail/Contactus';
+
 
 class Contact extends React.Component {
   /** Initialize state fields. */
   constructor(props) {
     super(props);
-    this.state = { firstName: '', lastName: '', issueType: '', content: '', email: '' };
+    this.state = { firstName: '', lastName: '', issueType: '', content: '', email: '',
+      error: '', redirectToReferer: false };
   }
 
   /** Update the form controls each time the user interacts with them. */
@@ -20,8 +24,21 @@ class Contact extends React.Component {
   /** Handle Signin submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
     const { firstName, lastName, issueType, content, email } = this.state;
-    Contactus.insert({ firstName, lastName, issueType, content, email });
-    swal('Success', 'We will contact you soon', 'success');
+    if (this.state.firstName === '') {
+      this.setState({ error: 'First name cannot be empty' });
+    } else if (this.state.lastName === '') {
+      this.setState({ error: 'Last name cannot be empty' });
+    } else if (this.state.issueType === '') {
+      this.setState({ error: 'Please select the issue type' });
+    } else if (this.state.content === '') {
+      this.setState({ error: 'Content cannot be empty' });
+    } else if (!/^([a-z0-9_-]+)@hawaii.edu$/.test(this.state.email)) {
+      this.setState({ error: 'Please correctly enter your email address as xxx@hawaii.edu' });
+    } else {
+      Contactus.insert({ firstName, lastName, issueType, content, email });
+      this.setState({ error: '', redirectToReferer: true });
+      swal('Thank you!', 'We will contact you soon', 'success');
+    }
   };
 
   render() {
@@ -30,6 +47,10 @@ class Contact extends React.Component {
       { key: 'a', text: 'Advise', value: 'Advise' },
       { key: 'o', text: 'Other', value: 'other' },
     ];
+    const { from } = this.props.location.state || { from: { pathname: '/home' } };
+    if (this.state.redirectToReferer) {
+      return <Redirect to={from}/>;
+    }
     return (
         <Container>
           <Segment>
@@ -72,7 +93,7 @@ class Contact extends React.Component {
               control={Input}
               label='Email'
               name='email'
-              placeholder='joe@schmoe.com'
+              placeholder='xxx@hawaii.edu'
               error={{
                 content: 'Please enter a valid email address',
                 pointing: 'below',
@@ -86,11 +107,23 @@ class Contact extends React.Component {
               label='Submit'
           />
         </Form>
+            {this.state.error === '' ? (
+                ''
+            ) : (
+                <Message
+                    error
+                    header="Submission was not successful"
+                    content={this.state.error}
+                />
+            )}
           </Segment>
         </Container>
     );
   }
 }
+Contact.propTypes = {
+  location: PropTypes.object,
+};
 export default withTracker(() => {
   // Get access to Contactus documents.
   const subscription = Meteor.subscribe('Contactus');
