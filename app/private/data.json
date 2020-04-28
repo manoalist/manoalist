@@ -1,6 +1,7 @@
 {
   "defaultCategory": [
     {"group":  "Clothes", "name":  "Shirts"},
+    {"group":  "Clothes", "name":  "EMPTY!!!"},
     {"group":  "Clothes", "name":  "Jacket"},
     {"group":  "Clothes", "name":  "Shorts"},
     {"group":  "Clothes", "name":  "Jeans"},
