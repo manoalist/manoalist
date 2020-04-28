@@ -93,7 +93,7 @@ class AddItem extends React.Component {
                   <TextField name='name' label='Item Name' placeholder='What are you selling?'/>
                 </Grid.Row>
                 <Grid.Row>
-                  <Grid columns={'equal'}>
+                  <Grid stackable columns={'equal'}>
                     <Grid.Column>
                       <NumField name='price' decimal={false} iconLeft={'dollar'}
                                 placeholder={''}/>
@@ -107,7 +107,7 @@ class AddItem extends React.Component {
                   <TextField name='picture' label='Image' iconLeft='image' placeholder='Insert the URL to your photo.'/>
                 </Grid.Row>
                 <Grid.Row>
-                  <Grid columns={'equal'}>
+                  <Grid stackable columns={'equal'}>
                     <Grid.Column>
                       <SelectField name='categoryGroup' placeholder='Select a category' options={groups}
                                    label='Main Category'/>
