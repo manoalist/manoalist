@@ -55,7 +55,7 @@ class Signin extends React.Component {
                     Log In
                   </Header>
                   <div style={{ marginBottom: '15px' }}>
-                  <Image src={'/images/manoalist-logo.png'} size={'medium'} centered/>
+                  <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered/>
                   </div>
                   <Form.Input
                       label="Username"

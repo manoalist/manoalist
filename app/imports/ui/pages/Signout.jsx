@@ -6,10 +6,15 @@ import { Header } from 'semantic-ui-react';
 export default class Signout extends React.Component {
   render() {
     Meteor.logout();
+    setTimeout(() => {
+      if (window.location.href.includes('signout')) {                         // eslint-disable-line
+        window.location.href = window.location.href.replace('signout', '');   // eslint-disable-line
+      }
+    }, 2000);
     return (
-      <Header as="h2" textAlign="center">
-        <p>You are signed out.</p>
-      </Header>
+        <Header as="h2" textAlign="center">
+          <p>You are signed out. Redirecting to home page...</p>
+        </Header>
     );
   }
 }

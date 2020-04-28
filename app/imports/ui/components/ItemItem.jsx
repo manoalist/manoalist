@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Image, Container, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { Items } from '../../api/item/Item';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
@@ -37,19 +37,22 @@ class ItemItem extends React.Component {
   render() {
     return (
         <Card centered>
-          <Container style={{ height: '300px' }}>
-              <Image centered src={this.props.item.picture} style={{ maxHeight: '300px' }}/>
+          <Container style={{ height: '300px' }} as={NavLink} exact to={`/details/${this.props.item._id}`}>
+            <Image centered
+                   src={this.props.item.picture}
+                   style={{ maxHeight: '300px' }}/>
           </Container>
-          <Card.Content>
-              <Card.Header>{this.props.item.name}</Card.Header>
+            <Card.Content>
+              <Card.Header as={NavLink} exact to={`/details/${this.props.item._id}`}>
+                {this.props.item.name}</Card.Header>
               <Card.Meta>price: ${this.props.item.price}</Card.Meta>
               <Card.Meta>quantity: {this.props.item.quantity}</Card.Meta>
               <Card.Description>{this.props.item.description}</Card.Description>
               <Card.Meta>post at {this.props.item.createdAt.toLocaleDateString('en-US')}</Card.Meta>
-          </Card.Content>
-          <Card.Content extra>
-                Contact Information: <a href={'/profile'}>{this.props.item.owner}</a>
-          </Card.Content>
+            </Card.Content>
+            <Card.Content extra>
+              Contact Information: {this.props.item.owner}
+            </Card.Content>
           <Card.Content extra>
             <Button content={'report'} disabled={this.props.item.flagged}
                     color={'red'} onClick={this.handleClick}/>

@@ -1,25 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { Stuffs } from '../../api/stuff/Stuff.js';
 import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
+import { Contactus } from '../../api/mail/Contactus';
 
 /* eslint-disable no-console */
-
-/** Initialize the database with a default data document. */
-function addData(data) {
-  console.log(`  Adding: ${data.name} (${data.owner})`);
-  Stuffs.insert(data);
-}
-
-/** Initialize the collection if empty. */
-if (Stuffs.find().count() === 0) {
-  if (Meteor.settings.defaultData) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultData.map(data => addData(data));
-  }
-}
-
 /** Initialize the database with a default data document. */
 function addUser(data) {
   console.log(`  Adding: ${data.email}`);
@@ -40,24 +25,31 @@ function addItems(data) {
   Items.insert(data);
 }
 
-/** Initialize the collection if empty. */
-if (Items.find().count() === 0) {
-  if (Meteor.settings.defaultItems) {
-    console.log('Creating default items.');
-    Meteor.settings.defaultItems.map(data => addItems(data));
-  }
-}
-
 /** Initialize the database with a default data document. */
 function addCategories(data) {
   console.log(`  Adding: ${data.group} (${data.name})`);
   Categories.insert(data);
 }
 
-/** Initialize the collection if empty. */
-if (Categories.find().count() === 0) {
-  if (Meteor.settings.defaultCategory) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultCategory.map(data => addCategories(data));
+/** Initialize the database with a default data document. */
+function addContactus(data) {
+  console.log(`  Adding: ${data.firstName} (${data.lastName})`);
+  Contactus.insert(data);
+}
+
+
+/** Load Assets File. */
+if (Meteor.settings.loadAssetsFile) {
+  const assetsFileName = 'data.json';
+  console.log(`Loading data from private/${assetsFileName}`);
+  const jsonData = JSON.parse(Assets.getText(assetsFileName));
+  if (Items.find().count() === 0) {
+    jsonData.defaultItems.map(data => addItems(data));
   }
+  if (Categories.find().count() === 0) {
+    jsonData.defaultCategory.map(data => addCategories(data));
+  }
+  // if (Contactus.find().count() === 0) {
+  //   jsonData.defaultContactus.map(data => addContactus(data));
+  // }
 }

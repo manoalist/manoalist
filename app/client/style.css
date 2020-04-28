@@ -1,16 +1,34 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%
+}
+
+#fancy-font {
+  font-family: 'Lobster', sans-serif;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .topLanding{
-  background: url("https://i0.wp.com/honoluluicc.org/wp-content/uploads/2017/08/uh-manoa-campus-center-1.jpg?fit=1466%2C669&ssl=1") center no-repeat;
-  height: 500px;
+  background: url("/images/KellerHallMain.jpg") center no-repeat;
+  height: 400px;  
   background-size: cover;
 }
 
-.ui.icon.input > input{
+.ui.icon.input > input {
   border-radius: 20px;
   width: 500px;
 }
 
 .profile-page {
-  margin: 1em!important;
+  margin: 1em !important;
 }
 
 .ratings-box {
@@ -18,17 +36,55 @@
   min-height: 150px;
 }
 
-.ui.dropdown.link.item:hover .firstMenu {display: block}
-.ui.menu .ui.dropdown .menu > .item:hover .menu {display: block}
+.ui.dropdown.link.item:hover .firstMenu {
+  display: block
+}
+
+.ui.menu .ui.dropdown .menu > .item:hover .menu {
+  display: block
+}
 
 .user-info {
-  margin: 0!important;
+  margin: 0 !important;
 }
 
 .user-info, .row {
-  display: block!important;
+  display: block !important;
+}
+
+.item-pic {
+  object-fit: cover;
+}
+
+.item-preview {
+  width: 70px !important;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.user-pic {
+  height: 60px;
+}
+
+.item-page {
+  margin-top: 40px !important;
+  margin-bottom: 200px !important;
+  padding-left: 100px !important;
+  padding-right: 100px !important;
+}
+
+.item-row {
+  margin-top: 20px;
 }
 
 .add-item-form {
   padding: 1em 10em 7em 10em;
+}
+
+.item-pics-section {
+  margin-bottom: 30px !important;
+}
+
+.seller-section {
+  margin-top: 50px;
 }
