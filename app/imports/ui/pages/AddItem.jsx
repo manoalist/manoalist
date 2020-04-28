@@ -32,16 +32,6 @@ class AddItem extends React.Component {
     };
   }
 
-  currentCat = (data) => {
-    this.setState({ group: data });
-    return this.state.group;
-  }
-
-  handleSubmit = () => {
-    const { group } = this.state;
-    this.setState({ categoryGroup: group });
-  }
-
   /** On submit, insert the data. */
   submit(data, formRef) {
     const { categoryGroup, categoryName, picture, name, quantity, price, description } = data;
@@ -71,11 +61,17 @@ class AddItem extends React.Component {
   render() {
     let fRef = null;
     const getGroups = _.uniq(_.pluck((Categories.find({}).fetch()), 'group'));
-    const groups = _.map(getGroups, function (cat) { return { key: cat, value: cat, label: cat }; });
+    const groups = _.map(getGroups, function (cat) {
+      return { key: cat, value: cat, label: cat };
+    });
 
     const currentGroup = this.state.group;
-    const getNames = _.filter((Categories.find({}).fetch()), function (item) { return item.group === currentGroup; });
-    const names = _.map((_.pluck(getNames, 'name')), function (cat) { return { key: cat, value: cat, label: cat }; });
+    const getNames = _.filter((Categories.find({}).fetch()), function (item) {
+      return item.group === currentGroup;
+    });
+    const names = _.map((_.pluck(getNames, 'name')), function (cat) {
+      return { key: cat, value: cat, label: cat };
+    });
 
     return (
         <Container className='add-item-form'>
@@ -84,7 +80,14 @@ class AddItem extends React.Component {
           <Segment>
             <AutoForm ref={ref => {
               fRef = ref;
-            }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}>
+            }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}
+                      onChange={(key, value) => {
+                        if (key === 'categoryGroup') {
+                          this.setState({ group: value });
+                          return this.state.group;
+                        }
+                        return this.state.group;
+                      }}>
               <Grid stackable container>
                 <Grid.Row>
                   <TextField name='name' label='Item Name' placeholder='What are you selling?'/>
@@ -101,17 +104,16 @@ class AddItem extends React.Component {
                   </Grid>
                 </Grid.Row>
                 <Grid.Row>
-                  <TextField name='picture' label='Image' iconLeft='image'
-                             placeholder='Insert the URL to your photo.'/>
+                  <TextField name='picture' label='Image' iconLeft='image' placeholder='Insert the URL to your photo.'/>
                 </Grid.Row>
                 <Grid.Row>
                   <Grid columns={'equal'}>
                     <Grid.Column>
-                      <SelectField name='categoryGroup' placeholder='Select a category' onChange={this.currentCat}
-                                   value={this.state.group} options={groups} label='Main Category'/>
+                      <SelectField name='categoryGroup' placeholder='Select a category' options={groups}
+                                   label='Main Category'/>
                     </Grid.Column>
                     <Grid.Column>
-                      <SelectField name='categoryName' placeholder='Select a category' options={names}
+                      <SelectField name='categoryName' placeholder='Select a subcategory' options={names}
                                    label='Subcategory'/>
                     </Grid.Column>
                   </Grid>
