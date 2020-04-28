@@ -28,7 +28,7 @@ class ListItem extends React.Component {
   /** Render the page once subscriptions have been received. */
   renderPage() {
 
-    const items = this.props.items.filter(item => item.forSale === true)
+    const listings = this.props.items.filter(item => item.forSale === true)
         .filter(item => item.approvedForSale === true)
         .filter(item => item.sold === false);
 
@@ -37,10 +37,10 @@ class ListItem extends React.Component {
           <Header as="h2"
                   textAlign="center">List Stuff</Header>
 
-          {(items.length === 0) ?
+          {(listings.length === 0) ?
               <Container className={'no-items-message'} textAlign={'center'}>
-                <Header as={'h2'} icon>
-                  <Icon name={'meh outline'}/>Sorry! No items found.</Header>
+                <Header as={'h3'} icon>
+                  <Icon name={'meh outline'}/>Sorry! No items were found.</Header>
               </Container> :
               <Card.Group itemsPerRow={4}>
                 {this.props.items
