@@ -1,7 +1,9 @@
 {
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "admin" },
-    { "email": "john@foo.com", "password": "changeme" }
+    { "email": "john@foo.com", "password": "changeme" },
+    { "email": "jack@hawaii.edu", "password": "changeme" },
+    { "email": "rose@hawaii.edu", "password": "changeme" }
   ],
 
   "defaultData": [
@@ -20,6 +22,16 @@
     { "email": "admin@foo.com", "firstName": "Admin", "lastName": "Admin",
       "description": "A simple member who plans to oversee all sales",
       "image": "/images/default-profile.jpg", "mobileNumber": "8087654321",
+      "carrier": "AT&T", "isBanned": false
+    },
+    { "email": "jack@hawaii.edu", "firstName": "Jack", "lastName": "Dawson",
+      "description": "The deuteragonists in Titanic and the love interest of Rose DeWitt Bukater.",
+      "image": "https://vignette.wikia.nocookie.net/leonardodicaprio/images/a/a3/Jack_Dawson.png/revision/latest/scale-to-width-down/620?cb=20180423015218", "mobileNumber": "8088088008",
+      "carrier": "AT&T", "isBanned": false
+    },
+    { "email": "rose@hawaii.edu", "firstName": "Rose", "lastName": "Bukater",
+      "description": "The heroine in Titanic and the love interest of Jack Dawson.",
+      "image": "http://images6.fanpop.com/image/photos/41500000/Rose-Dawson-greyswan618-41505059-659-815.jpg", "mobileNumber": "8081211221",
       "carrier": "AT&T", "isBanned": false
     }
   ],
