@@ -28,13 +28,18 @@ class AddItem extends React.Component {
   constructor() {
     super();
     this.state = {
-      group: 'School',
+      group: 'General',
     };
   }
 
-  handleChange = (data) => {
+  currentCat = (data) => {
     this.setState({ group: data });
     return this.state.group;
+  }
+
+  handleSubmit = () => {
+    const { group } = this.state;
+    this.setState({ categoryGroup: group });
   }
 
   /** On submit, insert the data. */
@@ -49,8 +54,8 @@ class AddItem extends React.Component {
     const reportReason = 'None';
 
     Items.insert({
-          categoryGroup, categoryName, picture, name, quantity, price, description, createdAt,
-          forSale, approvedForSale, sold, flagged, reportReason, owner,
+          categoryGroup, categoryName, picture, name, quantity, price, description, createdAt, forSale,
+          approvedForSale, sold, flagged, reportReason, owner,
         },
         (error) => {
           if (error) {
@@ -66,22 +71,16 @@ class AddItem extends React.Component {
   render() {
     let fRef = null;
     const getGroups = _.uniq(_.pluck((Categories.find({}).fetch()), 'group'));
-    const groups = _.map(getGroups, function (cat) {
-      return { key: cat, value: cat, label: cat };
-    });
+    const groups = _.map(getGroups, function (cat) { return { key: cat, value: cat, label: cat }; });
 
     const currentGroup = this.state.group;
-    const getNames = _.filter((Categories.find({}).fetch()), function (item) {
-      return item.group === currentGroup;
-    });
-    const names = _.map((_.pluck(getNames, 'name')), function (cat) {
-      return { key: cat, value: cat, label: cat };
-    });
+    const getNames = _.filter((Categories.find({}).fetch()), function (item) { return item.group === currentGroup; });
+    const names = _.map((_.pluck(getNames, 'name')), function (cat) { return { key: cat, value: cat, label: cat }; });
 
     return (
         <Container className='add-item-form'>
           <Image centered size='tiny' src={'/images/manoalist-circle.png'}/>
-          <Header as='h2' textAlign='center'>Create a Listing</Header>
+          <Header as='h2' textAlign='center'>CREATE A LISTING</Header>
           <Segment>
             <AutoForm ref={ref => {
               fRef = ref;
@@ -92,20 +91,29 @@ class AddItem extends React.Component {
                 </Grid.Row>
                 <Grid.Row>
                   <Grid columns={'equal'}>
-                    <Grid.Column><NumField name='price' decimal={false} icon={'dollar'} iconLeft/></Grid.Column>
-                    <Grid.Column><NumField name='quantity' decimal={false}/></Grid.Column>
+                    <Grid.Column>
+                      <NumField name='price' decimal={false} iconLeft={'dollar'}
+                                placeholder={''}/>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <NumField name='quantity' decimal={false} placeholder={'How many are you selling?'}/>
+                    </Grid.Column>
                   </Grid>
                 </Grid.Row>
                 <Grid.Row>
-                  <TextField name='picture' label='Image' placeholder='Insert the URL to your photo.'/>
+                  <TextField name='picture' label='Image' iconLeft='image'
+                             placeholder='Insert the URL to your photo.'/>
                 </Grid.Row>
                 <Grid.Row>
                   <Grid columns={'equal'}>
-                    <Grid.Column><SelectField placeholder='Select a category' value={this.state.group}
-                                              onChange={this.handleChange} options={groups} name='categoryGroup'
-                                              label='Main Category'/></Grid.Column>
-                    <Grid.Column><SelectField name='categoryName' placeholder='Select a category' options={names}
-                                              label='Subcategory'/></Grid.Column>
+                    <Grid.Column>
+                      <SelectField name='categoryGroup' placeholder='Select a category' onChange={this.currentCat}
+                                   value={this.state.group} options={groups} label='Main Category'/>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <SelectField name='categoryName' placeholder='Select a category' options={names}
+                                   label='Subcategory'/>
+                    </Grid.Column>
                   </Grid>
                 </Grid.Row>
                 <Grid.Row>
