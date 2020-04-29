@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Item';
 import ItemItem from '../components/ItemItem';
 
-
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ListItem extends React.Component {
   constructor(props) {
@@ -28,27 +27,39 @@ class ListItem extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
+
+    const listings = this.props.items.filter(item => item.forSale === true)
+        .filter(item => item.approvedForSale === true)
+        .filter(item => item.sold === false);
+
     return (
         <Container>
           <Header as="h2"
                   textAlign="center">List Stuff</Header>
-          <Card.Group itemsPerRow={4}>
-            {this.props.items
-                .filter(item => item.forSale === true)
-                .filter(item => item.approvedForSale === true)
-                .filter(item => item.sold === false)
-                .slice((this.state.activePage - 1) * 20, this.state.activePage * 20)
-                .map((item, index) => <ItemItem key={index} item={item}/>)}
-          </Card.Group>
+
+          {(listings.length === 0) ?
+              <Container className={'no-items-message'} textAlign={'center'}>
+                <Header as={'h3'} icon>
+                  <Icon name={'meh outline'}/>Sorry! No items were found.</Header>
+              </Container> :
+              <Card.Group itemsPerRow={4}>
+                {this.props.items
+                    .filter(item => item.forSale === true)
+                    .filter(item => item.approvedForSale === true)
+                    .filter(item => item.sold === false)
+                    .slice((this.state.activePage - 1) * 20, this.state.activePage * 20)
+                    .map((item, index) => <ItemItem key={index} item={item}/>)}
+              </Card.Group>
+          }
           <Divider/>
           <Container textAlign={'center'}>
             <Pagination
                 defaultActivePage={1}
-                ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
-                firstItem={{ content: <Icon name='angle double left' />, icon: true }}
-                lastItem={{ content: <Icon name='angle double right' />, icon: true }}
-                prevItem={{ content: <Icon name='angle left' />, icon: true }}
-                nextItem={{ content: <Icon name='angle right' />, icon: true }}
+                ellipsisItem={{ content: <Icon name='ellipsis horizontal'/>, icon: true }}
+                firstItem={{ content: <Icon name='angle double left'/>, icon: true }}
+                lastItem={{ content: <Icon name='angle double right'/>, icon: true }}
+                prevItem={{ content: <Icon name='angle left'/>, icon: true }}
+                nextItem={{ content: <Icon name='angle right'/>, icon: true }}
                 totalPages={Math.ceil(this.props.items
                     .filter(item => item.forSale === true)
                     .filter(item => item.approvedForSale === true)
@@ -87,9 +98,11 @@ export default withTracker(({ match }) => {
   }
   if (documentName === 'search') {
     return {
-      items: Items.find({ $or: [{ name: { $regex: documentGroup, $options: 'i' } },
+      items: Items.find({
+        $or: [{ name: { $regex: documentGroup, $options: 'i' } },
           { categoryGroup: { $regex: documentGroup, $options: 'i' } },
-          { categoryName: { $regex: documentGroup, $options: 'i' } }] }).fetch(),
+          { categoryName: { $regex: documentGroup, $options: 'i' } }],
+      }).fetch(),
       ready: subscription.ready(),
     };
   }
