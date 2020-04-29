@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
-import { Contactus } from '../../api/mail/Contactus';
+// import { Contactus } from '../../api/mail/Contactus';
 
 /* eslint-disable no-console */
 /** Initialize the database with a default data document. */
@@ -32,10 +32,10 @@ function addCategories(data) {
 }
 
 /** Initialize the database with a default data document. */
-function addContactus(data) {
-  console.log(`  Adding: ${data.firstName} (${data.lastName})`);
-  Contactus.insert(data);
-}
+// function addContactus(data) {
+//   console.log(`  Adding: ${data.firstName} (${data.lastName})`);
+//   Contactus.insert(data);
+// }
 
 
 /** Load Assets File. */
