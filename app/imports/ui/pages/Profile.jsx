@@ -5,7 +5,7 @@ import { Grid, Segment, Loader } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import UserInfo from '../components/UserInfo';
-import HomeItem from '../components/HomeItem'
+import HomeItem from '../components/HomeItem';
 import { User } from '../../api/user/User';
 import { Items } from '../../api/item/Item';
 // import { Ratings } from '../../api/ratings/Ratings';
@@ -23,18 +23,17 @@ class Profile extends React.Component {
   }
 
   displayItems() {
-    let forSale = this.state.showForSale;
+    const forSale = this.state.showForSale;
     this.setState({ showForSale: !forSale });
   }
 
   filterUserItems(isSold) {
-    return _.filter(this.props.items, (item) => {
-        return item.owner === this.props.user.email && item.sold === isSold;
-    })
+    return _.filter(this.props.items, item => item.owner === this.props.user.email &&
+                                              item.sold === isSold);
   }
 
   renderDashboard() {
-    return(
+    return (
         <Grid.Row className='profile-dashboard'>
             <Segment>
                 <Grid>
@@ -64,7 +63,9 @@ class Profile extends React.Component {
                     { this.state.showForSale &&
                         <Grid.Row>
                             <Grid colums={'equal'} stackable>
-                                { this.filterUserItems(false).map((item, index) => <HomeItem key={index} item={item}/>) }
+                                {
+                                this.filterUserItems(false).map((item, index) => <HomeItem key={index} item={item}/>)
+                                }
                             </Grid>
                         </Grid.Row>
                     }
@@ -127,4 +128,3 @@ export default withTracker(() => {
       ready: subscription.ready() && subscription2.ready(),
     };
 })(Profile);
-
