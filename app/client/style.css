@@ -77,6 +77,10 @@ body {
   margin-top: 20px;
 }
 
+.add-item-form {
+  padding: 1em 10em 7em 10em;
+}
+
 .item-pics-section {
   margin-bottom: 30px !important;
 }
