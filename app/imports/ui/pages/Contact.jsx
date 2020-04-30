@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Form, Input, Select, Container, Segment, Button, Message } from 'semantic-ui-react';
+import { Form, Input, Select, Container, Segment, Button, Message, Image, Header } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { Contactus } from '../../api/mail/Contactus';
 
@@ -12,7 +12,7 @@ class Contact extends React.Component {
   /** Initialize state fields. */
   constructor(props) {
     super(props);
-    this.state = { firstName: '', lastName: '', issueType: '', content: '', email: '',
+    this.state = { name: '', subject: '', issueType: '', content: '', email: '',
       error: '', redirectToReferer: false };
   }
 
@@ -23,11 +23,11 @@ class Contact extends React.Component {
 
   /** Handle Signin submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
-    const { firstName, lastName, issueType, content, email } = this.state;
-    if (this.state.firstName === '') {
-      this.setState({ error: 'First name cannot be empty' });
-    } else if (this.state.lastName === '') {
-      this.setState({ error: 'Last name cannot be empty' });
+    const { name, subject, issueType, content, email } = this.state;
+    if (this.state.name === '') {
+      this.setState({ name: 'customer' });
+    } else if (this.state.subject === '') {
+      this.setState({ error: 'Subject cannot be empty' });
     } else if (this.state.issueType === '') {
       this.setState({ error: 'Please select the issue type' });
     } else if (this.state.content === '') {
@@ -35,7 +35,7 @@ class Contact extends React.Component {
     } else if (!/^([a-z0-9_-]+)@hawaii.edu$/.test(this.state.email)) {
       this.setState({ error: 'Please correctly enter your email address as xxx@hawaii.edu' });
     } else {
-      Contactus.insert({ firstName, lastName, issueType, content, email });
+      Contactus.insert({ name, subject, issueType, content, email });
       this.setState({ error: '', redirectToReferer: true });
       swal('Thank you!', 'We will contact you soon', 'success');
     }
@@ -53,24 +53,26 @@ class Contact extends React.Component {
     }
     return (
         <Container>
+          <Image centered size='tiny' src={'/images/manoalist-circle.png'}/>
+          <Header as='h2' textAlign='center'>Contact Us</Header>
           <Segment>
         <Form onSubmit={this.submit}>
           <Form.Group widths='equal'>
             <Form.Input
-                label='First name'
-                name='firstName'
-                type='firstName'
-                placeholder='First name'
+                label='Name'
+                name='name'
+                type='name'
+                placeholder='Name'
                 onChange={this.handleChange}
             />
-            <Form.Input
-                label='Last name'
-                name='lastName'
-                type='lastName'
-                placeholder='Last name'
+            <Form.Input required
+                label='Subject'
+                name='subject'
+                type='subject'
+                placeholder='Subject'
                 onChange={this.handleChange}
             />
-            <Form.Field
+            <Form.Field required
                 control={Select}
                 options={typeOptions}
                 label={{ children: 'Type', htmlFor: 'form-select-control-type' }}
@@ -81,23 +83,19 @@ class Contact extends React.Component {
                 onChange={this.handleChange}
             />
           </Form.Group>
-          <Form.TextArea
-              label='content'
+          <Form.TextArea required
+              label='Content'
               name='content'
               type='content'
               placeholder='Describe your opinion...'
               onChange={this.handleChange}
           />
-          <Form.Field
+          <Form.Field required
               id='form-input-control-error-email'
               control={Input}
               label='Email'
               name='email'
               placeholder='xxx@hawaii.edu'
-              error={{
-                content: 'Please enter a valid email address',
-                pointing: 'below',
-              }}
               onChange={this.handleChange}
           />
           <Form.Field
