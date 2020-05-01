@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
+import { Link } from 'react-router-dom';
 import { Items } from '../../api/item/Item';
 import { User } from '../../api/user/User';
 
@@ -24,8 +25,8 @@ class AdminBan extends React.Component {
   render() {
     return (
       <Segment>
-        <Header as='h4'>
-          {this.props.item.name}
+        <Header as={'h4'}>
+          <Link to={`/details/${this.props.item._id}`}>{this.props.item.name}</Link>
           <Button floated='right' color='red' size='tiny' onClick={this.banUser}>Ban User</Button>
           <Button floated='right' size='tiny' onClick={this.deleteItem}>Delete</Button>
           <Button floated='right' size='tiny' onClick={this.restoreItem}>Restore</Button>
