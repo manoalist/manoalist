@@ -7,8 +7,8 @@ const Contactus = new Mongo.Collection('Contactus');
 
 /** Define a schema to specify the structure of each document in the collection. */
 const ContactusSchema = new SimpleSchema({
-  firstName: String,
-  lastName: String,
+  name: String,
+  subject: String,
   issueType: String,
   content: String,
   email: String,

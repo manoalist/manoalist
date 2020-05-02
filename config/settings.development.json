@@ -30,7 +30,7 @@
   ],
 
   "defaultContactus": [
-    { "firstName": "bb", "lastName": "aa", "issueType": "Bug", "content": "nothing", "email": "testing@foo.com" }
+    { "name": "bb", "subject": "aa", "issueType": "Bug", "content": "nothing", "email": "testing@foo.com" }
   ],
 
   "loadAssetsFile": true
