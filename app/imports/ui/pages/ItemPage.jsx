@@ -4,6 +4,7 @@ import { Header, Loader, Grid, Image, Button, Divider, Icon, Rating, Label } fro
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Item';
+import { User } from '../../api/user/User';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
@@ -35,7 +36,7 @@ class ItemPage extends React.Component {
                     </Grid.Row>
                   </Grid.Column>
                   <Grid.Column width={12}>
-                    <Image className='item-pic' src={this.props.items[0].picture} fluid/>
+                    <Image className='item-pic' src={this.props.items.picture} fluid/>
                   </Grid.Column>
                 </Grid>
               </Grid.Row>
@@ -45,8 +46,8 @@ class ItemPage extends React.Component {
               <Header as='h2'>SELLER</Header>
               <Header as='h3'>
                 <Image className='user-pic' circular
-                       src={this.props.items[0].ownerImage}/>
-                {this.props.items[0].owner}
+                       src={'http://www.ics.hawaii.edu/wp-content/uploads/2019/05/johnson-300x300.jpeg'}/>
+                {this.props.items.owner}
               </Header>
               <Rating icon='star' defaultRating={4} maxRating={5}/>
             </Grid.Row>
@@ -56,17 +57,17 @@ class ItemPage extends React.Component {
             <Button toggle icon='heart' color='red' inverted circular floated='right'/>
             <Grid>
               <Grid.Row>
-                <Header as='h1'>{this.props.items[0].name}</Header>
-                <Label color='black'>{this.props.items[0].categoryGroup}</Label>
-                <Label color='black'>{this.props.items[0].categoryName}</Label>
-                <Header as='h1'>${this.props.items[0].price}</Header>
+                <Header as='h1'>{this.props.items.name}</Header>
+                <Label color='black'>{this.props.items.categoryGroup}</Label>
+                <Label color='black'>{this.props.items.categoryName}</Label>
+                <Header as='h1'>${this.props.items.price}</Header>
               </Grid.Row>
               <Grid.Row className='item-row'>
-                <Header as='h4'>{this.props.items[0].quantity} available</Header>
+                <Header as='h4'>{this.props.items.quantity} available</Header>
               </Grid.Row>
               <Grid.Row className='item-row'>
                 <Header as="h4">DESCRIPTION</Header>
-                <Header.Subheader>{this.props.items[0].description}</Header.Subheader>
+                <Header.Subheader>{this.props.items.description}</Header.Subheader>
               </Grid.Row>
               <Grid.Row className='item-row'>
                 <Header as="h4">CONTACT</Header>
@@ -88,16 +89,20 @@ class ItemPage extends React.Component {
 
 /** Require an array of Items documents in the props. */
 ItemPage.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.object.isRequired,
   ready: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default withTracker(({ match }) => {
   // Get access to Items and User documents.
   const itemID = match.params._id;
+  const itemOwner = match.params.owner;
   const subscription = Meteor.subscribe('Items');
+  const subscription2 = Meteor.subscribe('User');
   return {
-    items: Items.find({ _id: itemID }).fetch(),
-    ready: subscription.ready(),
+    items: Items.findOne({ _id: itemID }),
+    user: User.findOne({ email: itemOwner }),
+    ready: subscription.ready() && subscription2.ready(),
   };
 })(ItemPage);
