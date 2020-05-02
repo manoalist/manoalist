@@ -4,9 +4,23 @@ import { Header, Loader, Grid, Image, Button, Divider, Icon, Rating, Label } fro
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Item';
+import { User } from '../../api/user/User';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
+  addLike = () => {
+    if (!User.findOne({}).likedItems.includes(this.props.items._id)) {
+      Items.update({ _id: this.props.items._id.toString() },
+          { $set: { numberOfLike: this.props.items.numberOfLike + 1 } });
+      User.update({ _id: User.findOne({})._id },
+          { $push: { likedItems: this.props.items._id } });
+    } else {
+      Items.update({ _id: this.props.items._id.toString() },
+          { $set: { numberOfLike: this.props.items.numberOfLike - 1 } });
+      User.update({ _id: User.findOne({})._id },
+          { $pull: { likedItems: this.props.items._id } });
+    }
+  };
 
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
@@ -35,7 +49,7 @@ class ItemPage extends React.Component {
                     </Grid.Row>
                   </Grid.Column>
                   <Grid.Column width={12}>
-                    <Image className='item-pic' src={this.props.items[0].picture} fluid/>
+                    <Image className='item-pic' src={this.props.items.picture} fluid/>
                   </Grid.Column>
                 </Grid>
               </Grid.Row>
@@ -45,28 +59,30 @@ class ItemPage extends React.Component {
               <Header as='h2'>SELLER</Header>
               <Header as='h3'>
                 <Image className='user-pic' circular
-                       src={this.props.items[0].ownerImage}/>
-                {this.props.items[0].owner}
+                       src={this.props.items.ownerImage}/>
+                {this.props.items.owner}
               </Header>
               <Rating icon='star' defaultRating={4} maxRating={5}/>
             </Grid.Row>
           </Grid.Column>
 
           <Grid.Column textAlign="left" width={8}>
-            <Button toggle icon='heart' color='red' inverted circular floated='right'/>
+            <Button icon='heart' floated='right' onClick={this.addLike}
+                    label={{ basic: true, color: 'red', pointing: 'left', content: this.props.items.numberOfLike }}
+                    color={User.findOne({}).likedItems.includes(this.props.items._id) ? 'red' : null}/>
             <Grid>
               <Grid.Row>
-                <Header as='h1'>{this.props.items[0].name}</Header>
-                <Label color='black'>{this.props.items[0].categoryGroup}</Label>
-                <Label color='black'>{this.props.items[0].categoryName}</Label>
-                <Header as='h1'>${this.props.items[0].price}</Header>
+                <Header as='h1'>{this.props.items.name}</Header>
+                <Label color='black'>{this.props.items.categoryGroup}</Label>
+                <Label color='black'>{this.props.items.categoryName}</Label>
+                <Header as='h1'>${this.props.items.price}</Header>
               </Grid.Row>
               <Grid.Row className='item-row'>
-                <Header as='h4'>{this.props.items[0].quantity} available</Header>
+                <Header as='h4'>{this.props.items.quantity} available</Header>
               </Grid.Row>
               <Grid.Row className='item-row'>
                 <Header as="h4">DESCRIPTION</Header>
-                <Header.Subheader>{this.props.items[0].description}</Header.Subheader>
+                <Header.Subheader>{this.props.items.description}</Header.Subheader>
               </Grid.Row>
               <Grid.Row className='item-row'>
                 <Header as="h4">CONTACT</Header>
@@ -88,7 +104,7 @@ class ItemPage extends React.Component {
 
 /** Require an array of Items documents in the props. */
 ItemPage.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.object,
   ready: PropTypes.bool.isRequired,
 };
 
@@ -96,8 +112,9 @@ export default withTracker(({ match }) => {
   // Get access to Items and User documents.
   const itemID = match.params._id;
   const subscription = Meteor.subscribe('Items');
+  const subscription2 = Meteor.subscribe('User');
   return {
-    items: Items.find({ _id: itemID }).fetch(),
-    ready: subscription.ready(),
+    items: Items.find({ _id: itemID }).fetch()[0],
+    ready: subscription.ready() && subscription2.ready(),
   };
 })(ItemPage);

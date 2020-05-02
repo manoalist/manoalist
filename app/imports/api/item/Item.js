@@ -23,6 +23,7 @@ const ItemSchema = new SimpleSchema({
   sold: Boolean,
   flagged: Boolean,
   reportReason: String,
+  numberOfLike: { type: Number, defaultValue: 0 },
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

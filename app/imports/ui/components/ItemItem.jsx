@@ -1,12 +1,16 @@
 import React from 'react';
-import { Card, Image, Container, Button } from 'semantic-ui-react';
+import { Meteor } from 'meteor/meteor';
+import { Card, Image, Container, Button, Loader } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { withRouter, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Items } from '../../api/item/Item';
+import { User } from '../../api/user/User';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class ItemItem extends React.Component {
+
   handleClick = () => this.reportItem(this.props.item._id);
 
   reportItem(id) {
@@ -34,7 +38,25 @@ class ItemItem extends React.Component {
     });
   }
 
+  addLike = () => {
+    if (!User.findOne({}).likedItems.includes(this.props.item._id)) {
+      Items.update({ _id: this.props.item._id.toString() },
+          { $set: { numberOfLike: this.props.item.numberOfLike + 1 } });
+      User.update({ _id: User.findOne({})._id },
+          { $push: { likedItems: this.props.item._id } });
+    } else {
+      Items.update({ _id: this.props.item._id.toString() },
+          { $set: { numberOfLike: this.props.item.numberOfLike - 1 } });
+      User.update({ _id: User.findOne({})._id },
+          { $pull: { likedItems: this.props.item._id } });
+    }
+  };
+
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
+  }
+
+  renderPage() {
     return (
         <Card centered>
           <Container style={{ height: '300px' }} as={NavLink} exact to={`/details/${this.props.item._id}`}>
@@ -55,8 +77,11 @@ class ItemItem extends React.Component {
             </Card.Content>
           <Card.Content extra>
             <Button content={'report'} disabled={this.props.item.flagged}
-                    color={'red'} onClick={this.handleClick}/>
-            <Button toggle icon={'heart'} color={'red'} inverted floated={'right'}/>
+                    color={'red'} onClick={this.handleClick} floated={'left'}/>
+            <Button toggle icon={'heart'}
+                    color={User.findOne({}).likedItems.includes(this.props.item._id) ? 'red' : null}
+                    label={{ basic: true, pointing: 'left', content: this.props.item.numberOfLike }}
+                    floated={'right'} onClick={this.addLike}/>
           </Card.Content>
         </Card>
     );
@@ -66,7 +91,12 @@ class ItemItem extends React.Component {
 /** Require a document to be passed to this component. */
 ItemItem.propTypes = {
   item: PropTypes.object.isRequired,
+  ready: PropTypes.bool.isRequired,
 };
 
-/** Wrap this component in withRouter since we use the <Link> React Router element. */
-export default withRouter(ItemItem);
+export default withTracker(() => {
+  const subscription = Meteor.subscribe('User');
+  return {
+    ready: subscription.ready(),
+  };
+})(ItemItem);
