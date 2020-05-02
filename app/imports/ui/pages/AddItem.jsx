@@ -45,10 +45,11 @@ class AddItem extends React.Component {
     const flagged = false;
     const reportReason = 'None';
     const ownerImage = User.find({}).fetch()[0].image;
+    const numberOfLike = 0;
 
     Items.insert({
           categoryGroup, categoryName, picture, name, quantity, price, description, createdAt, forSale,
-          approvedForSale, sold, flagged, reportReason, ownerImage, owner, buyer,
+          approvedForSale, sold, flagged, reportReason, ownerImage, owner, buyer, numberOfLike,
         },
         (error) => {
           if (error) {
