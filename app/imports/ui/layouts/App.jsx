@@ -20,6 +20,7 @@ import Profile from '../pages/Profile';
 import ItemPage from '../pages/ItemPage';
 import Contact from '../pages/Contact';
 import AddCategory from '../pages/AddCategory';
+import EditUserInfo from '../pages/EditUserInfo';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -40,6 +41,7 @@ class App extends React.Component {
                 <ProtectedRoute path="/home" component={Home}/>
                 <ProtectedRoute path="/profile" component={Profile}/>
                 <ProtectedRoute path="/details/:_id" component={ItemPage}/>
+                <ProtectedRoute path="/edit/:_id" component={EditUserInfo}/>
                 <AdminProtectedRoute path="/admin" component={HomeAdmin}/>
                 <AdminProtectedRoute path="/addCate" component={AddCategory}/>
                 <ProtectedRoute path="/signout" component={Signout}/>
