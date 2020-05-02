@@ -10,6 +10,7 @@ import 'uniforms-bridge-simple-schema-2'; // required for Uniforms
 import SimpleSchema from 'simpl-schema';
 import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
+import { User } from '../../api/user/User';
 
 /** Create a schema to specify the structure of the data to appear in the form. */
 const formSchema = new SimpleSchema({
@@ -36,16 +37,18 @@ class AddItem extends React.Component {
   submit(data, formRef) {
     const { categoryGroup, categoryName, picture, name, quantity, price, description } = data;
     const owner = Meteor.user().username;
+    const buyer = '';
     const createdAt = new Date();
     const forSale = true;
     const approvedForSale = true;
     const sold = false;
     const flagged = false;
     const reportReason = 'None';
+    const ownerImage = User.find({}).fetch()[0].image;
 
     Items.insert({
           categoryGroup, categoryName, picture, name, quantity, price, description, createdAt, forSale,
-          approvedForSale, sold, flagged, reportReason, owner,
+          approvedForSale, sold, flagged, reportReason, ownerImage, owner, buyer,
         },
         (error) => {
           if (error) {
@@ -139,8 +142,9 @@ AddItem.propTypes = {
 
 export default withTracker(() => {
   const subscription = Meteor.subscribe('Categories');
+  const subscription2 = Meteor.subscribe('User');
   return {
     categories: Categories.find({}).fetch(),
-    ready: subscription.ready(),
+    ready: subscription.ready() && subscription2.ready(),
   };
 })(AddItem);

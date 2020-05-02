@@ -14,6 +14,8 @@ const ItemSchema = new SimpleSchema({
   quantity: Number,
   price: Number,
   owner: String,
+  ownerImage: String,
+  buyer: { type: String, defaultValue: '' },
   description: String,
   createdAt: Date,
   forSale: Boolean,
