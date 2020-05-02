@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Card, Header, Loader, Divider, Pagination, Icon } from 'semantic-ui-react';
+import { Container, Card, Header, Loader, Divider, Pagination, Icon, Breadcrumb } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Item';
@@ -33,10 +33,20 @@ class ListItem extends React.Component {
         .filter(item => item.sold === false);
 
     return (
-        <Container>
-          <Header as="h2"
-                  textAlign="center">List Stuff</Header>
-
+        <Container textAlign={'center'}>
+          <Breadcrumb size={'massive'}>
+            <Breadcrumb.Section href={'#/list'}>All Items</Breadcrumb.Section>
+            { this.props.group !== '' ? (<Breadcrumb.Divider/>) : ''}
+            { this.props.group !== '' && this.props.name !== 'search' ?
+                (<Breadcrumb.Section active={this.props.name === ''} href={`#/list/${this.props.group}/null`}>
+                  {this.props.group}</Breadcrumb.Section>) : ''}
+            { this.props.group !== '' && this.props.name === 'search' ?
+                (<Breadcrumb.Section active={this.props.name === ''}>{this.props.group}</Breadcrumb.Section>) : ''}
+            { this.props.name !== '' ? (<Breadcrumb.Divider/>) : ''}
+            { this.props.name !== '' && this.props.name !== 'search' ?
+                (<Breadcrumb.Section active link>{this.props.name}</Breadcrumb.Section>) : ''}
+          </Breadcrumb>
+          <Divider/>
           {(listings.length === 0) ?
               <Container className={'no-items-message'} textAlign={'center'}>
                 <Header as={'h3'} icon>
@@ -75,6 +85,8 @@ class ListItem extends React.Component {
 /** Require an array of Stuff documents in the props. */
 ListItem.propTypes = {
   items: PropTypes.array.isRequired,
+  group: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   ready: PropTypes.bool.isRequired,
 };
 
@@ -88,12 +100,16 @@ export default withTracker(({ match }) => {
     return {
       items: Items.find({}).fetch(),
       ready: subscription.ready(),
+      group: '',
+      name: '',
     };
   }
   if (documentName === 'null') {
     return {
       items: Items.find({ categoryGroup: documentGroup }).fetch(),
       ready: subscription.ready(),
+      group: documentGroup,
+      name: '',
     };
   }
   if (documentName === 'search') {
@@ -104,10 +120,14 @@ export default withTracker(({ match }) => {
           { categoryName: { $regex: documentGroup, $options: 'i' } }],
       }).fetch(),
       ready: subscription.ready(),
+      group: documentGroup,
+      name: 'search',
     };
   }
   return {
     items: Items.find({ categoryName: documentName }).fetch(),
     ready: subscription.ready(),
+    group: documentGroup,
+    name: documentName,
   };
 })(ListItem);
