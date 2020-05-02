@@ -15,6 +15,8 @@ const UserSchema = new SimpleSchema({
   mobileNumber: { type: String, defaultValue: '' },
   carrier: { type: String, defaultValue: '' },
   isBanned: Boolean,
+  likedItems: { type: Array, defaultValue: [] },
+  'likedItems.$': String,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
