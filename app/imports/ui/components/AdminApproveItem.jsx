@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment, Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Items } from '../../api/item/Item';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
@@ -13,8 +13,8 @@ class AdminApproveItem extends React.Component {
   render() {
     return (
         <Segment>
-          <Header as='h4'>
-            {this.props.item.name}
+          <Header as={'h4'}>
+            <Link to={`/details/${this.props.item._id}`}>{this.props.item.name}</Link>
             <Button floated='right' color='green' size='tiny' onClick={this.approveItem}>Approve</Button>
             <Button floated='right' size='tiny' onClick={this.deleteItem}>Delete</Button>
             <Header.Subheader>
