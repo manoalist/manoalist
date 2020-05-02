@@ -1,14 +1,15 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
-import { Grid, Segment, Loader } from 'semantic-ui-react';
+import { Grid, Comment, Loader, Header, Segment, Container } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import UserInfo from '../components/UserInfo';
 import HomeItem from '../components/HomeItem';
 import { User } from '../../api/user/User';
 import { Items } from '../../api/item/Item';
-// import { Ratings } from '../../api/ratings/Ratings';
+import { Ratings } from '../../api/ratings/Ratings';
+import RatingItem from '../components/RatingItem';
 
 /** Renders the Page for adding a document. */
 class Profile extends React.Component {
@@ -61,12 +62,10 @@ class Profile extends React.Component {
                         </Grid>
                     </Grid.Row>
                     { this.state.showForSale &&
-                        <Grid.Row>
-                            <Grid colums={'equal'} stackable>
+                        <Grid.Row columns={8}>
                                 {
                                 this.filterUserItems(false).map((item, index) => <HomeItem key={index} item={item}/>)
                                 }
-                            </Grid>
                         </Grid.Row>
                     }
                 </Grid>
@@ -76,6 +75,8 @@ class Profile extends React.Component {
   }
 
   renderPage() {
+    const ratings = Ratings.find({}, { sort: { createdAt: -1 } }).fetch()
+        .filter(rate => rate.target === this.props.user.email);
     return (
         <Grid columns={2} className='profile-page'>
           <Grid.Column width={4}>
@@ -91,9 +92,10 @@ class Profile extends React.Component {
                           <Grid.Row centered>
                             <h3>Ratings</h3>
                           </Grid.Row>
-                          <Grid.Row centered>
-                            There are no ratings for you.
-                          </Grid.Row>
+                            {ratings.length > 0 ? <Comment.Group size={'big'}>{this.props.ratings
+                                    .map((rating, index) => <RatingItem rating={rating} key={index}/>)}
+                                </Comment.Group>
+                                : <Header as={Container} textAlign={'center'}>There is no rating for you</Header>}
                       </Grid>
                   </Segment>
               </Grid.Row>
@@ -110,9 +112,9 @@ class Profile extends React.Component {
 
 /** Ensure that the React Router location object is available in case we need to redirect. */
 Profile.propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
     items: PropTypes.array.isRequired,
-    // ratings: PropTypes.array.isRequired,
+    ratings: PropTypes.array.isRequired,
     ready: PropTypes.bool.isRequired,
 };
 
@@ -120,11 +122,11 @@ Profile.propTypes = {
 export default withTracker(() => {
     const subscription = Meteor.subscribe('User');
     const subscription2 = Meteor.subscribe('Items');
-    // const subscription3 = Meteor.subscribe('Ratings');
+    const subscription3 = Meteor.subscribe('Ratings');
     return {
       user: User.find({}).fetch()[0], // Should only by the current user
       items: Items.find({}).fetch(),
-    //   ratings: Ratings.find({}).fetch(),
-      ready: subscription.ready() && subscription2.ready(),
+      ratings: Ratings.find({}, { sort: { createdAt: -1 } }).fetch(),
+      ready: subscription.ready() && subscription2 && subscription3.ready(),
     };
 })(Profile);

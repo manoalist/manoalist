@@ -4,6 +4,7 @@ import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
 import { Contactus } from '../../api/mail/Contactus';
+import { Ratings } from '../../api/ratings/Ratings';
 
 /** This subscription publishes only the documents associated with the logged in user */
 Meteor.publish('User', function publish() {
@@ -39,4 +40,12 @@ Meteor.publish('Categories', function publish() {
 /** This subscription publishes all documents regardless of user. */
 Meteor.publish('Contactus', function publish() {
   return Contactus.find();
+});
+
+/** This subscription publishes only the documents associated with the logged in user */
+Meteor.publish('Ratings', function publish() {
+  if (this.userId) {
+    return Ratings.find({});
+  }
+  return this.ready();
 });

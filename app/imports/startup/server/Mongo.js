@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
+import { Ratings } from '../../api/ratings/Ratings';
 // import { Contactus } from '../../api/mail/Contactus';
 
 /* eslint-disable no-console */
@@ -37,6 +38,19 @@ function addCategories(data) {
 //   Contactus.insert(data);
 // }
 
+/** Initialize the database with a default data document. */
+function addRatings(data) {
+  console.log(`  Adding: ${data.rating}`);
+  Ratings.insert(data);
+}
+
+/** Initialize the collection if empty. */
+if (Ratings.find().count() === 0) {
+  if (Meteor.settings.defaultRatings) {
+    console.log('Creating default ratings.');
+    Meteor.settings.defaultRatings.map(data => addRatings(data));
+  }
+}
 
 /** Load Assets File. */
 if (Meteor.settings.loadAssetsFile) {

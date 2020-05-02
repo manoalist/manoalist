@@ -33,5 +33,12 @@
     { "firstName": "bb", "lastName": "aa", "issueType": "Bug", "content": "nothing", "email": "testing@foo.com" }
   ],
 
+  "defaultRatings": [
+    { "raterEmail": "jack@hawaii.edu", "raterImage": "https://vignette.wikia.nocookie.net/leonardodicaprio/images/a/a3/Jack_Dawson.png/revision/latest/scale-to-width-down/620?cb=20180423015218", "target": "admin@foo.com", "rating":
+    3, "comment": "The item is not good at all!", "createdAt":  "Fri May 1 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"},
+    { "raterEmail": "rose@hawaii.edu", "raterImage": "http://images6.fanpop.com/image/photos/41500000/Rose-Dawson-greyswan618-41505059-659-815.jpg", "target": "admin@foo.com", "rating":
+    5, "comment": "The item is very good!", "createdAt":  "Fri May 1 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"}
+  ],
+
   "loadAssetsFile": true
 }
