@@ -18,7 +18,9 @@
     "semantic-ui-react": "^0.88.2",
     "simpl-schema": "^1.6.2",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^9.10.12",
     "uniforms": "^2.6.7",
+    "uniforms-bridge-graphql": "^2.6.7",
     "uniforms-bridge-simple-schema-2": "^2.6.7",
     "uniforms-semantic": "^2.6.7"
   },

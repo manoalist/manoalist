@@ -3,8 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import { Header, Loader, Grid, Image, Button, Divider, Icon, Rating, Label } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { Items } from '../../api/item/Item';
 import { User } from '../../api/user/User';
+import { Ratings } from '../../api/ratings/Ratings';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
@@ -22,12 +25,40 @@ class ItemPage extends React.Component {
     }
   };
 
+  handleSold = () => {
+    // list is a list of buyers, need to change when issue-122 done, so this warning is fine
+    const list = ['john@foo.com', 'jack@hawaii.edu', 'rose@hawaii.edu'];
+    const tempBuyer = [];
+    list.map((i) => tempBuyer.push([i, i]));
+    // change the array to object in ({'john@foo.com': 'john@foo.com'}) format
+    const buyers = Object.fromEntries(tempBuyer);
+    Swal.fire({
+      title: 'Sold Item',
+      text: 'Select Your item Buyer ',
+      input: 'select',
+      inputOptions: buyers,
+      showCancelButton: true,
+      inputPlaceholder: 'Select a user',
+    }).then((result) => {
+      if (result.value) {
+        Items.update({ _id: this.props.items._id.toString() },
+            { $set: { buyer: result.value, sold: true } });
+        Swal.fire('Success', 'The Item is sold!', 'success');
+      } else if (result.value === '') {
+        Swal.fire('Error', 'Sold canceled. You did not select a user', 'error');
+      }
+    });
+};
+
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
   }
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
+    const ratingsForSeller = Ratings.find({ target: this.props.items.owner }).fetch();
+    const averageRating =
+        Math.round((ratingsForSeller.reduce((pre, cur) => pre + cur.rating, 0) / ratingsForSeller.length) * 100) / 100;
     return (
         <Grid className='item-page' container relaxed='very' columns={2}>
           <Grid.Column width={8}>
@@ -62,7 +93,8 @@ class ItemPage extends React.Component {
                        src={this.props.items.ownerImage}/>
                 {this.props.items.owner}
               </Header>
-              <Rating icon='star' defaultRating={4} maxRating={5}/>
+              <Rating icon='star' defaultRating={averageRating} maxRating={5} disabled/>
+              <Label content={averageRating} color={'yellow'} position={'right'}/>
             </Grid.Row>
           </Grid.Column>
 
@@ -97,6 +129,19 @@ class ItemPage extends React.Component {
               </Grid.Row>
             </Grid>
           </Grid.Column>
+          <Grid.Row>
+            {Meteor.user().username === this.props.items.owner ?
+                <Button floated={'right'} color='red' icon labelPosition='right'
+                        onClick={this.handleSold} disabled={this.props.items.sold}>
+                  <Icon name='dollar sign'/>
+                  Sold
+                </Button> : ''}
+            {Meteor.user().username === this.props.items.owner ?
+                <Button floated={'right'} color='blue' icon labelPosition='right'
+                        as={NavLink} exact to={`/editItem/${this.props.items._id}`}><Icon name='edit'/>
+                  Edit
+                </Button> : ''}
+          </Grid.Row>
         </Grid>
     );
   }
@@ -113,8 +158,9 @@ export default withTracker(({ match }) => {
   const itemID = match.params._id;
   const subscription = Meteor.subscribe('Items');
   const subscription2 = Meteor.subscribe('User');
+  const subscription3 = Meteor.subscribe('Ratings');
   return {
     items: Items.find({ _id: itemID }).fetch()[0],
-    ready: subscription.ready() && subscription2.ready(),
+    ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
   };
 })(ItemPage);
