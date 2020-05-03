@@ -96,7 +96,7 @@ class Profile extends React.Component {
                     <Grid.Row columns={2}>
                       <Grid.Column>
                         <h3>{ratings.length} User Ratings</h3>
-                        {ratings.length > 0 ? <Comment.Group size={'big'}>{this.props.ratings
+                        {ratings.length > 0 ? <Comment.Group size={'big'}>{ratings
                             .map((rating, index) => <RatingItem rating={rating}
                                                                 key={index}/>)}
                         </Comment.Group>
