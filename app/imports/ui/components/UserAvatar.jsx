@@ -5,7 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { User } from '../../api/user/User';
 
-/** A simple static component to render some text for the landing page. */
+/** A simple component to render a user's profile pic for the nav bar. */
 class UserAvatar extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -21,7 +21,7 @@ class UserAvatar extends React.Component {
   }
 }
 
-/** Require an array of StudySessions in the props. */
+/** Declare the types of all properties. */
 UserAvatar.propTypes = {
   user: PropTypes.object,
   ready: PropTypes.bool.isRequired,
@@ -29,7 +29,6 @@ UserAvatar.propTypes = {
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
-  // Get access to Sessions.
   const subscription = Meteor.subscribe('User');
   return {
     user: User.findOne({}),
