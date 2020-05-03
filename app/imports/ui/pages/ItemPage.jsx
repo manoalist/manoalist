@@ -13,7 +13,7 @@ import {
   Segment,
   Form,
   Select,
-  Message, Comment, Container,
+  Message, Comment, Container, Pagination,
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -36,6 +36,7 @@ class ItemPage extends React.Component {
       ratePopup: false,
       buyer: '',
       soldError: '',
+      activePage: 1,
     };
   }
 
@@ -83,6 +84,10 @@ class ItemPage extends React.Component {
 
   handleReview = (e, data) => {
     this.setState({ review: data.value });
+  };
+
+  handlePageChange = (e, data) => {
+    this.setState({ activePage: data.activePage });
   };
 
   submit = () => {
@@ -297,9 +302,23 @@ class ItemPage extends React.Component {
                   </Segment>
                 </div>
                 : ''}
-            {ratings.length > 0 ? <Comment.Group size={'big'}>{ratings
-                    .map((rating, index) => <RatingItem rating={rating}
-                                                        key={index}/>)}
+            {ratings.length > 0 ? <Comment.Group size={'big'}><Header content={'Reviews'}/>{ratings
+                    .slice((this.state.activePage - 1) * 5, this.state.activePage * 5)
+                    .map((rating) => <RatingItem rating={rating}
+                                                        key={ratings.indexOf(rating)}/>)}
+                  {ratings.length > 5 ? <Container textAlign={'center'}>
+                    <Pagination
+                        defaultActivePage={1}
+                        ellipsisItem={{ content: <Icon name='ellipsis horizontal'/>, icon: true }}
+                        firstItem={{ content: <Icon name='angle double left'/>, icon: true }}
+                        lastItem={{ content: <Icon name='angle double right'/>, icon: true }}
+                        prevItem={{ content: <Icon name='angle left'/>, icon: true }}
+                        nextItem={{ content: <Icon name='angle right'/>, icon: true }}
+                        totalPages={Math.ceil(ratings.length / 5)}
+                        secondary
+                        onPageChange={this.handlePageChange}
+                    />
+                  </Container> : ''}
                 </Comment.Group>
                 : <Header as={Container}
                           textAlign={'center'}>There is no rating for you</Header>}
