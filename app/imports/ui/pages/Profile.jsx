@@ -17,21 +17,35 @@ class Profile extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { showForSale: false };
+    this.state = { showForSale: false, showBought: false };
 
     this.displayItems = this.displayItems.bind(this);
+    this.displayBought = this.displayBought.bind(this);
     this.filterUserItems = this.filterUserItems.bind(this);
+    this.filterBoughtItems = this.filterBoughtItems.bind(this);
     this.renderDashboard = this.renderDashboard.bind(this);
   }
 
   displayItems() {
+    if (this.state.showBought) this.setState({ showBought: false });
     const forSale = this.state.showForSale;
     this.setState({ showForSale: !forSale });
+  }
+
+  displayBought() {
+    if (this.state.showForSale) this.setState({ showForSale: false });
+    const bought = this.state.showBought;
+    this.setState({ showBought: !bought });
   }
 
   filterUserItems(isSold) {
     return _.filter(this.props.items, item => item.owner === this.props.user.email &&
                                               item.sold === isSold);
+  }
+
+  filterBoughtItems(isSold) {
+    return _.filter(this.props.items, item => item.buyer === this.props.user.email &&
+        item.sold === isSold);
   }
 
   renderDashboard() {
@@ -52,12 +66,12 @@ class Profile extends React.Component {
                                     { this.filterUserItems(false).length}
                                 </Grid.Row>
                             </Grid.Column>
-                            <Grid.Column textAlign='center'>
+                            <Grid.Column textAlign='center' onClick={this.displayBought}>
                                 <Grid.Row>
                                     <h4>Items Bought</h4>
                                 </Grid.Row>
                                 <Grid.Row>
-                                    0
+                                  { this.filterBoughtItems(true).length}
                                 </Grid.Row>
                             </Grid.Column>
                         </Grid>
@@ -69,6 +83,13 @@ class Profile extends React.Component {
                                 }
                         </Grid.Row>
                     }
+                  { this.state.showBought &&
+                  <Grid.Row columns={8}>
+                    {
+                      this.filterBoughtItems(true).map((item, index) => <HomeItem key={index} item={item}/>)
+                    }
+                  </Grid.Row>
+                  }
                 </Grid>
             </Segment>
         </Grid.Row>
