@@ -51,7 +51,7 @@ class Signup extends React.Component {
         break;
       case 'password':
         if (value.length < 8) {
-          this.setState({ errorPassword: 'Your password is too short, at least 8 characters long.' });
+          this.setState({ errorPassword: 'Your password must be at least 8 characters long.' });
         } else {
           this.setState({ errorPassword: '' });
         }
