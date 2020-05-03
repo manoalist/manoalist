@@ -78,10 +78,12 @@ class ItemPage extends React.Component {
     }
   };
 
+  // rate on change for both buyer rating and seller rating
   handleRating = (e, data) => {
     this.setState({ buyerRating: data.rating });
   };
 
+  // comment on Change for both buyer and seller rating
   handleReview = (e, data) => {
     this.setState({ review: data.value });
   };
@@ -90,6 +92,7 @@ class ItemPage extends React.Component {
     this.setState({ activePage: data.activePage });
   };
 
+  // submit rating to seller
   submit = () => {
     if (this.state.buyerRating === 0) {
       this.setState({ error: 'You forget to rate!' });
@@ -252,6 +255,8 @@ class ItemPage extends React.Component {
             </Grid>
           </Grid.Column>
           <Grid.Row>
+
+            {/* If user is owner, they can see edit and sold button */}
             {Meteor.user().username === this.props.items.owner ?
                 <Button floated={'right'}
                         color='red'
@@ -274,6 +279,8 @@ class ItemPage extends React.Component {
                 </Button> : ''}
           </Grid.Row>
           <Grid.Row>
+
+            {/* if user is buyer, they can see the rating form */}
             {Meteor.user().username === this.props.items.buyer ?
                 <div>
                   <Segment><Header content={'Write a Review'}/>
@@ -302,6 +309,8 @@ class ItemPage extends React.Component {
                   </Segment>
                 </div>
                 : ''}
+
+            {/*  Showing Comments for seller  */}
             {ratings.length > 0 ? <Comment.Group size={'big'}><Header content={'Reviews'}/>{ratings
                     .slice((this.state.activePage - 1) * 5, this.state.activePage * 5)
                     .map((rating) => <RatingItem rating={rating}
@@ -323,6 +332,8 @@ class ItemPage extends React.Component {
                 : <Header as={Container}
                           textAlign={'center'}>There is no rating for you</Header>}
           </Grid.Row>
+
+            {/* Sold Popup, ask to select buyer */}
             {this.state.soldPopup ? <div style={popupStyle}>
               <Segment style={innerStyle}>
                 <Button icon={'close'}
@@ -343,6 +354,8 @@ class ItemPage extends React.Component {
                 <Button attached={'bottom'} content={'Confirm'} onClick={this.soldConfirm}/>
               </Segment>
             </div> : ''}
+
+            {/* Rate Popup, after sold user can rate buyer */}
             {this.state.ratePopup ? <div style={popupStyle}>
               <Segment style={innerStyle}>
                 <Button icon={'close'}
