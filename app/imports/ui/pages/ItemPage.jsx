@@ -1,16 +1,40 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Header, Loader, Grid, Image, Button, Divider, Icon, Rating, Label } from 'semantic-ui-react';
+import {
+  Header,
+  Loader,
+  Grid,
+  Image,
+  Button,
+  Divider,
+  Icon,
+  Rating,
+  Label,
+  Segment,
+  Form,
+  Message, Comment, Container,
+} from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { Items } from '../../api/item/Item';
 import { User } from '../../api/user/User';
 import { Ratings } from '../../api/ratings/Ratings';
+import RatingItem from '../components/RatingItem';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      buyerRating: 0,
+      review: '',
+      error: '',
+    };
+  }
+
   addLike = () => {
     if (!User.findOne({}).likedItems.includes(this.props.items._id)) {
       Items.update({ _id: this.props.items._id.toString() },
@@ -50,12 +74,39 @@ class ItemPage extends React.Component {
     });
 };
 
+  handleRating = (e, data) => {
+    this.setState({ buyerRating: data.rating });
+  };
+
+  handleReview = (e, data) => {
+    this.setState({ review: data.value });
+  };
+
+  submit = () => {
+    if (this.state.buyerRating === 0) {
+      this.setState({ error: 'You forget to rate!' });
+    } else {
+      Ratings.insert({ raterEmail: User.findOne({}).email, raterImage: User.findOne({}).image,
+        target: this.props.items.owner, rating: this.state.buyerRating,
+        comment: this.state.review, createdAt: new Date() }, (error) => {
+        if (error) {
+          swal('Error', error.message, 'error');
+        } else {
+          // eslint-disable-next-line no-undef
+          swal('Success', 'Rating successfully', 'success').then(() => window.location.reload());
+        }
+      });
+    }
+  };
+
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
   }
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
+    const ratings = Ratings.find({}, { sort: { createdAt: -1 } }).fetch()
+        .filter(rate => rate.target === this.props.items.owner);
     const ratingsForSeller = Ratings.find({ target: this.props.items.owner }).fetch();
     const averageRating =
         Math.round((ratingsForSeller.reduce((pre, cur) => pre + cur.rating, 0) / ratingsForSeller.length) * 100) / 100;
@@ -141,6 +192,39 @@ class ItemPage extends React.Component {
                         as={NavLink} exact to={`/editItem/${this.props.items._id}`}><Icon name='edit'/>
                   Edit
                 </Button> : ''}
+          </Grid.Row>
+          <Grid.Row>
+            {Meteor.user().username === this.props.items.buyer ?
+                <div>
+                  <Segment><Header content={'Write a Review'}/>
+                    <Rating icon='star'
+                            defaultRating={0}
+                            maxRating={5}
+                            size={'massive'} onRate={this.handleRating}/>
+                    {this.state.error ? <Message
+                        error
+                        content={this.state.error}
+                    /> : ''}
+                            <Form onSubmit={this.submit}>
+                              <Form.TextArea required
+                                             label='Comment'
+                                             name='comment'
+                                             type='content'
+                                             placeholder='Describe your experience...'
+                                             onChange={this.handleReview}
+                              />
+                              <Form.Field
+                                  control={Button}
+                                  content='Submit'
+                              />
+                            </Form>
+                  </Segment>
+                </div>
+                : ''}
+            {ratings.length > 0 ? <Comment.Group size={'big'}>{ratings
+                    .map((rating, index) => <RatingItem rating={rating} key={index}/>)}
+                </Comment.Group>
+                : <Header as={Container} textAlign={'center'}>There is no rating for you</Header>}
           </Grid.Row>
         </Grid>
     );
