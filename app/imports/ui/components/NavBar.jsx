@@ -7,9 +7,11 @@ import { Menu, Icon, Dropdown, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { Categories } from '../../api/category/Category';
 import CategoryItem from './CategoryItem';
+import UserAvatar from './UserAvatar';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 class NavBar extends React.Component {
+
   getGroup(category, array) {
     const temp = category.group;
     let isInArray = false;
@@ -25,6 +27,7 @@ class NavBar extends React.Component {
   }
 
   render() {
+    const trigger = (<UserAvatar/>);
     const menuStyle = { marginBottom: '10px', background: '#024731' };
     const array = [];
     this.props.categories.map((category) => this.getGroup(category, array));
@@ -52,7 +55,7 @@ class NavBar extends React.Component {
               [
                 <Menu.Item position={'right'}
                            key={'shopping'}>
-                  <Dropdown text={'Shopping'}
+                  <Dropdown text={'Store'}
                             className={'link item'}
                             position={'right'}
                             key={'browse'}>
@@ -86,8 +89,7 @@ class NavBar extends React.Component {
                 Sign In
               </Menu.Item>) : (
               <Menu.Item>
-                <Dropdown pointing={'top right'}
-                          icon={'user'}>
+                <Dropdown trigger={trigger} style={ { color: '#024731' } } icon={null} pointing={'top right'}>
                   <Dropdown.Menu>
                     <Dropdown.Item text="Profile"
                                    icon={'user circle'}
@@ -126,6 +128,7 @@ NavBar.propTypes = {
 };
 
 const subscription = Meteor.subscribe('Categories');
+
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 const NavBarContainer = withTracker(() => ({
   currentUser: Meteor.user() ? Meteor.user().username : '',
