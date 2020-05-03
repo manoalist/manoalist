@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Header, Container, Image } from 'semantic-ui-react';
+import { Grid, Segment, Header, Container, Image, Button, Loader } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, SubmitField, LongTextField, TextField, NumField, SelectField } from 'uniforms-semantic';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
@@ -16,7 +16,6 @@ import { User } from '../../api/user/User';
 const formSchema = new SimpleSchema({
   categoryGroup: String,
   categoryName: String,
-  picture: String,
   name: String,
   quantity: Number,
   price: Number,
@@ -30,12 +29,20 @@ class AddItem extends React.Component {
     super();
     this.state = {
       group: 'General',
+      images: '',
+      processingImages: false, // Used to make sure images are processed before submission
     };
+
+    this.processPhoto = this.processPhoto.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   /** On submit, insert the data. */
   submit(data, formRef) {
-    const { categoryGroup, categoryName, picture, name, quantity, price, description } = data;
+    console.log(data, formRef);
+    let picture = this.state.images;
+    
+    const { categoryGroup, categoryName, name, quantity, price, description } = data;
     const owner = Meteor.user().username;
     const buyer = '';
     const createdAt = new Date();
@@ -57,8 +64,42 @@ class AddItem extends React.Component {
           } else {
             swal('Success', 'Item listed successfully', 'success');
             formRef.reset();
+            this.setState({ images: '' });
           }
         });
+  }
+
+  processPhoto(event) {
+    event.preventDefault();
+    console.log(event.target.files);
+    
+    var i = 0;
+    var read = false;
+    let reader = new FileReader();
+    let processedImages = [];
+    const files = event.target.files;
+    
+    this.setState({ processingImages: true }, () => {
+      console.log(files);
+      
+      reader.onloadend = () => {
+        console.log(i);
+        
+        console.log(reader.result)
+        processedImages.push(reader.result);
+        console.log(processedImages);
+        i++;
+  
+        if (files[i]) {
+          reader.readAsDataURL(files[i]);
+        } else if (processedImages.length === files.length) {
+          this.setState({ images: processedImages.join(',:;'), processingImages: false })
+          console.log(processedImages, "This almost did it");
+        }
+      }
+
+      reader.readAsDataURL(files[0]);
+    })
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -108,7 +149,9 @@ class AddItem extends React.Component {
                   </Grid>
                 </Grid.Row>
                 <Grid.Row>
-                  <TextField name='picture' label='Image' iconLeft='image' placeholder='Insert the URL to your photo.'/>
+                  <label for="profile_pic">Choose images to upload</label>
+                  <input type="file" id="profile_pic" name="picture"
+                        accept=".jpg, .jpeg, .png" onChange={this.processPhoto} multiple/>
                 </Grid.Row>
                 <Grid.Row>
                   <Grid stackable columns={'equal'}>
@@ -126,7 +169,7 @@ class AddItem extends React.Component {
                   <LongTextField name='description' label='Description' placeholder='Describe your item.'/>
                 </Grid.Row>
                 <Grid.Row>
-                  <SubmitField value='List'/>
+                  { !this.state.processingImages ? <SubmitField value='List'/> : <div><Loader active inline /> <span>Processing data...</span></div> }
                 </Grid.Row>
                 <ErrorsField/>
               </Grid>
