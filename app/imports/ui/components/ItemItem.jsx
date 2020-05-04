@@ -61,7 +61,7 @@ class ItemItem extends React.Component {
         <Card centered>
           <Container style={{ height: '300px' }} as={NavLink} exact to={`/details/${this.props.item._id}`}>
             <Image centered
-                   src={this.props.item.picture}
+                   src={this.props.item.picture.split(',:;')[0]}
                    style={{ maxHeight: '300px' }}/>
           </Container>
             <Card.Content>
