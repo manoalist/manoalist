@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Container, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
+import { Container, Form, Grid, Header, Image, Message } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { Accounts } from 'meteor/accounts-base';
 import { User } from '../../api/user/User';
@@ -16,7 +16,7 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '', lastName: '', email: '', password: '', confirm: '', error: '',
+      firstName: '', lastName: '', mobileNumber: '', email: '', password: '', confirm: '', error: '',
       redirectToReferer: false, errorEmail: '', errorPassword: '',
     };
   }
@@ -63,7 +63,7 @@ class Signup extends React.Component {
 
   /** Handle Signup submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
-    const { firstName, lastName, email, password } = this.state;
+    const { firstName, lastName, mobileNumber, email, password } = this.state;
     const writeup =
         `Terms of Use ("Terms")
 Last updated: (April 16th, 2020)
@@ -115,7 +115,7 @@ or other material ("Content").`;
         },
       }).then((value) => {
         if (value) {
-          Accounts.createUser({ firstName, lastName, email, username: email, password }, (err) => {
+          Accounts.createUser({ firstName, lastName, mobileNumber, email, username: email, password }, (err) => {
             if (err) {
               this.setState({ error: err.reason });
             } else {
@@ -123,6 +123,7 @@ or other material ("Content").`;
               User.insert({
                     firstName,
                     lastName,
+                    mobileNumber,
                     email,
                     image: '/images/default-profile.jpg',
                     isBanned: false,
@@ -148,56 +149,60 @@ or other material ("Content").`;
       return <Redirect to={from}/>;
     }
     return (
-        <div style={{ backgroundColor: '#fafafa' }}>
+        <div>
           <Container>
-            <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-              <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
+            <Image centered src={'/images/manoalist-circle.png'} style={{ marginTop: '20px' }} size={'tiny'}/>
+            <Header as="h2" textAlign="center" style={{ color: '#024731', marginTop: '10px' }}>
+              START BUYING + SELLING WITH OTHER STUDENTS TODAY!
+            </Header>
+            <Grid style={{ marginTop: '40px', marginBottom: '90px' }}
+                  relaxed centered columns={'equal'}>
+              <Grid.Column>
+                <Image src={'/images/signup.jpg'}/>
+              </Grid.Column>
+              <Grid.Column>
                 <Form onSubmit={this.submit} error>
-                  <Segment stacked>
-                    <Header as="h2" textAlign="center" style={{ color: '#024731', marginBottom: '15px' }}>
-                      Create Account
-                    </Header>
-                    <Image centered src={'/images/manoalist-circle.png'} size={'tiny'}/>
-                    <Form.Group style={{ marginTop: '30px' }} widths={'equal'}>
-                      <Form.Input name={'firstName'} label={'First Name'}
-                                  onChange={this.handleChange} placeholder={'Please enter your first name.'}/>
-                      <Form.Input name={'lastName'} label={'Last Name'}
-                                  onChange={this.handleChange} placeholder={'Please enter your last name.'}/>
-                    </Form.Group>
-                    <Form.Input
-                        label="Email"
-                        icon="mail"
-                        iconPosition="left"
-                        name="email"
-                        type="email"
-                        placeholder="XXXX@hawaii.edu"
-                        onChange={this.handleChange}
-                    />
-                    {this.state.errorEmail === '' ? ('') : (
-                        <Message error content={this.state.errorEmail}/>)}
-                    <Form.Input
-                        label="Password"
-                        icon="lock"
-                        iconPosition="left"
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-                        onChange={this.handleChange}
-                    />
-                    {this.state.errorPassword === '' ? ('') : (
-                        <Message error content={this.state.errorPassword}/>)}
-                    <Form.Input
-                        label="Confirm Password"
-                        icon="lock"
-                        iconPosition="left"
-                        name="confirm"
-                        placeholder="Confirm Password"
-                        type="password"
-                        onChange={this.handleChange}
-                    />
-                    <Form.Button style={{ marginTop: '20px' }} color={'green'} content="SIGN UP"/>
-                    Already have an account? <Link to="/signin">Login</Link>
-                  </Segment>
+                  <Form.Group widths={'equal'}>
+                    <Form.Input name={'firstName'} label={'First Name'}
+                                onChange={this.handleChange} placeholder={'Please enter your first name.'}/>
+                    <Form.Input name={'lastName'} label={'Last Name'}
+                                onChange={this.handleChange} placeholder={'Please enter your last name.'}/>
+                  </Form.Group>
+                  <Form.Input name={'mobileNumber'} label={'Phone Number'}
+                              onChange={this.handleChange} placeholder={'8081234567'}/>
+                  <Form.Input
+                      label="Email"
+                      icon="mail"
+                      iconPosition="left"
+                      name="email"
+                      type="email"
+                      placeholder="youremailhawaii.edu"
+                      onChange={this.handleChange}
+                  />
+                  {/*{this.state.errorEmail === '' ? ('') : (*/}
+                  {/*    <Message error content={this.state.errorEmail}/>)}*/}
+                  <Form.Input
+                      label="Password"
+                      icon="lock"
+                      iconPosition="left"
+                      name="password"
+                      placeholder="Password"
+                      type="password"
+                      onChange={this.handleChange}
+                  />
+                  {/*{this.state.errorPassword === '' ? ('') : (*/}
+                  {/*    <Message error content={this.state.errorPassword}/>)}*/}
+                  <Form.Input
+                      label="Confirm Password"
+                      icon="lock"
+                      iconPosition="left"
+                      name="confirm"
+                      placeholder="Confirm Password"
+                      type="password"
+                      onChange={this.handleChange}
+                  />
+                  <Form.Button style={{ marginTop: '20px' }} color={'blue'} content="SIGN UP"/>
+                  Already have an account? <Link to="/signin">Login</Link>
                 </Form>
                 {this.state.error === '' ? (
                     ''
