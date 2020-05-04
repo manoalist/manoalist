@@ -274,7 +274,7 @@ class ItemPage extends React.Component {
                         labelPosition='right'
                         as={NavLink}
                         exact
-                        to={`/editItem/${this.props.items._id}`}><Icon name='edit'/>
+                        to={`/editItem/${this.props.items._id}/${this.props.items.categoryGroup}`}><Icon name='edit'/>
                   Edit
                 </Button> : ''}
           </Grid.Row>
