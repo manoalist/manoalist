@@ -11,7 +11,7 @@ class HomeItem extends React.Component {
           <Link to={`/details/${this.props.item._id}`}>
             <Container style={{ height: '100px' }}>
               <Image centered
-                    src={this.props.item.picture}
+                    src={this.props.item.picture.split(',:;')[0]}
                     style={{ maxHeight: '100px' }}/>
             </Container>
             <Header as={'h4'}>{this.props.item.name}</Header>

@@ -8,6 +8,21 @@ import { User } from '../../api/user/User';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      thumbnail: '',
+    };
+
+    this.renderPage = this.renderPage.bind(this);
+    this.setThumbnail = this.setThumbnail.bind(this);
+  }
+
+  setThumbnail(picture) {
+    this.setState({ thumbnail: picture });
+  }
+
   addLike = () => {
     if (!User.findOne({}).likedItems.includes(this.props.items._id)) {
       Items.update({ _id: this.props.items._id.toString() },
@@ -28,6 +43,14 @@ class ItemPage extends React.Component {
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
+    const images = this.props.items.picture.split(',:;').map(function (image) {
+      return (
+        <Grid.Row key={image} style={{ cursor: 'pointer' }}>
+          <Image className='item-preview' src={image} onClick={() => this.setThumbnail(image)}/>
+        </Grid.Row>
+      );
+    });
+
     return (
         <Grid className='item-page' container relaxed='very' columns={2}>
           <Grid.Column width={8}>
@@ -35,21 +58,11 @@ class ItemPage extends React.Component {
               <Grid.Row>
                 <Grid centered columns={2}>
                   <Grid.Column width={4}>
-                    <Grid.Row>
-                      <Image className='item-preview' src={'https://mk0lemarkfrqvciop01u.kinstacdn.com' +
-                      '/wp-content/uploads/Your-Image-Here-1.jpg'}/>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Image className='item-preview' src={'https://mk0lemarkfrqvciop01u.kinstacdn.com' +
-                      '/wp-content/uploads/Your-Image-Here-1.jpg'}/>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Image className='item-preview' src={'https://mk0lemarkfrqvciop01u.kinstacdn.com' +
-                      '/wp-content/uploads/Your-Image-Here-1.jpg'}/>
-                    </Grid.Row>
+                    {images}
                   </Grid.Column>
                   <Grid.Column width={12}>
-                    <Image className='item-pic' src={this.props.items.picture} fluid/>
+                    <Image className='item-pic' fluid
+                      src={this.state.thumbnail ? this.state.thumbnail : this.props.items.picture.split(',:;')[0]} />
                   </Grid.Column>
                 </Grid>
               </Grid.Row>

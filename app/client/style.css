@@ -58,7 +58,6 @@ body {
 
 .item-preview {
   width: 70px !important;
-  margin-left: 20px;
   margin-bottom: 10px;
 }
 
@@ -91,4 +90,16 @@ body {
 
 .no-items-message {
   padding: 7em 0em 10em 0em;
+}
+
+.image-list {
+  max-height: 25em;
+  overflow-y: auto;
+}
+
+.image-list .negate-semantic-grid {
+  margin-top: 0!important;
+  margin-bottom: 0!important;
+  margin-left: 0!important;
+  margin-right: 0!important;
 }
