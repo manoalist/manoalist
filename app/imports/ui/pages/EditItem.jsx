@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
+import { Grid, Loader, Header, Segment, Image } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, NumField, SelectField } from 'uniforms-semantic';
 import { Meteor } from 'meteor/meteor';
@@ -79,8 +79,9 @@ class EditItem extends React.Component {
       {this.props.doc && this.props.oldGroup === this.props.doc.categoryGroup
       && User.findOne({}).email === this.props.doc.owner ?
        <Grid.Column>
+         <Image centered size='tiny' src={'/images/manoalist-circle.png'}/>
         <Header as="h2"
-                textAlign="center">Edit Stuff</Header>
+                textAlign="center">Edit Item</Header>
         <AutoForm schema={ItemSchema}
                   onSubmit={data => this.submit(data)}
                   model={this.props.doc}
@@ -95,7 +96,7 @@ class EditItem extends React.Component {
                 <Grid stackable
                       columns={'equal'}>
                   <Grid.Column>
-                    <NumField name='price'/>
+                    <NumField name='price' iconLeft='dollar'/>
                   </Grid.Column>
                   <Grid.Column>
                     <NumField name='quantity'
