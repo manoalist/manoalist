@@ -17,7 +17,7 @@ import {
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, BrowserRouter } from 'react-router-dom';
 import swal from 'sweetalert';
 import { Items } from '../../api/item/Item';
 import { User } from '../../api/user/User';
@@ -75,7 +75,7 @@ class ItemPage extends React.Component {
 
   soldConfirm = () => {
     if (this.state.buyer === '') {
-      this.setState({ soldError: 'You forget select the buyer.' });
+      this.setState({ soldError: 'You forgot to select the buyer.' });
     } else {
       Items.update({ _id: this.props.items._id.toString() },
           { $set: { buyer: this.state.buyer, sold: true } });
@@ -99,10 +99,45 @@ class ItemPage extends React.Component {
     this.setState({ activePage: data.activePage });
   };
 
+  banUser = () => {
+    const thisUser = User.findOne({ email: this.props.items.owner });
+    const currentId = this.props.items._id;
+    const currentURL = `list/${this.props.items.categoryGroup}/${this.props.items.categoryName}`;
+    User.update({ _id: thisUser._id }, { $set: { isBanned: 'true' } }, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error: could not ban user');
+      } else {
+        // eslint-disable-next-line no-undef
+        swal('Success', 'User Banned', 'success').then(() => {
+          // eslint-disable-next-line
+          window.location.href = window.location.href.replace(`details/${currentId}`, `${currentURL}`);
+          window.location.reload();
+        });
+      }
+    });
+  };
+
+  deleteItem = () => {
+    const currentId = this.props.items._id;
+    const currentURL = `list/${this.props.items.categoryGroup}/${this.props.items.categoryName}`;
+    Items.remove({ _id: this.props.items._id }, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error: could not delete item');
+      } else {
+        // eslint-disable-next-line no-undef
+        swal('Success', 'Item Deleted', 'success').then(() => {
+          // eslint-disable-next-line
+          window.location.href = window.location.href.replace(`details/${currentId}`, `${currentURL}`);
+          window.location.reload();
+        });
+      }
+    });
+  };
+
   // submit rating to seller
   submit = () => {
     if (this.state.buyerRating === 0) {
-      this.setState({ error: 'You forget to rate!' });
+      this.setState({ error: 'You forgot to rate!' });
     } else {
       Ratings.insert({ raterEmail: User.findOne({}).email, raterImage: User.findOne({}).image,
         target: this.props.items.owner, rating: this.state.buyerRating,
@@ -119,7 +154,7 @@ class ItemPage extends React.Component {
 
   submitRateBuyer = () => {
     if (this.state.buyerRating === 0) {
-      this.setState({ error: 'You forget to rate!' });
+      this.setState({ error: 'You forgot to rate!' });
     } else {
       Ratings.insert({ raterEmail: User.findOne({}).email, raterImage: User.findOne({}).image,
         target: this.props.items.buyer, rating: this.state.buyerRating,
@@ -136,7 +171,7 @@ class ItemPage extends React.Component {
 
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
-  }
+  };
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
@@ -150,15 +185,21 @@ class ItemPage extends React.Component {
 
     // list is a list of buyers, need to change when issue-122 done, so this warning is fine
     const list = ['john@foo.com', 'jack@hawaii.edu', 'rose@hawaii.edu'];
+
     const buyers = [];
+
     list.map((i) => buyers.push({ key: i, value: i, text: i }));
     // change the array to object in ({'john@foo.com': 'john@foo.com'}) format
     // const buyers = Object.fromEntries(tempBuyer);
     const ratings = Ratings.find({}, { sort: { createdAt: -1 } }).fetch()
         .filter(rate => rate.target === this.props.items.owner);
+
     const ratingsForSeller = Ratings.find({ target: this.props.items.owner }).fetch();
+
     const averageRating =
-        Math.round((ratingsForSeller.reduce((pre, cur) => pre + cur.rating, 0) / ratingsForSeller.length) * 100) / 100;
+        Math.round((ratingsForSeller.reduce((pre, cur) => pre + cur.rating, 0) / ratingsForSeller.length) * 100)
+        / 100;
+
     const popupStyle = {
       position: 'fixed',
       width: '100%',
@@ -170,6 +211,7 @@ class ItemPage extends React.Component {
       margin: 'auto',
       backgroundColor: 'rgba(0,0,0, 0.5)',
     };
+
     const innerStyle = {
       position: 'absolute',
       width: '504px',
@@ -177,6 +219,7 @@ class ItemPage extends React.Component {
       top: '25%',
       margin: 'auto',
     };
+
     return (
           <Grid className='item-page'
                  container
@@ -252,35 +295,50 @@ class ItemPage extends React.Component {
                   TEXT
                 </Button>
               </Grid.Row>
+              <Grid.Row>
+                {/** If user is owner, they can see edit and sold button */}
+                {Meteor.user().username === this.props.items.owner ?
+                    <Button floated={'left'}
+                            color='green'
+                            icon
+                            labelPosition='right'
+                            onClick={this.handleSold}
+                            disabled={this.props.items.sold}>
+                      <Icon name='dollar sign'/>
+                      Sold
+                    </Button> : ''}
+                {Meteor.user().username === this.props.items.owner ?
+                    <Button floated={'left'}
+                            color='blue'
+                            icon
+                            labelPosition='right'
+                            as={NavLink}
+                            exact
+                            to={`/editItem/${this.props.items._id}/${this.props.items.categoryGroup}`}>
+                      <Icon name='edit'/>
+                      Edit
+                    </Button> : ''}
+              </Grid.Row>
+              <Grid.Row>
+                {/** If user is admin, they can see delete and ban buttons */}
+                {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
+                    <Button floated='left' color='red' labelPosition='right' onClick={
+                      this.banUser} icon>
+                      <Icon name='user circle outline'/>Ban User
+                    </Button>
+                ) : ''}
+                {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
+                    <Button floated='left' labelPosition='right' onClick={
+                      this.deleteItem} icon>
+                      <Icon name='trash alternate'/>Delete
+                    </Button>
+                ) : ''}
+              </Grid.Row>
             </Grid>
           </Grid.Column>
           <Grid.Row>
 
-            {/* If user is owner, they can see edit and sold button */}
-            {Meteor.user().username === this.props.items.owner ?
-                <Button floated={'right'}
-                        color='red'
-                        icon
-                        labelPosition='right'
-                        onClick={this.handleSold}
-                        disabled={this.props.items.sold}>
-                  <Icon name='dollar sign'/>
-                  Sold
-                </Button> : ''}
-            {Meteor.user().username === this.props.items.owner ?
-                <Button floated={'right'}
-                        color='blue'
-                        icon
-                        labelPosition='right'
-                        as={NavLink}
-                        exact
-                        to={`/editItem/${this.props.items._id}/${this.props.items.categoryGroup}`}><Icon name='edit'/>
-                  Edit
-                </Button> : ''}
-          </Grid.Row>
-          <Grid.Row>
-
-            {/* if user is buyer, they can see the rating form */}
+            {/** if user is buyer, they can see the rating form */}
             {Meteor.user().username === this.props.items.buyer ?
                 <div>
                   <Segment><Header content={'Write a Review'}/>
@@ -310,7 +368,7 @@ class ItemPage extends React.Component {
                 </div>
                 : ''}
 
-            {/*  Showing Comments for seller  */}
+            {/**  Showing Comments for seller  */}
             {ratings.length > 0 ? <Comment.Group size={'big'}><Header content={'Reviews'}/>{ratings
                     .slice((this.state.activePage - 1) * 5, this.state.activePage * 5)
                     .map((rating) => <RatingItem rating={rating}
@@ -333,7 +391,7 @@ class ItemPage extends React.Component {
                           textAlign={'center'}>There is no rating for you</Header>}
           </Grid.Row>
 
-            {/* Sold Popup, ask to select buyer */}
+            {/** Sold Popup, ask to select buyer */}
             {this.state.soldPopup ? <div style={popupStyle}>
               <Segment style={innerStyle}>
                 <Button icon={'close'}
@@ -355,7 +413,7 @@ class ItemPage extends React.Component {
               </Segment>
             </div> : ''}
 
-            {/* Rate Popup, after sold user can rate buyer */}
+            {/** Rate Popup, after sold user can rate buyer */}
             {this.state.ratePopup ? <div style={popupStyle}>
               <Segment style={innerStyle}>
                 <Button icon={'close'}
