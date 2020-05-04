@@ -1,21 +1,51 @@
 {
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "admin" },
+    { "email": "opieca@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "ezheng@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "kyrai@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "tianhui@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "heweiron@hawaii.edu", "password": "changeme", "role": "admin" },
     { "email": "john@foo.com", "password": "changeme" },
     { "email": "jack@hawaii.edu", "password": "changeme" },
     { "email": "rose@hawaii.edu", "password": "changeme" }
   ],
 
   "defaultUsers": [
-    { "email": "john@foo.com", "firstName": "John", "lastName": "Doe",
-      "description": "A simple senior who plans to sell all his belongings",
-      "image": "/images/default-profile.jpg", "mobileNumber": "8081234567",
-      "carrier": "T-Mobile", "isBanned": false
-    },
     { "email": "admin@foo.com", "firstName": "Admin", "lastName": "Admin",
       "description": "A simple member who plans to oversee all sales",
       "image": "/images/default-profile.jpg", "mobileNumber": "8087654321",
       "carrier": "AT&T", "isBanned": false
+    },
+    { "email": "opieca@hawaii.edu", "firstName": "Craig", "lastName": "Opie",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/craig.jpg", "mobileNumber": "8082389966",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "ezheng@hawaii.edu", "firstName": "Edwin", "lastName": "Zheng",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/edwin.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "kyrai@hawaii.edu", "firstName": "Kyra", "lastName": "Ikeda",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/kyra.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "tianhui@hawaii.edu", "firstName": "Bobby", "lastName": "Zhou",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/tianhui.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "heweiron@hawaii.edu", "firstName": "Weirong", "lastName": "He",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/weirong.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "john@foo.com", "firstName": "John", "lastName": "Doe",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/default-profile.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
     },
     { "email": "jack@hawaii.edu", "firstName": "Jack", "lastName": "Dawson",
       "description": "The deuteragonists in Titanic and the love interest of Rose DeWitt Bukater.",
