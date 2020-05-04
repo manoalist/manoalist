@@ -1856,7 +1856,7 @@
       "createdAt":  "Mon Apr 13 2020 01:55:32 GMT-1000 (Hawaii-Aleutian Standard Time)",
       "forSale": true,
       "approvedForSale": true,
-      "sold": false,
+      "sold": true,
       "flagged": false,
       "reportReason": "None",
       "buyer": "rose@hawaii.edu"

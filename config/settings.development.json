@@ -1,21 +1,51 @@
 {
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "admin" },
+    { "email": "opieca@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "ezheng@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "kyrai@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "tianhui@hawaii.edu", "password": "changeme", "role": "admin" },
+    { "email": "heweiron@hawaii.edu", "password": "changeme", "role": "admin" },
     { "email": "john@foo.com", "password": "changeme" },
     { "email": "jack@hawaii.edu", "password": "changeme" },
     { "email": "rose@hawaii.edu", "password": "changeme" }
   ],
 
   "defaultUsers": [
-    { "email": "john@foo.com", "firstName": "John", "lastName": "Doe",
-      "description": "A simple senior who plans to sell all his belongings",
-      "image": "/images/default-profile.jpg", "mobileNumber": "8081234567",
-      "carrier": "T-Mobile", "isBanned": false
-    },
     { "email": "admin@foo.com", "firstName": "Admin", "lastName": "Admin",
       "description": "A simple member who plans to oversee all sales",
       "image": "/images/default-profile.jpg", "mobileNumber": "8087654321",
       "carrier": "AT&T", "isBanned": false
+    },
+    { "email": "opieca@hawaii.edu", "firstName": "Craig", "lastName": "Opie",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/craig.jpg", "mobileNumber": "8082389966",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "ezheng@hawaii.edu", "firstName": "Edwin", "lastName": "Zheng",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/edwin.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "kyrai@hawaii.edu", "firstName": "Kyra", "lastName": "Ikeda",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/kyra.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "tianhui@hawaii.edu", "firstName": "Bobby", "lastName": "Zhou",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/tianhui.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "heweiron@hawaii.edu", "firstName": "Weirong", "lastName": "He",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/weirong.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
+    },
+    { "email": "john@foo.com", "firstName": "John", "lastName": "Doe",
+      "description": "A simple senior who plans to sell all his belongings",
+      "image": "/images/default-profile.jpg", "mobileNumber": "8081234567",
+      "carrier": "T-Mobile", "isBanned": false
     },
     { "email": "jack@hawaii.edu", "firstName": "Jack", "lastName": "Dawson",
       "description": "The deuteragonists in Titanic and the love interest of Rose DeWitt Bukater.",
@@ -35,9 +65,11 @@
 
   "defaultRatings": [
     { "raterEmail": "jack@hawaii.edu", "raterImage": "https://vignette.wikia.nocookie.net/leonardodicaprio/images/a/a3/Jack_Dawson.png/revision/latest/scale-to-width-down/620?cb=20180423015218", "target": "admin@foo.com", "rating":
-    3, "comment": "The item is not good at all!", "createdAt":  "Fri May 1 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"},
+    2, "comment": "The item is not good at all!", "createdAt":  "Fri May 1 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"},
     { "raterEmail": "rose@hawaii.edu", "raterImage": "http://images6.fanpop.com/image/photos/41500000/Rose-Dawson-greyswan618-41505059-659-815.jpg", "target": "admin@foo.com", "rating":
-    5, "comment": "The item is very good!", "createdAt":  "Fri May 1 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"}
+    5, "comment": "The item is very good!", "createdAt":  "Fri May 1 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"},
+    { "raterEmail": "rose@hawaii.edu", "raterImage": "http://images6.fanpop.com/image/photos/41500000/Rose-Dawson-greyswan618-41505059-659-815.jpg", "target": "admin@foo.com", "rating":
+    4, "comment": "Second time buy from him!", "createdAt":  "Sat May 2 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"}
   ],
 
   "loadAssetsFile": true

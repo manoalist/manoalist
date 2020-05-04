@@ -77,7 +77,9 @@ class AddCategory extends React.Component {
     const numOfItemsInCategory = this.props.items
         .filter((item) => item.categoryGroup === this.state.deleteGroup)
         .filter((item) => item.categoryName === this.state.deleteName).length;
-    if (numOfItemsInCategory > 0) {
+    if (this.state.deleteName.length <= 0) {
+      this.setState({ deleteError: 'the category name cannot be empty!' });
+    } else if (numOfItemsInCategory > 0) {
       this.setState({ deleteError: 'ERROR: There are items in this category!!!' });
     } else {
       Categories.remove({ _id: this.props.categories.filter((category) => category.group === this.state.deleteGroup)
@@ -95,7 +97,7 @@ class AddCategory extends React.Component {
         .map((category) => deleteOptions.push({ text: category.name, value: category.name }));
     return (
         <div>
-            <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
+            <Grid textAlign="center" verticalAlign="middle" centered columns={2} container>
               <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
                   <Segment stacked>
                     <Header as="h1" textAlign="center" style={{ color: '#024731', marginBottom: '25px' }}>
@@ -105,10 +107,14 @@ class AddCategory extends React.Component {
                       <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered/>
                     </div>
                     <Container textAlign={'center'}>
-                      <Input label={{ content: 'Category Group: ', color: 'green' }} style={{ marginRight: '20px' }}
-                             onChange={this.handleInputGroupChange}/>
-                      <Input label={{ content: 'Category Name: ', color: 'teal' }}
-                             onChange={this.handleInputNameChange}/>
+                      <Grid columns={2}>
+                        <Grid.Column><Header color={'green'}
+                                   content={'Category Group'}/>
+                          <Input style={{ marginRight: '20px' }}
+                                 onChange={this.handleInputGroupChange}/></Grid.Column>
+                        <Grid.Column><Header color={'teal'}
+                                   content={'Category Name'}/>
+                          <Input onChange={this.handleInputNameChange}/></Grid.Column></Grid>
                       <Divider hidden/>
                       <Button style={{ backgroundColor: '#024731', color: 'white', float: 'right' }}
                               onClick={this.handleClick}>ADD</Button>
@@ -123,6 +129,42 @@ class AddCategory extends React.Component {
                         error
                         header="Adding was not successful"
                         content={this.state.error}
+                    />
+                )}
+              </Grid.Column>
+              <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
+                <Segment stacked style={{ backgroundColor: '#FFF6F6', borderColor: '#912D2B' }}>
+                  <Header as="h1" textAlign="center" style={{ color: '#912D2B', marginBottom: '25px' }}>
+                    Delete Category
+                  </Header>
+                  <div style={{ marginBottom: '15px' }}>
+                    <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered/>
+                  </div>
+                  <Container textAlign={'center'}>
+                    <Grid columns={2}>
+                      <Grid.Column><Header color={'green'} content={'Category Group'}/>
+                        <Select onChange={this.handleGroupChange} options={options} clearable/>
+                      </Grid.Column>
+                      <Grid.Column><Header color={'teal'} content={'Category Name'}/>
+                        <Dropdown clearable
+                                  options={deleteOptions}
+                                  onChange={this.handleNameChange}
+                                  selection/>
+                      </Grid.Column></Grid>
+                    <Divider hidden/>
+                    <Button style={{ float: 'right' }}
+                            onClick={this.handleDeleteClick} color={'red'}>Delete</Button>
+                  </Container>
+                  <Divider hidden/>
+                  <Divider hidden/>
+                </Segment>
+                {this.state.deleteError === '' ? (
+                    ''
+                ) : (
+                    <Message
+                        error
+                        header="Deleting was not successful"
+                        content={this.state.deleteError}
                     />
                 )}
               </Grid.Column>
@@ -143,45 +185,6 @@ class AddCategory extends React.Component {
           </Segment>
           <Divider/>
           </Container>
-
-          <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-            <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
-              <Segment stacked style={{ backgroundColor: '#FFF6F6', borderColor: '#912D2B' }}>
-                <Header as="h1" textAlign="center" style={{ color: '#912D2B', marginBottom: '25px' }}>
-                  Delete Category
-                </Header>
-                <div style={{ marginBottom: '15px' }}>
-                  <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered/>
-                </div>
-                <Container textAlign={'center'}>
-                  <Grid columns={2}>
-                    <Grid.Column><Header color={'green'} content={'Category Group'}/>
-                    <Select onChange={this.handleGroupChange} options={options} clearable/>
-                  </Grid.Column>
-                    <Grid.Column><Header color={'teal'} content={'Category Name'}/>
-                      <Dropdown clearable
-                                options={deleteOptions}
-                                onChange={this.handleNameChange}
-                                selection/>
-                    </Grid.Column></Grid>
-                  <Divider hidden/>
-                  <Button style={{ float: 'right' }}
-                          onClick={this.handleDeleteClick} color={'red'}>Delete</Button>
-                </Container>
-                <Divider hidden/>
-                <Divider hidden/>
-              </Segment>
-              {this.state.deleteError === '' ? (
-                  ''
-              ) : (
-                  <Message
-                      error
-                      header="Deleting was not successful"
-                      content={this.state.deleteError}
-                  />
-              )}
-            </Grid.Column>
-          </Grid>
         </div>
     );
   }

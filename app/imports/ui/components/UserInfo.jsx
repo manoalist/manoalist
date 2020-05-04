@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 class UserInfo extends React.Component {
@@ -34,6 +34,7 @@ class UserInfo extends React.Component {
           <Grid.Row>
             <Grid.Row><h4>Phone Number</h4></Grid.Row>
             <Grid.Row>{ this.props.user.mobileNumber }</Grid.Row>
+            <Link to={`/edit/${this.props.user._id}`} style={{ float: 'right', marginBottom: '1em' }}>edit</Link>
           </Grid.Row>
         </Grid>
     );

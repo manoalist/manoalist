@@ -20,7 +20,10 @@ import Profile from '../pages/Profile';
 import ItemPage from '../pages/ItemPage';
 import Contact from '../pages/Contact';
 import AddCategory from '../pages/AddCategory';
+import EditUserInfo from '../pages/EditUserInfo';
 import AboutUs from '../pages/AboutUs';
+import EditItem from '../pages/EditItem';
+import Terms from '../pages/Terms';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -34,6 +37,7 @@ class App extends React.Component {
                 <Route path="/signin" component={Signin}/>
                 <Route path="/signup" component={Signup}/>
                 <Route path="/contact" component={Contact}/>
+                <Route path="/terms" component={Terms}/>
                 <Route path="/about" component={AboutUs}/>
                 <ProtectedRoute path="/list/:group/:name" component={ListItem}/>
                 <ProtectedRoute path="/list" component={ListItem}/>
@@ -42,6 +46,8 @@ class App extends React.Component {
                 <ProtectedRoute path="/home" component={Home}/>
                 <ProtectedRoute path="/profile" component={Profile}/>
                 <ProtectedRoute path="/details/:_id" component={ItemPage}/>
+                <ProtectedRoute path="/edit/:_id" component={EditUserInfo}/>
+                <ProtectedRoute path="/editItem/:_id/:group" component={EditItem}/>
                 <AdminProtectedRoute path="/admin" component={HomeAdmin}/>
                 <AdminProtectedRoute path="/addCate" component={AddCategory}/>
                 <ProtectedRoute path="/signout" component={Signout}/>
