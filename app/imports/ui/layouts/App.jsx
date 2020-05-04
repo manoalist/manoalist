@@ -23,6 +23,7 @@ import AddCategory from '../pages/AddCategory';
 import EditUserInfo from '../pages/EditUserInfo';
 import AboutUs from '../pages/AboutUs';
 import EditItem from '../pages/EditItem';
+import Terms from '../pages/Terms';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -36,6 +37,7 @@ class App extends React.Component {
                 <Route path="/signin" component={Signin}/>
                 <Route path="/signup" component={Signup}/>
                 <Route path="/contact" component={Contact}/>
+                <Route path="/terms" component={Terms}/>
                 <Route path="/about" component={AboutUs}/>
                 <ProtectedRoute path="/list/:group/:name" component={ListItem}/>
                 <ProtectedRoute path="/list" component={ListItem}/>
