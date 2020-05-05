@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Container, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
 import swal from 'sweetalert';
