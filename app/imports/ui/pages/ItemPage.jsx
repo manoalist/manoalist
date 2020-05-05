@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 import {
   Header,
   Loader,
@@ -111,6 +112,7 @@ class ItemPage extends React.Component {
         swal('Success', 'User Banned', 'success').then(() => {
           // eslint-disable-next-line
           window.location.href = window.location.href.replace(`details/${currentId}`, `${currentURL}`);
+          // eslint-disable-next-line no-undef
           window.location.reload();
         });
       }
@@ -128,6 +130,7 @@ class ItemPage extends React.Component {
         swal('Success', 'Item Deleted', 'success').then(() => {
           // eslint-disable-next-line
           window.location.href = window.location.href.replace(`details/${currentId}`, `${currentURL}`);
+          // eslint-disable-next-line no-undef
           window.location.reload();
         });
       }
@@ -171,17 +174,15 @@ class ItemPage extends React.Component {
 
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
-  };
+  }
 
   /** Render the page once subscriptions have been received. */
   renderPage() {
-    const images = this.props.items.picture.split(',:;').map((image) => {
-      return (
+    const images = this.props.items.picture.split(',:;').map((image) => (
         <Grid.Row key={image} style={{ cursor: 'pointer' }}>
           <Image className='item-preview' src={image} onClick={() => this.setThumbnail(image)}/>
         </Grid.Row>
-      );
-    });
+      ));
 
     // list is a list of buyers, need to change when issue-122 done, so this warning is fine
     const list = ['john@foo.com', 'jack@hawaii.edu', 'rose@hawaii.edu'];
