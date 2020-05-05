@@ -9,6 +9,7 @@ import AdminBan from '../components/AdminBan';
 import AdminApproveItem from '../components/AdminApproveItem';
 import { Contactus } from '../../api/mail/Contactus';
 import EmailItem from '../components/EmailItem';
+import { User } from '../../api/user/User';
 
 class HomeAdmin extends React.Component {
   constructor(props) {
@@ -84,6 +85,7 @@ class HomeAdmin extends React.Component {
                   {this.props.items
                     .filter(item => item.sold === false)
                     .filter(item => item.flagged === true)
+                    .filter(item => item.owner != User.findOne( {}).email)
                     .map((item, index) => <AdminBan key={index} item={item}/>)}
                 </Segment.Group>
               </Grid.Column>
@@ -132,9 +134,10 @@ HomeAdmin.propTypes = {
 export default withTracker(() => {
   const subscription = Meteor.subscribe('Items');
   const subscription2 = Meteor.subscribe('Contactus');
+  const subscription3 = Meteor.subscribe('User');
   return {
     items: Items.find({}).fetch(),
     emails: Contactus.find({}).fetch(),
-    ready: subscription.ready() && subscription2.ready(),
+    ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
   };
 })(HomeAdmin);

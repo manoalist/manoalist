@@ -107,19 +107,24 @@ class ItemPage extends React.Component {
     const thisUser = User.findOne({ email: this.props.items.owner });
     const currentId = this.props.items._id;
     const currentURL = `list/${this.props.items.categoryGroup}/${this.props.items.categoryName}`;
-    User.update({ _id: thisUser._id }, { $set: { isBanned: 'true' } }, (error) => {
-      if (error) {
-        swal('Error', error.message, 'error: could not ban user');
-      } else {
-        // eslint-disable-next-line no-undef
-        swal('Success', 'User Banned', 'success').then(() => {
-          // eslint-disable-next-line
-          window.location.href = window.location.href.replace(`details/${currentId}`, `${currentURL}`);
+    if(!(User.findOne( {}).email === this.props.items.owner)) {
+      User.update({ _id: thisUser._id }, { $set: { isBanned: 'true' } }, (error) => {
+        if (error) {
+          swal('Error', error.message, 'error');
+        } else {
           // eslint-disable-next-line no-undef
-          window.location.reload();
-        });
-      }
-    });
+          swal('Success', 'User Banned', 'success').then(() => {
+            // eslint-disable-next-line
+            window.location.href = window.location.href.replace(`details/${currentId}`, `${currentURL}`);
+            // eslint-disable-next-line no-undef
+            window.location.reload();
+          });
+        }
+      });
+      Items.remove({ _id: this.props.items._id });
+    } else {
+      swal('Error', 'can not ban yourself', 'error')
+    }
   };
 
   deleteItem = () => {
@@ -127,7 +132,7 @@ class ItemPage extends React.Component {
     const currentURL = `list/${this.props.items.categoryGroup}/${this.props.items.categoryName}`;
     Items.remove({ _id: this.props.items._id }, (error) => {
       if (error) {
-        swal('Error', error.message, 'error: could not delete item');
+        swal('Error', error.message, 'error');
       } else {
         // eslint-disable-next-line no-undef
         swal('Success', 'Item Deleted', 'success').then(() => {
