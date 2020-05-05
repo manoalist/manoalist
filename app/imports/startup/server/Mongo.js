@@ -3,6 +3,7 @@ import { Items } from '../../api/item/Item';
 import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
 import { Ratings } from '../../api/ratings/Ratings';
+import { Contacts } from '../../api/contacts/Contacts';
 // import { Contactus } from '../../api/mail/Contactus';
 
 /* eslint-disable no-console */
@@ -44,11 +45,24 @@ function addRatings(data) {
   Ratings.insert(data);
 }
 
+/** Initialize the database with a default data document. */
+function addContacts(data) {
+  Contacts.insert(data);
+}
+
 /** Initialize the collection if empty. */
 if (Ratings.find().count() === 0) {
   if (Meteor.settings.defaultRatings) {
     console.log('Creating default ratings.');
     Meteor.settings.defaultRatings.map(data => addRatings(data));
+  }
+}
+
+/** Initialize the collection if empty. */
+if (Contacts.find().count() === 0) {
+  if (Meteor.settings.defaultRatings) {
+    console.log('Creating default contacts.');
+    Meteor.settings.defaultContacts.map(data => addContacts(data));
   }
 }
 
