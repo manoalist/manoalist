@@ -24,6 +24,8 @@ import { User } from '../../api/user/User';
 import { Ratings } from '../../api/ratings/Ratings';
 import { Contacts } from '../../api/contacts/Contacts';
 import RatingItem from '../components/RatingItem';
+import CategoryItem from '../components/CategoryItem';
+import { Categories } from '../../api/category/Category';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
@@ -210,8 +212,8 @@ class ItemPage extends React.Component {
       );
     });
 
-    // list is a list of buyers, need to change when issue-122 done, so this warning is fine
-    const list = ['john@foo.com', 'jack@hawaii.edu', 'rose@hawaii.edu'];
+    // list is a list of buyers that contacted the seller
+    let list = _.uniq(_.pluck(Contacts.find({ itemId: this.props.items._id }).fetch(), 'buyer'));
 
     const buyers = [];
 
