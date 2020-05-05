@@ -17,7 +17,7 @@ import {
 } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { NavLink, BrowserRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
 import { Items } from '../../api/item/Item';
 import { User } from '../../api/user/User';
