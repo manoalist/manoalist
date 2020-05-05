@@ -96,6 +96,11 @@ class NavBar extends React.Component {
                                    as={NavLink}
                                    exact
                                    to="/profile"/>
+                    <Dropdown.Item text="Security"
+                                   icon={'lock'}
+                                   as={NavLink}
+                                   exact
+                                   to="/changepsword"/>
                     <Dropdown.Item icon="sign out"
                                    text="Sign Out"
                                    as={NavLink}
