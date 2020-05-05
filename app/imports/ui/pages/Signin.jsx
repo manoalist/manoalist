@@ -44,7 +44,7 @@ class Signin extends React.Component {
         return <Redirect to={from}/>;
     }
     return (
-         <div style={{ backgroundColor: '#fafafa' }}>
+      <div style={{ backgroundColor: '#fafafa' }}>
         <Container>
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
             <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
@@ -95,7 +95,7 @@ class Signin extends React.Component {
             </Grid.Column>
           </Grid>
         </Container>
-         </div>
+       </div>
     );
   }
 }

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Header, Grid, Icon, Container, Image, Divider, Segment, Button } from 'semantic-ui-react';
+import { Header, Grid, Icon, Container, Image, Divider, Segment, Button, Loader } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Item';
+import { Contactus } from '../../api/mail/Contactus';
+import { User } from '../../api/user/User';
 import AdminBan from '../components/AdminBan';
 import AdminApproveItem from '../components/AdminApproveItem';
-import { Contactus } from '../../api/mail/Contactus';
 import EmailItem from '../components/EmailItem';
-import { User } from '../../api/user/User';
 
 class HomeAdmin extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class HomeAdmin extends React.Component {
     this.state = {
       openInbox: false,
     };
+    this.renderPage = this.renderPage.bind(this);
   }
 
   handleOpenInbox = () => {
@@ -28,6 +29,11 @@ class HomeAdmin extends React.Component {
   };
 
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
+  }
+
+  /** Render the page once subscriptions have been received. */
+  renderPage() {
     const popupStyle = {
       position: 'fixed',
       width: '100%',
@@ -39,7 +45,7 @@ class HomeAdmin extends React.Component {
       margin: 'auto',
       backgroundColor: 'rgba(0,0,0, 0.5)',
     };
-
+    const me = User.findOne({}).email;
     const innerStyle = {
       position: 'absolute',
       width: '80%',
@@ -85,7 +91,7 @@ class HomeAdmin extends React.Component {
                   {this.props.items
                     .filter(item => item.sold === false)
                     .filter(item => item.flagged === true)
-                    .filter(item => item.owner != User.findOne( {}).email)
+                    .filter(item => item.owner != me)
                     .map((item, index) => <AdminBan key={index} item={item}/>)}
                 </Segment.Group>
               </Grid.Column>

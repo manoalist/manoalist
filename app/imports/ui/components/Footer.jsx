@@ -35,9 +35,9 @@ class Footer extends React.Component {
 
               <Grid.Column>
                 {this.props.currentUser ? (
-                  <Header as={'h3'} inverted>Welcome {this.props.currentUser}</Header>
+                  <Header as={'h3'} inverted textAlign='right'>Welcome {this.props.currentUser}</Header>
                 ) : (
-                  <Container>
+                  <Container textAlign='right'>
                   <Header as={'h3'} inverted>NOT A MEMBER?</Header>
                   <Button content={'Register'} size={'small'} color={'blue'} as={NavLink} exact to={'/signup'}/>
                   </Container>
