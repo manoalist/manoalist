@@ -5,6 +5,7 @@ import { Categories } from '../../api/category/Category';
 import { User } from '../../api/user/User';
 import { Contactus } from '../../api/mail/Contactus';
 import { Ratings } from '../../api/ratings/Ratings';
+import { Contacts } from '../../api/contacts/Contacts';
 
 /** This subscription publishes only the documents associated with the logged in user */
 Meteor.publish('User', function publish() {
@@ -28,6 +29,14 @@ Meteor.publish('UserAdmin', function publish() {
 Meteor.publish('Items', function publish() {
   if (this.userId) {
     return Items.find({});
+  }
+  return this.ready();
+});
+
+/** This subscription publishes only the documents associated with the logged in user */
+Meteor.publish('Contacts', function publish() {
+  if (this.userId) {
+    return Contacts.find({});
   }
   return this.ready();
 });

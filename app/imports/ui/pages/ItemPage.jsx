@@ -22,6 +22,7 @@ import swal from 'sweetalert';
 import { Items } from '../../api/item/Item';
 import { User } from '../../api/user/User';
 import { Ratings } from '../../api/ratings/Ratings';
+import { Contacts } from '../../api/contacts/Contacts';
 import RatingItem from '../components/RatingItem';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
@@ -130,6 +131,32 @@ class ItemPage extends React.Component {
           window.location.href = window.location.href.replace(`details/${currentId}`, `${currentURL}`);
           window.location.reload();
         });
+      }
+    });
+  };
+
+  eMail = () => {
+    Contacts.insert({ itemId: this.props.items._id, buyer: User.findOne({}).email,
+    seller: this.props.items.owner, contactDate: new Date() }, (error) => {
+      if(error) {
+        // eslint-disable-next-line no-undef
+        swal('Error', error.message, 'error');
+      } else {
+        // eslint-disable-next-line no-undef
+        swal('Success', 'Contact updated successfully', 'success');
+      }
+    });
+  };
+
+  sms = () => {
+    Contacts.insert({ itemId: this.props.items._id, buyer: User.findOne({}).email,
+      seller: this.props.items.owner, contactDate: new Date() }, (error) => {
+      if(error) {
+        // eslint-disable-next-line no-undef
+        swal('Error', error.message, 'error');
+      } else {
+        // eslint-disable-next-line no-undef
+        swal('Success', 'Contact updated successfully', 'success');
       }
     });
   };
@@ -284,13 +311,15 @@ class ItemPage extends React.Component {
                 <Header as="h4">CONTACT</Header>
                 <Button color='black'
                         icon
-                        labelPosition='right'>
+                        labelPosition='right'
+                        onClick={this.eMail}>
                   <Icon name='mail'/>
                   EMAIL
                 </Button>
                 <Button color='black'
                         icon
-                        labelPosition='right'>
+                        labelPosition='right'
+                        onClick={this.sms}>
                   <Icon name='mobile alternate'/>
                   TEXT
                 </Button>
@@ -457,8 +486,9 @@ export default withTracker(({ match }) => {
   const subscription = Meteor.subscribe('Items');
   const subscription2 = Meteor.subscribe('User');
   const subscription3 = Meteor.subscribe('Ratings');
+  const subscription4 = Meteor.subscribe('Contacts');
   return {
     items: Items.find({ _id: itemID }).fetch()[0],
-    ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
+    ready: subscription.ready() && subscription2.ready() && subscription3.ready() && subscription4.ready(),
   };
 })(ItemPage);
