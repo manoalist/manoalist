@@ -13,6 +13,7 @@ const ContactusSchema = new SimpleSchema({
   content: String,
   email: String,
   createdAt: Date,
+  beRead: Boolean,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

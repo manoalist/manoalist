@@ -8,6 +8,7 @@ import { Items } from '../../api/item/Item';
 import AdminBan from '../components/AdminBan';
 import AdminApproveItem from '../components/AdminApproveItem';
 import { Contactus } from '../../api/mail/Contactus';
+import EmailItem from '../components/EmailItem';
 
 class HomeAdmin extends React.Component {
   constructor(props) {
@@ -41,11 +42,11 @@ class HomeAdmin extends React.Component {
     const innerStyle = {
       position: 'absolute',
       width: '80%',
+      height: '70%',
       left: '10%',
       top: '10%',
       margin: 'auto',
     };
-    console.log(this.props.emails);
     return (
         <div>
           <Image src={'/images/manoalist-circle.png'}
@@ -70,8 +71,8 @@ class HomeAdmin extends React.Component {
                 <Icon name={'comment alternate outline'} size={'huge'}/>
                 <Header as={'h3'} content={'Send Notification'}/>
               </Grid.Column>
-              <Grid.Column as={Button} textAlign={'center'} onClick={this.handleOpenInbox}>
-                <Icon name={'envelope'} size={'huge'}/>
+              <Grid.Column textAlign={'center'} style={{ color: '#4183c4' }} onClick={this.handleOpenInbox}>
+                <Icon link name={'envelope'} size={'huge'}/>
                 <Header as={'h3'} content={'Inbox'}/>
               </Grid.Column>
             </Grid>
@@ -109,21 +110,11 @@ class HomeAdmin extends React.Component {
                       textAlign={'center'}
                       content={'INBOX'}/>
               <Divider/>
-              <Segment.Group>{this.props.emails.map((email, index) => <Segment key={index}>
-                <Grid>
-                  <Grid.Column width={1}><Icon size={'large'}
-                                               name={'envelope'}/></Grid.Column>
-                  <Grid.Column width={1}/>
-                  <Grid.Column width={1}>{email.issueType}</Grid.Column>
-                  <Grid.Column width={3}/>
-                  <Grid.Column width={4}>{email.subject}</Grid.Column>
-                  <Grid.Column width={1}/>
-                  <Grid.Column width={3}>{email.email}</Grid.Column>
-                  <Grid.Column width={1}>{email.createdAt.toLocaleDateString('en-US')}</Grid.Column>
-                  <Grid.Column floated={'right'}><Button size={'tiny'}
-                                                         icon={'close'}/></Grid.Column>
-                </Grid>
-              </Segment>)}</Segment.Group>
+              <Segment.Group style={{ height: '80%', overflow: 'auto' }}>
+                {this.props.emails.map((email, index) => <EmailItem email={email} key={index}/>)}
+                {this.props.emails.length <= 0 ? <Header textAlign={'center'} as={'h1'}
+                                                         content={'There is no message for you'}/> : ''}
+              </Segment.Group>
             </Segment>
           </div> : ''}
         </div>
