@@ -16,54 +16,19 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '', lastName: '', mobileNumber: '', email: '', password: '', confirm: '', error: '',
-      redirectToReferer: false, errorEmail: '', errorPassword: '',
+      firstName: '', lastName: '', mobileNumber: '', email: '', password: '', confirm: '', redirectToReferer: false,
+      errorEmail: false, errorPassword: false, errorConfirm: false, errorNumber: false, error: '',
     };
   }
 
   /** Update the form controls each time the user interacts with them. */
   handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value }, () => this.validateInput(name, value));
+    this.setState({ [name]: value });
   };
-
-  validateInput(fieldName, value) {
-    switch (fieldName) {
-      case 'firstName':
-        if (value.length > 0) {
-          this.setState({ errorFirstName: '' });
-        } else {
-          this.setState({ errorFirstName: 'Your first name should be at least 1 character long.' });
-        }
-        break;
-      case 'lastName':
-        if (value.length > 0) {
-          this.setState({ errorLastName: '' });
-        } else {
-          this.setState({ errorLastName: 'Your last name should be at least 1 character long.' });
-        }
-        break;
-      case 'email':
-        if (!/^([a-z0-9_-]+)@hawaii.edu$/.test(value)) {
-          this.setState({ errorEmail: 'Your email is not a valid uh email: username@hawaii.edu.' });
-        } else {
-          this.setState({ errorEmail: '' });
-        }
-        break;
-      case 'password':
-        if (value.length < 8) {
-          this.setState({ errorPassword: 'Your password must be at least 8 characters long.' });
-        } else {
-          this.setState({ errorPassword: '' });
-        }
-        break;
-      default:
-        break;
-    }
-  }
 
   /** Handle Signup submission. Create user account and a profile entry, then redirect to the home page. */
   submit = () => {
-    const { firstName, lastName, mobileNumber, email, password } = this.state;
+    const { firstName, lastName, mobileNumber, email, password, errorEmail, errorPassword, errorConfirm } = this.state;
     const writeup =
         `Terms of Use ("Terms")
 Last updated: (April 16th, 2020)
@@ -88,12 +53,46 @@ without limitation, ownership provisions, warranty disclaimers, indemnity and li
 Content
 Our Service allows you to post, link, store, share and otherwise make available certain information, text, graphics, 
 or other material ("Content").`;
-    if (this.state.password !== this.state.confirm) {
-      this.setState({ error: 'Password does not match your confirmation' });
+
+    /** phone number validation */
+    if (this.state.mobileNumber.length !== 10 || (!/^\d+$/.test(this.state.mobileNumber))) {
+      this.setState({ errorNumber: true });
+      this.setState({ error: 'Must be a valid phone number of 10 digits.' });
+      return;
     }
-    if (this.state.password === this.state.confirm
-        && this.state.errorEmail === '' && this.state.errorPassword === '' && this.state.errorFirstName === ''
-        && this.state.errorLastName === '') {
+    this.setState({ errorNumber: false });
+    this.setState({ error: '' });
+
+    /** UH email validation */
+    if ((!/^([a-z0-9_-]+)@hawaii.edu$/.test(email))) {
+      this.setState({ errorEmail: true });
+      this.setState({ error: 'You must use an @hawaii.edu address.' });
+      return;
+    }
+    this.setState({ errorEmail: false });
+    this.setState({ error: '' });
+
+    /** password length validation */
+    if (this.state.password.length < 8) {
+      this.setState({ errorPassword: true });
+      this.setState({ error: 'Password must be at least 8 characters long.' });
+      return;
+    }
+    this.setState({ errorPassword: false });
+    this.setState({ error: '' });
+
+    /** confirm password validation */
+    if (this.state.confirm !== this.state.password) {
+      this.setState({ error: 'Your passwords do not match.' });
+      this.setState({ errorConfirm: true });
+      return;
+    }
+    this.setState({ errorConfirm: false });
+    this.setState({ error: '' });
+
+    if ((errorEmail === false) && (errorPassword === false) && (errorConfirm === false) && (this.state.error === '') &&
+        (this.state.errorNumber === false)
+    ) {
       swal({
         title: 'Terms of Use',
         text: writeup,
@@ -131,31 +130,32 @@ or other material ("Content").`;
                   (error) => {
                     if (error) {
                       swal('Error', error.message, 'error');
+                    } else {
+                      this.setState({ error: '', redirectToReferer: true });
                     }
                   });
-              this.setState({ error: '', redirectToReferer: true });
             }
           });
         }
       });
     }
-  };
+  }
 
   /** Display the signup form. Redirect to add page after successful registration and login. */
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/home' } };
-    // if correct authentication, redirect to from: page instead of signup screen
+    /** if correct authentication, redirect to from: page instead of signup screen */
     if (this.state.redirectToReferer) {
       return <Redirect to={from}/>;
     }
     return (
         <div>
           <Container>
-            <Image centered src={'/images/manoalist-circle.png'} style={{ marginTop: '20px' }} size={'tiny'}/>
+            <Image centered src={'/images/manoalist-circle.png'} style={{ marginTop: '30px' }} size={'tiny'}/>
             <Header as="h2" textAlign="center" style={{ color: '#024731', marginTop: '10px' }}>
               START BUYING + SELLING WITH OTHER STUDENTS TODAY!
             </Header>
-            <Grid style={{ marginTop: '40px', marginBottom: '90px' }}
+            <Grid style={{ marginTop: '40px', marginBottom: '80px' }}
                   relaxed centered columns={'equal'}>
               <Grid.Column>
                 <Image src={'/images/signup.jpg'}/>
@@ -163,35 +163,50 @@ or other material ("Content").`;
               <Grid.Column>
                 <Form onSubmit={this.submit} error>
                   <Form.Group widths={'equal'}>
-                    <Form.Input name={'firstName'} label={'First Name'}
-                                onChange={this.handleChange} placeholder={'Please enter your first name.'}/>
-                    <Form.Input name={'lastName'} label={'Last Name'}
-                                onChange={this.handleChange} placeholder={'Please enter your last name.'}/>
+                    <Form.Input
+                        name={'firstName'}
+                        label={'First Name'}
+                        onChange={this.handleChange}
+                        placeholder={'Please enter your first name.'}
+                        error={this.state.errorFirstName}
+                    />
+                    <Form.Input
+                        name={'lastName'}
+                        label={'Last Name'}
+                        onChange={this.handleChange}
+                        placeholder={'Please enter your last name.'}
+                        error={this.state.errorLastName}
+                    />
                   </Form.Group>
-                  <Form.Input name={'mobileNumber'} label={'Phone Number'}
-                              onChange={this.handleChange} placeholder={'8081234567'}/>
+                  <Form.Input
+                      name={'mobileNumber'}
+                      label={'Phone Number'}
+                      icon={'mobile alternate'}
+                      iconPosition={'left'}
+                      onChange={this.handleChange}
+                      placeholder={'8081234567'}
+                      error={this.state.errorNumber}
+                  />
                   <Form.Input
                       label="Email"
                       icon="mail"
                       iconPosition="left"
                       name="email"
                       type="email"
-                      placeholder="youremailhawaii.edu"
+                      placeholder="youremail@hawaii.edu"
                       onChange={this.handleChange}
+                      error={this.state.errorEmail}
                   />
-                  {/*{this.state.errorEmail === '' ? ('') : (*/}
-                  {/*    <Message error content={this.state.errorEmail}/>)}*/}
                   <Form.Input
                       label="Password"
                       icon="lock"
                       iconPosition="left"
                       name="password"
-                      placeholder="Password"
+                      placeholder="Must be at least 8 characters long."
                       type="password"
                       onChange={this.handleChange}
+                      error={this.state.errorPassword}
                   />
-                  {/*{this.state.errorPassword === '' ? ('') : (*/}
-                  {/*    <Message error content={this.state.errorPassword}/>)}*/}
                   <Form.Input
                       label="Confirm Password"
                       icon="lock"
@@ -200,13 +215,14 @@ or other material ("Content").`;
                       placeholder="Confirm Password"
                       type="password"
                       onChange={this.handleChange}
+                      error={this.state.errorConfirm}
                   />
-                  <Form.Button style={{ marginTop: '20px' }} color={'blue'} content="SIGN UP"/>
+                  <Form.Button fluid style={{ marginTop: '20px' }} color={'blue'} content="SIGN UP" type={'submit'}
+                               disabled={!this.state.firstName || !this.state.lastName || !this.state.email ||
+                               !this.state.mobileNumber || !this.state.password || !this.state.confirm}/>
                   Already have an account? <Link to="/signin">Login</Link>
                 </Form>
-                {this.state.error === '' ? (
-                    ''
-                ) : (
+                {this.state.error === '' ? ('') : (
                     <Message
                         error
                         header="Registration was not successful"
