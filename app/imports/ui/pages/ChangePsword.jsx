@@ -91,9 +91,6 @@ class ChangePsword extends React.Component {
                         onChange={this.handleChange}
                     />
                     <Form.Button style={{ color: 'white', backgroundColor: '#024731' }} content="Change"/>
-
-                    No account? <Link to="/signup"> Sign Up!</Link>
-
                   </Segment>
 
                 </Form>

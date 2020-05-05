@@ -16,10 +16,6 @@ function createUser(email, password, role) {
   }
 }
 
-Meteor.publish('getUserData', function () {
-  return Meteor.users.find({ _id: this.userId });
-});
-
 /** When running app for first time, pass a settings file to set up a default user account. */
 if (Meteor.users.find().count() === 0) {
   if (Meteor.settings.defaultAccounts) {
