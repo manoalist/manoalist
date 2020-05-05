@@ -29,6 +29,9 @@ class ChangePsword extends React.Component {
       this.setState({ error: 'New password does not match. Please double check.', redirectToReferer: false });
     } else if (this.state.newPassword.length < 8) {
       this.setState({ error: 'New password requires at 8 characters.', redirectToReferer: false });
+    } else if (this.state.curPassword === this.state.newPassword) {
+      this.setState({ error: 'New password cannot be same as the the current password.',
+        redirectToReferer: false });
     } else {
       Accounts.changePassword(curPassword, newPassword, (err) => {
         if (err) {
