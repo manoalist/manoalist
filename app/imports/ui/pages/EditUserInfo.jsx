@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
+import { Grid, Loader, Header, Segment, Image, Divider } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, NumField } from 'uniforms-semantic';
 import { Meteor } from 'meteor/meteor';
@@ -15,12 +15,19 @@ class EditUserInfo extends React.Component {
     super(props);
     this.state = {
       redirectToReferer: false,
+      image: 'no-change',
     };
   }
 
   /** On successful submit, insert the data. */
   submit(data) {
-    const { firstName, lastName, description, image, mobileNumber, _id } = data;
+    const { firstName, lastName, description, mobileNumber, _id } = data;
+    let image;
+    if (this.state.image === 'no-change') {
+      image = this.props.doc.image;
+    } else {
+      image = this.state.image;
+    }
     User.update(_id, { $set: { firstName, lastName, description, image, mobileNumber } }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
@@ -30,6 +37,26 @@ class EditUserInfo extends React.Component {
       }
 });
   }
+
+  onImageUpload = (event) => {
+    const edit = this;
+    event.preventDefault();
+    const files = event.target.files;
+    if (files) {
+      /* global FileReader */
+      const reader = new FileReader();
+      reader.addEventListener('load', function () {
+        const fileSize = files[0].size / 1000 / 1000;
+        if (fileSize > 2) {
+          swal('Error', 'This Image is too big, cannot exceed 2 MB', 'error');
+        } else {
+          edit.setState({ image: this.result });
+        }
+      });
+
+      reader.readAsDataURL(files[0]);
+    }
+  };
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
@@ -41,28 +68,50 @@ class EditUserInfo extends React.Component {
     if (this.state.redirectToReferer) {
       return <Redirect to={'/profile'}/>;
     }
+    let dataImage = this.state.image;
+    if (this.state.image === 'no-change') {
+      dataImage = this.props.doc.image;
+    }
     return (
         <Grid container centered>
           <Grid.Column>
-            <Header as="h2" textAlign="center">Edit Stuff</Header>
+            <Header as="h2" textAlign="center">Edit Your Profile</Header>
             <AutoForm schema={UserSchema} onSubmit={data => this.submit(data)} model={this.props.doc}>
               <Segment>
                 <Grid stackable container>
                   <Grid.Row>
-                    <Grid stackable columns={'equal'}>
-                      <Grid.Column>
-                        <TextField name='firstName'/>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <TextField name='lastName'/>
-                      </Grid.Column>
-                      <Grid.Column>
+                    <Grid.Column width={3}><label htmlFor="file-input">
+                      <div style={{ fontSize: '0.92857143em', fontWeight: 'bold' }}>
+                        Photo <span style={{ color: '#DB2828' }}>*</span></div>
+                      <Image
+                          size={'huge'}
+                          style={{ cursor: 'pointer', width: '150px', height: '150px' }}
+                          src={dataImage}
+                      />
+                      <div style={{ color: '#024731' }}>Choose Your Photo here</div>
+                    </label>
+                      <input type="file"
+                             id="file-input"
+                             name="picture"
+                             accept=".jpg, .jpeg, .png"
+                             style={{ display: 'none' }}
+                             onChange={this.onImageUpload}/></Grid.Column>
+                    <Grid.Column width={13}>
+                      <Grid.Row>
+                        <Grid stackable columns={'equal'}>
+                          <Grid.Column>
+                            <TextField name='firstName'/>
+                          </Grid.Column>
+                          <Grid.Column>
+                            <TextField name='lastName'/>
+                          </Grid.Column>
+                        </Grid>
+                      </Grid.Row>
+                      <Divider hidden/>
+                      <Grid.Row>
                         <NumField name='mobileNumber' decimal={false}/>
-                      </Grid.Column>
-                    </Grid>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <TextField name='image' iconLeft='image'/>
+                      </Grid.Row>
+                    </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
                     <LongTextField name='description'/>

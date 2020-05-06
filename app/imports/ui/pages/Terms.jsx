@@ -8,11 +8,12 @@ class Terms extends React.Component {
       <div>
         <Container>
           <Header as="h2" textAlign="center">Manoalist User Terms of Use</Header>
-          <Header as="h3" textAlign="left">Terms of Use ("Terms")</Header>
+          <Header as="h3" textAlign="left">Terms of Use (&quot;Terms&quot;)</Header>
           <Header as="h4" textAlign="left" style={{ marginTop: '-10px' }}>Last updated: (April 16th, 2020)</Header>
           <Header as="h4" textAlign="left" style={{ marginTop: '0px' }}>
-            Please read these Terms of Use ("Terms", "Terms of Use") carefully before using the
-            http://manoalist.meteorapp.com website (the "Service") operated by UH Manoa ("us", "we", or "our").
+            Please read these Terms of Use (&quot;Terms&quot;, &quot;Terms of Use&quot;) carefully before using the
+            http://manoalist.meteorapp.com website (the &quot;Service&quot;)
+            operated by UH Manoa (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).
           </Header>
           <Header as="h4" textAlign="left" style={{ marginTop: '0px' }}>
             Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms.
@@ -35,7 +36,7 @@ class Terms extends React.Component {
           <Header as="h3" textAlign="left">Content</Header>
           <Header as="h4" textAlign="left" style={{ marginTop: '-10px' }}>
             Our Service allows you to post, link, store, share and otherwise make available certain information, text,
-            graphics, or other material ("Content").
+            graphics, or other material (&quot;Content&quot;).
           </Header>
         </Container>
       </div>
