@@ -18,7 +18,7 @@ class AdminBan extends React.Component {
 
   banUser = () => {
     const thisUser = User.findOne({ email: this.props.item.owner });
-    if(!(User.findOne( {}).email === this.props.items.owner)) {
+    if (!(User.findOne({}).email === this.props.item.owner)) {
       User.update({ _id: thisUser._id }, { $set: { isBanned: 'true' } });
       Items.remove({ _id: this.props.item._id });
     }
