@@ -4,6 +4,9 @@ import { Roles } from 'meteor/alanning:roles';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import swal from 'sweetalert';
+import { User } from '../../api/user/User';
 
 /**
  * Signin component is similar to signup component, but we create a new user instead.
@@ -38,6 +41,10 @@ class Signin extends React.Component {
     const { from } = this.props.location.state || { from: { pathname: '/home' } };
     // if correct authentication, redirect to from: page instead of signup screen
     if (this.state.redirectToReferer) {
+      if (User.findOne({}).isBanned === true) {
+        swal('Sorry!', 'Your account has been locked, please contact Admin to see the details.', 'error');
+        return <Redirect to={'/signout'}/>;
+      }
       if (isAdmin) {
         return <Redirect to={'/admin'}/>;
       }
@@ -105,4 +112,11 @@ Signin.propTypes = {
   location: PropTypes.object,
 };
 
-export default Signin;
+export default withTracker(() => {
+  // Get access to Stuff documents.
+  const subscription = Meteor.subscribe('User');
+  return {
+    user: User.find({}).fetch(),
+    ready: subscription.ready(),
+  };
+})(Signin);
