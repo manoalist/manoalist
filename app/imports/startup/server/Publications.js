@@ -48,11 +48,18 @@ Meteor.publish('Categories', function publish() {
 
 /** This subscription publishes all documents regardless of user. */
 Meteor.publish('Contactus', function publish() {
-  const username = Meteor.users.findOne(this.userId).username;
   if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
     return Contactus.find({ recipient: 'admin' });
   }
-  return Contactus.find({ recipient: username });
+  return this.ready();
+});
+
+Meteor.publish('Email', function publish() {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    return Contactus.find({ recipient: username });
+  }
+  return this.ready();
 });
 
 /** This subscription publishes only the documents associated with the logged in user */

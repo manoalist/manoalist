@@ -36,7 +36,7 @@ class EmailItem extends React.Component {
   render() {
     return (
         <div>
-          <Segment style={{ width: '1314px' }} onClick={this.handleRead}>
+          <Segment style={{ cursor: 'pointer', width: '1314px' }} onClick={this.handleRead}>
             <Grid>
               <Grid.Column width={1}>{this.props.email.beRead ? <Icon size={'large'} name={'envelope open outline'}/>
                   : <Icon size={'large'} name={'envelope'}/>}
