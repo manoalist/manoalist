@@ -1,9 +1,23 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Header, Grid, Icon, Container, Image, Divider, Segment, Button, Loader } from 'semantic-ui-react';
+import {
+  Header,
+  Grid,
+  Icon,
+  Container,
+  Image,
+  Divider,
+  Segment,
+  Button,
+  Loader,
+  Dropdown,
+  Label,
+  Form,
+} from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import swal from 'sweetalert';
 import { Items } from '../../api/item/Item';
 import { Contactus } from '../../api/mail/Contactus';
 import { User } from '../../api/user/User';
@@ -16,6 +30,11 @@ class HomeAdmin extends React.Component {
     super(props);
     this.state = {
       openInbox: false,
+      openSendEmail: false,
+      recipientError: false,
+      recipient: '',
+      subject: '',
+      content: '',
     };
     this.renderPage = this.renderPage.bind(this);
   }
@@ -24,8 +43,32 @@ class HomeAdmin extends React.Component {
     this.setState({ openInbox: true });
   };
 
+  handleOpenSendEmail = () => {
+    this.setState({ openSendEmail: true });
+  };
+
   handleClose = () => {
-    this.setState({ openInbox: false });
+    this.setState({ openInbox: false, openSendEmail: false });
+  };
+
+  handleSubmit = () => {
+    const { recipient, subject, content } = this.state;
+    const name = 'Admin';
+    const createdAt = new Date();
+    const beRead = false;
+    const issueType = 'Notification';
+    const email = Meteor.user().username;
+    if (recipient === '') {
+      this.setState({ recipientError: true });
+    } else {
+      Contactus.insert({ name, subject, issueType, content, email, createdAt, beRead, recipient });
+      swal('Success', 'Message is sent', 'success');
+      this.handleClose();
+    }
+  };
+
+  handleFormChange = (e, { name, value }) => {
+    this.setState({ [name]: value });
   };
 
   render() {
@@ -45,15 +88,17 @@ class HomeAdmin extends React.Component {
       margin: 'auto',
       backgroundColor: 'rgba(0,0,0, 0.5)',
     };
-    const me = User.findOne({}).email;
+    const me = Meteor.user().username;
     const innerStyle = {
       position: 'absolute',
       width: '80%',
-      height: '70%',
+      height: '663.59px',
       left: '10%',
       top: '10%',
       margin: 'auto',
     };
+    const userOptions = [];
+    User.find({}).fetch().map((user) => userOptions.push({ key: user._id, value: user.email, text: user.email }));
     return (
         <div>
           <Image src={'/images/manoalist-circle.png'}
@@ -74,11 +119,13 @@ class HomeAdmin extends React.Component {
                 <Icon name={'add circle'} size={'huge'}/>
                 <Header as={'h3'} content={'Create New Categories'}/>
               </Grid.Column>
-              <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
-                <Icon name={'comment alternate outline'} size={'huge'}/>
+              <Grid.Column textAlign={'center'} style={{ color: '#4183c4' }}
+                           onClick={this.handleOpenSendEmail}>
+                <Icon link name={'comment alternate outline'} size={'huge'}/>
                 <Header as={'h3'} content={'Send Notification'}/>
               </Grid.Column>
-              <Grid.Column textAlign={'center'} style={{ color: '#4183c4' }} onClick={this.handleOpenInbox}>
+              <Grid.Column textAlign={'center'} style={{ color: '#4183c4' }}
+                           onClick={this.handleOpenInbox}>
                 <Icon link name={'envelope'} size={'huge'}/>
                 <Header as={'h3'} content={'Inbox'}/>
               </Grid.Column>
@@ -91,7 +138,7 @@ class HomeAdmin extends React.Component {
                   {this.props.items
                     .filter(item => item.sold === false)
                     .filter(item => item.flagged === true)
-                    .filter(item => item.owner != me)
+                    .filter(item => item.owner !== me)
                     .map((item, index) => <AdminBan key={index} item={item}/>)}
                 </Segment.Group>
               </Grid.Column>
@@ -125,6 +172,44 @@ class HomeAdmin extends React.Component {
               </Segment.Group>
             </Segment>
           </div> : ''}
+          {/* send notification POPUP */}
+          {this.state.openSendEmail ? <div style={popupStyle}>
+            <Segment style={innerStyle}>
+              <Button icon={'close'} floated={'right'} circular onClick={this.handleClose}/>
+              <Header as={'h1'} textAlign={'center'} content={'SEND EMAIL'}/>
+              <Divider/>
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Field required label={'Recipient'}/>
+                <Form.Field><Dropdown
+                    fluid
+                    name={'recipient'}
+                    options={userOptions}
+                    placeholder='User Email Address'
+                    onChange={this.handleFormChange}
+                    selection
+                    search/>
+                  {this.state.recipientError ? <Label pointing size={'large'}
+                          prompt>
+                    <Icon name={'warning circle'}/>
+                    Please fill out this field
+                  </Label> : ''}
+                </Form.Field>
+                <Form.Input required
+                            label='Subject'
+                            type='subject'
+                            name='subject'
+                            onChange={this.handleFormChange}
+                            placeholder='Subject'/>
+                <Form.TextArea style={{ maxHeight: 261, height: 261 }}
+                               required
+                               label='Content'
+                               name='content'
+                               onChange={this.handleFormChange}
+                               type='content'/>
+                <Form.Button content='Send' color={'blue'}/>
+              </Form>
+            </Segment>
+          </div> : ''}
         </div>
     );
   }
@@ -140,7 +225,7 @@ HomeAdmin.propTypes = {
 export default withTracker(() => {
   const subscription = Meteor.subscribe('Items');
   const subscription2 = Meteor.subscribe('Contactus');
-  const subscription3 = Meteor.subscribe('User');
+  const subscription3 = Meteor.subscribe('UserAdmin');
   return {
     items: Items.find({}).fetch(),
     emails: Contactus.find({}).fetch(),
