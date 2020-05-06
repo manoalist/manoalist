@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Card, Header, Loader, Divider, Pagination, Icon, Breadcrumb } from 'semantic-ui-react';
+import { Container, Card, Header, Loader, Divider, 
+         Pagination, Icon, Breadcrumb, Grid, Dropdown } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Item';
@@ -12,6 +13,8 @@ class ListItem extends React.Component {
     super(props);
     this.state = {
       activePage: 1,
+      sortBy: 'createdAt',
+      order: 'desc',
     };
   }
 
@@ -25,12 +28,101 @@ class ListItem extends React.Component {
         <Loader active>Getting data</Loader>;
   }
 
+  handleDropdownChange = (event, data, dropdown) => {
+    this.setState({ [dropdown]: data.value });
+  }
+
+  renderCards() {
+    const sortItem =  this.state.sortBy;
+    
+    return (this.props.items.sort((a,b) => {
+      if (this.state.sortBy === 'createdAt') {
+        if (this.state.order === 'asc') {
+          if (a[sortItem].getTime() > b[sortItem].getTime()) {
+            return 1;
+          } else if (a[sortItem].getTime() < b[sortItem].getTime()) {
+            return -1;
+          } else {
+            return 0;
+          }
+        } else {
+          if (a[sortItem].getTime() > b[sortItem].getTime()) {
+            return -1;
+          } else if (a[sortItem].getTime() < b[sortItem].getTime()) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+      } else {
+        if (this.state.order === 'asc') {
+          if (a[sortItem] > b[sortItem]) {
+            return 1;
+          } else if (a[sortItem] < b[sortItem]) {
+            return -1;
+          } else {
+            return 0;
+          }
+        } else {
+          if (a[sortItem] > b[sortItem]) {
+            return -1;
+          } else if (a[sortItem] < b[sortItem]) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+      }
+    })
+    .filter(item => item.forSale === true)
+    .filter(item => item.approvedForSale === true)
+    .filter(item => item.sold === false)
+    .slice((this.state.activePage - 1) * 20, this.state.activePage * 20)
+    .map((item, index) => <ItemItem key={index} item={item}/>));
+  }
+
   /** Render the page once subscriptions have been received. */
   renderPage() {
 
     const listings = this.props.items.filter(item => item.forSale === true)
         .filter(item => item.approvedForSale === true)
         .filter(item => item.sold === false);
+
+    const filterOptions = [
+      {
+        key: 'Date Posted',
+        text: 'Date Posted',
+        value: 'createdAt',
+      },
+      {
+        key: 'Price',
+        text: 'Price',
+        value: 'price',
+      },
+      {
+        key: 'Quantity',
+        text: 'Quantity',
+        value: 'quantity',
+      },
+      {
+        key: 'Popularity',
+        text: 'Popularity',
+        value: 'numberOfLike'
+      },
+    ]
+
+    const sortBy = [
+      {
+        key: 'asc',
+        text: 'Ascending',
+        value: 'asc',
+      },
+      {
+        key: 'desc',
+        text: 'Descending',
+        value: 'desc',
+      },
+    ]
 
     return (
         <Container textAlign={'center'}>
@@ -46,6 +138,53 @@ class ListItem extends React.Component {
             { this.props.name !== '' && this.props.name !== 'search' ?
                 (<Breadcrumb.Section active link>{this.props.name}</Breadcrumb.Section>) : ''}
           </Breadcrumb>
+          <Grid.Row>
+            <Grid columns={3} stackable>
+              <Grid.Column textAlign={'left'} width={10} style={{ paddingTop: '2em' }}>
+                <Pagination
+                    defaultActivePage={1}
+                    ellipsisItem={{ content: <Icon name='ellipsis horizontal'/>, icon: true }}
+                    firstItem={{ content: <Icon name='angle double left'/>, icon: true }}
+                    lastItem={{ content: <Icon name='angle double right'/>, icon: true }}
+                    prevItem={{ content: <Icon name='angle left'/>, icon: true }}
+                    nextItem={{ content: <Icon name='angle right'/>, icon: true }}
+                    totalPages={Math.ceil(this.props.items
+                        .filter(item => item.forSale === true)
+                        .filter(item => item.approvedForSale === true)
+                        .filter(item => item.sold === false).length / 20)}
+                    onPageChange={this.handleChange}
+                />
+              </Grid.Column>
+              <Grid.Column width={3} textAlign={"left"} floated={"right"}>
+                <Grid.Row>
+                  <label>Sort By</label>
+                </Grid.Row>
+                <Grid.Row>
+                  <Dropdown
+                    placeholder='Sort By'
+                    selection
+                    defaultValue='createdAt'
+                    options={filterOptions}
+                    onChange={(event, data) => this.handleDropdownChange(event, data, 'sortBy')}
+                  />
+                </Grid.Row>
+              </Grid.Column>
+              <Grid.Column width={3} textAlign={"left"}>
+                <Grid.Row>
+                  <label>Order</label>
+                </Grid.Row>
+                <Grid.Row>
+                  <Dropdown
+                    placeholder='Order'
+                    selection
+                    defaultValue='desc'
+                    options={sortBy}
+                    onChange={(event, data) => this.handleDropdownChange(event, data, 'order')}
+                  />
+                </Grid.Row>
+              </Grid.Column>
+            </Grid>
+          </Grid.Row>
           <Divider/>
           {(listings.length === 0) ?
               <Container className={'no-items-message'} textAlign={'center'}>
@@ -53,12 +192,7 @@ class ListItem extends React.Component {
                   <Icon name={'meh outline'}/>Sorry! No items were found.</Header>
               </Container> :
               <Card.Group itemsPerRow={4}>
-                {this.props.items
-                    .filter(item => item.forSale === true)
-                    .filter(item => item.approvedForSale === true)
-                    .filter(item => item.sold === false)
-                    .slice((this.state.activePage - 1) * 20, this.state.activePage * 20)
-                    .map((item, index) => <ItemItem key={index} item={item}/>)}
+                { this.renderCards() }
               </Card.Group>
           }
           <Divider/>
