@@ -41,12 +41,12 @@ class Signin extends React.Component {
     const { from } = this.props.location.state || { from: { pathname: '/home' } };
     // if correct authentication, redirect to from: page instead of signup screen
     if (this.state.redirectToReferer) {
+      if (isAdmin) {
+        return <Redirect to={'/admin'}/>;
+      }
       if (User.findOne({}).isBanned === true) {
         swal('Sorry!', 'Your account has been locked, please contact Admin to see the details.', 'error');
         return <Redirect to={'/signout'}/>;
-      }
-      if (isAdmin) {
-        return <Redirect to={'/admin'}/>;
       }
         return <Redirect to={from}/>;
     }
