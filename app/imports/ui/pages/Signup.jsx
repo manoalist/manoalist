@@ -114,7 +114,7 @@ or other material ("Content").`;
         },
       }).then((value) => {
         if (value) {
-          Accounts.createUser({ firstName, lastName, mobileNumber, email, username: email, password }, (err) => {
+          Accounts.createUser({ email, username: email, password }, (err) => {
             if (err) {
               this.setState({ error: err.reason });
             } else {
