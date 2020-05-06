@@ -24,6 +24,7 @@ import { User } from '../../api/user/User';
 import AdminBan from '../components/AdminBan';
 import AdminApproveItem from '../components/AdminApproveItem';
 import EmailItem from '../components/EmailItem';
+import BanedUsers from '../components/BanedUsers';
 
 class HomeAdmin extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class HomeAdmin extends React.Component {
       openInbox: false,
       openSendEmail: false,
       recipientError: false,
+      openRestore: false,
       recipient: '',
       subject: '',
       content: '',
@@ -47,8 +49,16 @@ class HomeAdmin extends React.Component {
     this.setState({ openSendEmail: true });
   };
 
+  handleOpenRestore = () => {
+    this.setState({ openRestore: true });
+  };
+
   handleClose = () => {
     this.setState({ openInbox: false, openSendEmail: false });
+  };
+
+  handleCloseRestore = () => {
+    this.setState({ openRestore: false });
   };
 
   handleSubmit = () => {
@@ -109,7 +119,7 @@ class HomeAdmin extends React.Component {
                   textAlign={'center'}/>
           <Divider hidden/>
           <Container style={{ verticalAlign: 'middle' }}>
-            <Grid columns={ 4 }
+            <Grid columns={ 5 }
                   container>
               <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
                 <Icon name={'spy'} size={'huge'}/>
@@ -128,6 +138,11 @@ class HomeAdmin extends React.Component {
                            onClick={this.handleOpenInbox}>
                 <Icon link name={'envelope'} size={'huge'}/>
                 <Header as={'h3'} content={'Inbox'}/>
+              </Grid.Column>
+              <Grid.Column textAlign={'center'} style={{ color: '#4183c4' }}
+                           onClick={this.handleOpenRestore}>
+                <Icon link name={'user doctor'} size={'huge'}/>
+                <Header as={'h3'} content={'Baned Users'}/>
               </Grid.Column>
             </Grid>
             <Divider hidden/>
@@ -210,6 +225,25 @@ class HomeAdmin extends React.Component {
               </Form>
             </Segment>
           </div> : ''}
+          {this.state.openRestore ? <div style={popupStyle}>
+            <Segment style={innerStyle}>
+              <Button icon={'close'}
+                      floated={'right'}
+                      circular
+                      onClick={this.handleCloseRestore}/>
+              <Header as={'h1'}
+                      textAlign={'center'}
+                      content={'Baned Users List'}/>
+              <Divider/>
+              <Segment.Group style={{ height: '80%', overflow: 'auto' }}>
+                {this.props.users
+                    .filter(user => user.isBanned === true)
+                    .map((user, index) => <BanedUsers user={user} key={index}/>)}
+                {this.props.users.length <= 0 ? <Header textAlign={'center'} as={'h1'}
+                                                         content={'There is no message for you'}/> : ''}
+              </Segment.Group>
+            </Segment>
+          </div> : ''}
         </div>
     );
   }
@@ -219,6 +253,7 @@ HomeAdmin.propTypes = {
   ready: PropTypes.bool.isRequired,
   items: PropTypes.array.isRequired,
   emails: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
@@ -227,6 +262,7 @@ export default withTracker(() => {
   const subscription2 = Meteor.subscribe('Contactus');
   const subscription3 = Meteor.subscribe('UserAdmin');
   return {
+    users: User.find({}).fetch(),
     items: Items.find({}).fetch(),
     emails: Contactus.find({}).fetch(),
     ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
