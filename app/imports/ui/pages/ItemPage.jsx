@@ -27,6 +27,7 @@ import { Contacts } from '../../api/contacts/Contacts';
 import RatingItem from '../components/RatingItem';
 import CategoryItem from '../components/CategoryItem';
 import { Categories } from '../../api/category/Category';
+// import { sendSMS } from '../../api/sms/Sms';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
