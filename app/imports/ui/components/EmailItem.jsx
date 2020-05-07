@@ -40,7 +40,7 @@ class EmailItem extends React.Component {
   render() {
     return (
         <div>
-          <Segment style={{ cursor: 'pointer', width: '1314px' }} onClick={this.handleRead}>
+          <Segment style={{ cursor: 'pointer', width: '100%' }} onClick={this.handleRead}>
             <Grid>
               <Grid.Column width={1}>{this.props.email.beRead ? <Icon size={'large'} name={'envelope open outline'}/>
                   : <Icon size={'large'} name={'envelope'}/>}
@@ -56,7 +56,7 @@ class EmailItem extends React.Component {
                                                      onClick={this.handleDelete}/></Grid.Column>
             </Grid>
           </Segment>
-          {this.state.openContent ? <Container>
+          {this.state.openContent ? <Container style={{ width: '85%' }}>
             {this.props.email.content}
             <Divider/>
             {this.props.inbox ? <div><Button content={'Reply'} onClick={this.handleOpenSendEmail}

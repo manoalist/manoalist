@@ -102,7 +102,7 @@ class HomeAdmin extends React.Component {
     const innerStyle = {
       position: 'absolute',
       width: '80%',
-      height: '663.59px',
+      height: '70%',
       left: '10%',
       top: '10%',
       margin: 'auto',
@@ -234,7 +234,7 @@ class HomeAdmin extends React.Component {
                             name='subject'
                             onChange={this.handleFormChange}
                             placeholder='Subject'/>
-                <Form.TextArea style={{ maxHeight: 261, height: 261 }}
+                <Form.TextArea style={{ maxHeight: 162, height: 162 }}
                                required
                                label='Content'
                                name='content'
@@ -281,7 +281,7 @@ export default withTracker(() => {
   return {
     users: User.find({}).fetch(),
     items: Items.find({}).fetch(),
-    emails: Contactus.find({}).fetch(),
+    emails: Contactus.find({ recipient: 'admin' }).fetch(),
     ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
   };
 })(HomeAdmin);
