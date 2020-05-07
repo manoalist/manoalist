@@ -33,10 +33,14 @@ class EmailItem extends React.Component {
     });
   };
 
+  handleOpenSendEmail = () => {
+    this.props.inbox.setState({ openSendEmail: true, sendTo: this.props.email.email });
+  };
+
   render() {
     return (
         <div>
-          <Segment style={{ width: '1314px' }} onClick={this.handleRead}>
+          <Segment style={{ cursor: 'pointer', width: '1314px' }} onClick={this.handleRead}>
             <Grid>
               <Grid.Column width={1}>{this.props.email.beRead ? <Icon size={'large'} name={'envelope open outline'}/>
                   : <Icon size={'large'} name={'envelope'}/>}
@@ -52,7 +56,12 @@ class EmailItem extends React.Component {
                                                      onClick={this.handleDelete}/></Grid.Column>
             </Grid>
           </Segment>
-          {this.state.openContent ? <Container>{this.props.email.content}<Divider/></Container> : ''}
+          {this.state.openContent ? <Container>
+            {this.props.email.content}
+            <Divider/>
+            {this.props.inbox ? <div><Button content={'Reply'} onClick={this.handleOpenSendEmail}
+                                           icon={'reply'}/><Divider hidden/></div> : ''}
+          </Container> : ''}
         </div>
     );
   }
@@ -61,6 +70,7 @@ class EmailItem extends React.Component {
 /** Require a document to be passed to this component. */
 EmailItem.propTypes = {
   email: PropTypes.object.isRequired,
+  inbox: PropTypes.object,
 };
 
 /** Wrap this component in withRouter since we use the <Link> React Router element. */

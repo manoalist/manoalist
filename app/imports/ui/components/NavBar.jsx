@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Icon, Dropdown, Image } from 'semantic-ui-react';
+import { Menu, Icon, Dropdown, Image, Label } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { Categories } from '../../api/category/Category';
 import CategoryItem from './CategoryItem';
 import UserAvatar from './UserAvatar';
+import { Contactus } from '../../api/mail/Contactus';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 class NavBar extends React.Component {
@@ -101,6 +102,16 @@ class NavBar extends React.Component {
                                    as={NavLink}
                                    exact
                                    to="/changepsword"/>
+                    <Dropdown.Item as={NavLink}
+                                   exact
+                                   to="/inbox">
+                      <Icon name={'mail'}/>
+                      Inbox
+                      {Contactus.find({ beRead: false }).fetch().length > 0 ? <Label circular
+                              style={{ marginBottom: '8px' }}
+                              empty
+                              color={'red'}/> : ''}
+                    </Dropdown.Item>
                     <Dropdown.Item icon="sign out"
                                    text="Sign Out"
                                    as={NavLink}
@@ -133,12 +144,13 @@ NavBar.propTypes = {
 };
 
 const subscription = Meteor.subscribe('Categories');
+const subscription2 = Meteor.subscribe('Email');
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 const NavBarContainer = withTracker(() => ({
   currentUser: Meteor.user() ? Meteor.user().username : '',
   categories: Categories.find({}).fetch(),
-  ready: subscription.ready(),
+  ready: subscription.ready() && subscription2.ready(),
 }))(NavBar);
 
 /** Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter */
