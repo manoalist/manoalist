@@ -14,7 +14,7 @@
   "defaultUsers": [
     { "email": "admin@foo.com", "firstName": "Admin", "lastName": "Admin",
       "description": "A simple member who plans to oversee all sales",
-      "image": "/images/default-profile.jpg", "mobileNumber": "8087654321",
+      "image": "https://ca.slack-edge.com/TS7NRJMB7-US878T93N-b8e4a5c0b4b4-512", "mobileNumber": "8087654321",
       "carrier": "AT&T", "isBanned": false
     },
     { "email": "opieca@hawaii.edu", "firstName": "Craig", "lastName": "Opie",
@@ -44,7 +44,7 @@
     },
     { "email": "john@foo.com", "firstName": "John", "lastName": "Doe",
       "description": "A simple senior who plans to sell all his belongings",
-      "image": "/images/default-profile.jpg", "mobileNumber": "8081234567",
+      "image": "https://media.npr.org/assets/img/2019/09/30/jl-6bd34bd9f94c2f361acbfbdd1abbf1338aaaa3f3-s800-c85.png", "mobileNumber": "8081234567",
       "carrier": "T-Mobile", "isBanned": false
     },
     { "email": "jack@hawaii.edu", "firstName": "Jack", "lastName": "Dawson",
@@ -61,6 +61,15 @@
 
   "defaultContactus": [
     { "name": "bb", "subject": "aa", "issueType": "Bug", "content": "nothing", "email": "testing@foo.com" }
+  ],
+
+  "defaultContacts": [
+    {
+      "itemId": "123",
+      "buyer": "jack@hawaii.edu",
+      "seller": "rose@hawaii.edu",
+      "contactDate": "Fri May 1 2020 14:53:32 GMT-1000 (Hawaii-Aleutian Standard Time)"
+    }
   ],
 
   "defaultRatings": [

@@ -26,6 +26,7 @@ class Contact extends React.Component {
     const { name, subject, issueType, content, email } = this.state;
     const createdAt = new Date();
     const beRead = false;
+    const recipient = 'admin';
     if (this.state.name === '') {
       this.setState({ name: 'customer' });
     } else if (this.state.subject === '') {
@@ -37,7 +38,7 @@ class Contact extends React.Component {
     } else if (!/^([a-z0-9_-]+)@hawaii.edu$/.test(this.state.email)) {
       this.setState({ error: 'Please correctly enter your email address as xxx@hawaii.edu' });
     } else {
-      Contactus.insert({ name, subject, issueType, content, email, createdAt, beRead });
+      Contactus.insert({ name, subject, issueType, content, email, createdAt, beRead, recipient });
       this.setState({ error: '', redirectToReferer: true });
       swal('Thank you!', 'We will contact you soon', 'success');
     }

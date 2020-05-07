@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Loader, Header, Segment, Image } from 'semantic-ui-react';
+import { Grid, Loader, Header, Segment, Image, Icon } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField, NumField, SelectField } from 'uniforms-semantic';
 import { Meteor } from 'meteor/meteor';
@@ -19,12 +19,20 @@ class EditItem extends React.Component {
       redirectToReferer: false,
       // eslint-disable-next-line react/prop-types
       group: props.match.params.group,
+      pictures: 'no-change',
+      isChange: false,
     };
   }
 
   /** On successful submit, insert the data. */
   submit(data) {
-    const { name, price, quantity, picture, categoryGroup, categoryName, description, _id } = data;
+    const { name, price, quantity, categoryGroup, categoryName, description, _id } = data;
+    let picture;
+    if (this.state.pictures === 'no-change') {
+      picture = this.props.doc.picture;
+    } else {
+      picture = this.state.pictures.substring(0, this.state.pictures.length - 3);
+    }
     Items.update(_id, { $set: { name, price, quantity, description, picture, categoryGroup, categoryName } },
         (error) => {
       if (error) {
@@ -61,8 +69,51 @@ class EditItem extends React.Component {
     }
   };
 
+  removePicture = (index) => {
+    if (this.state.pictures === 'no-change') {
+      const temp = this.props.doc.picture.concat(',:;');
+      const newPic = temp.replace(`${temp.split(',:;')[index]},:;`, '');
+      this.setState({ pictures: newPic });
+    } else {
+      const temp = this.state.pictures.replace(`${this.state.pictures.split(',:;')[index]},:;`, '');
+      this.setState({ pictures: temp });
+    }
+  };
+
+  onImageUpload = (event) => {
+    const edit = this;
+    event.preventDefault();
+    const files = event.target.files;
+
+    if (files) {
+        /* global FileReader */
+        const reader = new FileReader();
+        reader.addEventListener('load', function () {
+          let temp = edit.state.pictures;
+          const fileSize = files[0].size / 1000 / 1000;
+          if (edit.state.pictures === 'no-change') {
+            temp = edit.props.doc.picture.concat(',:;');
+          }
+          if (temp.split(',:;').includes(this.result)) {
+            swal('Error', 'You cannot have two same picture', 'error');
+          } else if (fileSize > 2) {
+            swal('Error', 'This Image is too big, cannot exceed 2 MB', 'error');
+          } else {
+            edit.setState({ pictures: temp.concat(`${this.result},:;`) });
+          }
+        });
+
+        reader.readAsDataURL(files[0]);
+    }
+  };
+
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
+    let dataPictures = this.props.doc.picture;
+    if (this.state.pictures !== 'no-change') {
+      dataPictures = this.state.pictures;
+      dataPictures = dataPictures.substring(0, dataPictures.length - 3);
+    }
     if (this.state.redirectToReferer) {
       return <Redirect to={'/profile'}/>;
     }
@@ -104,9 +155,39 @@ class EditItem extends React.Component {
                   </Grid.Column>
                 </Grid>
               </Grid.Row>
-              <Grid.Row>
-                <TextField name='picture'
-                           iconLeft='image'/>
+              <Grid.Row columns={4}>
+                <div style={{ fontSize: '0.92857143em', fontWeight: 'bold' }}>
+                  Pictures <span style={{ color: '#DB2828' }}>*</span></div>
+                {dataPictures.split(',:;').map((picture, index) => <Grid.Column
+                      className="ImageField"
+                      key={index}
+                      name="picture">
+                  {picture !== '' ? <div><label>
+                    <Image
+                        style={{ width: '150px', height: '150px' }}
+                        src={picture}
+                    />
+                  </label>
+                    < Icon style={{ cursor: 'pointer' }}
+                           onClick={() => this.removePicture(index)}
+                           name={'close'}/>
+                    </div> : ''}
+                  </Grid.Column>)
+                }
+                <Grid.Column>{dataPictures.split(',:;').length < 4 ? <div>
+                  <label htmlFor="file-input">
+                    <Icon
+                        size={'huge'}
+                        style={{ cursor: 'pointer', color: '#024731' }}
+                        name={'plus circle'}
+                    />
+                  </label>
+                  <input type="file"
+                         id="file-input"
+                         name="picture"
+                         accept=".jpg, .jpeg, .png"
+                         style={{ display: 'none' }}
+                         onChange={this.onImageUpload}/></div> : ''}</Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid columns={'equal'}>

@@ -4,6 +4,9 @@ import { Roles } from 'meteor/alanning:roles';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Image } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
+import swal from 'sweetalert';
+import { User } from '../../api/user/User';
 
 /**
  * Signin component is similar to signup component, but we create a new user instead.
@@ -41,8 +44,13 @@ class Signin extends React.Component {
       if (isAdmin) {
         return <Redirect to={'/admin'}/>;
       }
-      return <Redirect to={from}/>;
+      if (User.findOne({}).isBanned === true) {
+        swal('Sorry!', 'Your account has been locked, please contact Admin to see the details.', 'error');
+        return <Redirect to={'/signout'}/>;
+      }
+        return <Redirect to={from}/>;
     }
+      
     return (
         <Container style={{ paddingLeft: '130px', paddingRight: '130px', marginTop: '50px', marginBottom: '95px' }}>
           <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered style={{ marginBottom: '-12px' }}/>
@@ -52,7 +60,6 @@ class Signin extends React.Component {
           <Grid relaxed style={{ marginTop: '25px' }} textAlign="center" verticalAlign="middle" centered
                 columns={'equal'}>
             <Grid.Column>
-
               <Form onSubmit={this.submit}>
                 <Form.Input
                     label="Email Address"
@@ -102,4 +109,11 @@ Signin.propTypes = {
   location: PropTypes.object,
 };
 
-export default Signin;
+export default withTracker(() => {
+  // Get access to Stuff documents.
+  const subscription = Meteor.subscribe('User');
+  return {
+    user: User.find({}).fetch(),
+    ready: subscription.ready(),
+  };
+})(Signin);
