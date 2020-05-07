@@ -24,6 +24,7 @@ import { User } from '../../api/user/User';
 import AdminBan from '../components/AdminBan';
 import AdminApproveItem from '../components/AdminApproveItem';
 import EmailItem from '../components/EmailItem';
+import BannedUsers from '../components/BannedUsers';
 
 class HomeAdmin extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class HomeAdmin extends React.Component {
       openInbox: false,
       openSendEmail: false,
       recipientError: false,
+      openRestore: false,
       recipient: '',
       subject: '',
       content: '',
@@ -47,8 +49,16 @@ class HomeAdmin extends React.Component {
     this.setState({ openSendEmail: true });
   };
 
+  handleOpenRestore = () => {
+    this.setState({ openRestore: true });
+  };
+
   handleClose = () => {
     this.setState({ openInbox: false, openSendEmail: false });
+  };
+
+  handleCloseRestore = () => {
+    this.setState({ openRestore: false });
   };
 
   handleSubmit = () => {
@@ -97,6 +107,25 @@ class HomeAdmin extends React.Component {
       top: '10%',
       margin: 'auto',
     };
+    const popupStyle2 = {
+      position: 'fixed',
+      width: '100%',
+      height: '100%',
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      margin: 'auto',
+      backgroundColor: 'rgba(0,0,0, 0.5)',
+    };
+    const innerStyle2 = {
+      position: 'absolute',
+      width: '50%',
+      height: '500px',
+      left: '25%',
+      top: '10%',
+      margin: 'auto',
+    };
     const userOptions = [];
     User.find({}).fetch().map((user) => userOptions.push({ key: user._id, value: user.email, text: user.email }));
     return (
@@ -109,11 +138,16 @@ class HomeAdmin extends React.Component {
                   textAlign={'center'}/>
           <Divider hidden/>
           <Container style={{ verticalAlign: 'middle' }}>
-            <Grid columns={ 4 }
+            <Grid columns={ 5 }
                   container>
               <Grid.Column as={NavLink} exact to={'/list'} textAlign={'center'}>
                 <Icon name={'spy'} size={'huge'}/>
                 <Header as={'h3'} content={'Monitor Items'}/>
+              </Grid.Column>
+              <Grid.Column textAlign={'center'} style={{ color: '#4183c4' }}
+                           onClick={this.handleOpenRestore}>
+                <Icon link name={'user doctor'} size={'huge'}/>
+                <Header as={'h3'} content={'Baned Users'}/>
               </Grid.Column>
               <Grid.Column as={NavLink} exact to={'/addCate'} textAlign={'center'}>
                 <Icon name={'add circle'} size={'huge'}/>
@@ -210,6 +244,23 @@ class HomeAdmin extends React.Component {
               </Form>
             </Segment>
           </div> : ''}
+          {this.state.openRestore ? <div style={popupStyle2}>
+            <Segment style={innerStyle2}>
+              <Button icon={'close'}
+                      floated={'right'}
+                      circular
+                      onClick={this.handleCloseRestore}/>
+              <Header as={'h1'}
+                      textAlign={'center'}
+                      content={'Banned Users List'}/>
+              <Divider/>
+              <Segment.Group style={{ height: '80%', overflow: 'auto' }}>
+                {this.props.users
+                    .filter(user => user.isBanned === true)
+                    .map((user, index) => <BannedUsers user={user} key={index}/>)}
+              </Segment.Group>
+            </Segment>
+          </div> : ''}
         </div>
     );
   }
@@ -219,6 +270,7 @@ HomeAdmin.propTypes = {
   ready: PropTypes.bool.isRequired,
   items: PropTypes.array.isRequired,
   emails: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
@@ -227,6 +279,7 @@ export default withTracker(() => {
   const subscription2 = Meteor.subscribe('Contactus');
   const subscription3 = Meteor.subscribe('UserAdmin');
   return {
+    users: User.find({}).fetch(),
     items: Items.find({}).fetch(),
     emails: Contactus.find({}).fetch(),
     ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
