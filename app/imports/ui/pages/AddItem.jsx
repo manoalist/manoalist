@@ -90,23 +90,24 @@ class AddItem extends React.Component {
     const reader = new FileReader();
     const processedImages = [];
     const files = event.target.files;
-
-    this.setState({ processingImages: true }, () => {
-      reader.onloadend = () => {
-        processedImages.push({
-          fileName: files[i].name,
-          image: reader.result,
-          fileSize: files[i].size / 1000 / 1000,
-        });
-        i++;
-        if (files[i]) {
-          reader.readAsDataURL(files[i]);
-        } else if (processedImages.length === files.length) {
-          this.setState({ images: processedImages, processingImages: false });
-        }
-      };
-      reader.readAsDataURL(files[0]);
-    });
+    if (event.target.files) {
+      this.setState({ processingImages: true }, () => {
+        reader.onloadend = () => {
+          processedImages.push({
+            fileName: files[i].name,
+            image: reader.result,
+            fileSize: files[i].size / 1000 / 1000,
+          });
+          i++;
+          if (files[i]) {
+            reader.readAsDataURL(files[i]);
+          } else if (processedImages.length === files.length) {
+            this.setState({ images: processedImages, processingImages: false });
+          }
+        };
+        reader.readAsDataURL(files[0]);
+      });
+    }
   }
 
   removeImage(image) {
