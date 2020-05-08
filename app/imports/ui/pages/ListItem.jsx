@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Card, Header, Loader, Divider, 
+import { Container, Card, Header, Loader, Divider, Input,
          Pagination, Icon, Breadcrumb, Grid, Dropdown } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -15,11 +15,27 @@ class ListItem extends React.Component {
       activePage: 1,
       sortBy: 'createdAt',
       order: 'desc',
+      search: '',
     };
   }
 
   handleChange = (e, data) => {
     this.setState({ activePage: data.activePage });
+  };
+
+  handleSearch = () => {
+    /* eslint-env browser */
+    window.location.href = `${window.location.origin}/#/list/${this.state.search}/search`;
+  };
+
+  handleInputChange = (e) => {
+    this.setState({ search: e.target.value });
+  };
+
+  pressEnter = (event) => {
+    if (event.keyCode === 13) {
+      this.handleSearch();
+    }
   };
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -33,9 +49,9 @@ class ListItem extends React.Component {
   }
 
   renderCards() {
-    const sortItem =  this.state.sortBy;
-    
-    return (this.props.items.sort((a,b) => {
+    const sortItem = this.state.sortBy;
+
+    return (this.props.items.sort((a, b) => {
       if (this.state.sortBy === 'createdAt') {
         if (this.state.order === 'asc') {
           if (a[sortItem].getTime() > b[sortItem].getTime()) {
@@ -107,9 +123,9 @@ class ListItem extends React.Component {
       {
         key: 'Popularity',
         text: 'Popularity',
-        value: 'numberOfLike'
+        value: 'numberOfLike',
       },
-    ]
+    ];
 
     const sortBy = [
       {
@@ -122,7 +138,7 @@ class ListItem extends React.Component {
         text: 'Descending',
         value: 'desc',
       },
-    ]
+    ];
 
     return (
         <Container textAlign={'center'}>
@@ -138,24 +154,29 @@ class ListItem extends React.Component {
             { this.props.name !== '' && this.props.name !== 'search' ?
                 (<Breadcrumb.Section active link>{this.props.name}</Breadcrumb.Section>) : ''}
           </Breadcrumb>
+          <Grid.Row textAlign={'center'} style={{ margin: '1em 0em' }}>
+            <Pagination
+                defaultActivePage={1}
+                ellipsisItem={{ content: <Icon name='ellipsis horizontal'/>, icon: true }}
+                firstItem={{ content: <Icon name='angle double left'/>, icon: true }}
+                lastItem={{ content: <Icon name='angle double right'/>, icon: true }}
+                prevItem={{ content: <Icon name='angle left'/>, icon: true }}
+                nextItem={{ content: <Icon name='angle right'/>, icon: true }}
+                totalPages={Math.ceil(this.props.items
+                    .filter(item => item.forSale === true)
+                    .filter(item => item.approvedForSale === true)
+                    .filter(item => item.sold === false).length / 20)}
+                onPageChange={this.handleChange}
+            />
+          </Grid.Row>
           <Grid.Row>
             <Grid columns={3} stackable>
-              <Grid.Column textAlign={'left'} width={10} style={{ paddingTop: '2em' }}>
-                <Pagination
-                    defaultActivePage={1}
-                    ellipsisItem={{ content: <Icon name='ellipsis horizontal'/>, icon: true }}
-                    firstItem={{ content: <Icon name='angle double left'/>, icon: true }}
-                    lastItem={{ content: <Icon name='angle double right'/>, icon: true }}
-                    prevItem={{ content: <Icon name='angle left'/>, icon: true }}
-                    nextItem={{ content: <Icon name='angle right'/>, icon: true }}
-                    totalPages={Math.ceil(this.props.items
-                        .filter(item => item.forSale === true)
-                        .filter(item => item.approvedForSale === true)
-                        .filter(item => item.sold === false).length / 20)}
-                    onPageChange={this.handleChange}
-                />
+              <Grid.Column textAlign={'left'} width={6} style={{ paddingTop: '2em' }}>
+                <Input icon='search' placeholder='Search...'
+                    onChange={this.handleInputChange} onKeyDown={ this.pressEnter }
+                    style={{ width: '100%' }}/>
               </Grid.Column>
-              <Grid.Column width={3} textAlign={"left"} floated={"right"}>
+              <Grid.Column width={4} textAlign={'left'} floated={'right'}>
                 <Grid.Row>
                   <label>Sort By</label>
                 </Grid.Row>
@@ -169,7 +190,7 @@ class ListItem extends React.Component {
                   />
                 </Grid.Row>
               </Grid.Column>
-              <Grid.Column width={3} textAlign={"left"}>
+              <Grid.Column width={4} textAlign={'left'}>
                 <Grid.Row>
                   <label>Order</label>
                 </Grid.Row>
