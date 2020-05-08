@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
 import { Link, Redirect } from 'react-router-dom';
-import { Container, Form, Grid, Header, Message, Segment, Image } from 'semantic-ui-react';
+import { Container, Form, Grid, Header, Message, Image } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
@@ -50,46 +50,44 @@ class Signin extends React.Component {
       }
         return <Redirect to={from}/>;
     }
+      
     return (
-      <div style={{ backgroundColor: '#fafafa' }}>
-        <Container>
-          <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
-            <Grid.Column style={{ marginTop: '65px', marginBottom: '100px' }}>
+        <Container style={{ paddingLeft: '130px', paddingRight: '130px', marginTop: '50px', marginBottom: '95px' }}>
+          <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered style={{ marginBottom: '-12px' }}/>
+          <Header as="h1" textAlign="center" style={{ color: '#024731', marginBottom: '35px' }}>
+            WELCOME BACK!
+          </Header>
+          <Grid relaxed style={{ marginTop: '25px' }} textAlign="center" verticalAlign="middle" centered
+                columns={'equal'}>
+            <Grid.Column>
               <Form onSubmit={this.submit}>
-
-                <Segment stacked>
-                  <Header as="h1" textAlign="center" style={{ color: '#024731', marginBottom: '25px' }}>
-                    Log In
-                  </Header>
-                  <div style={{ marginBottom: '15px' }}>
-                  <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered/>
-                  </div>
-                  <Form.Input
-                      label="Username"
-                      icon="user"
-                      iconPosition="left"
-                      name="email"
-                      type="email"
-                      placeholder="Username or E-mail address"
-                      onChange={this.handleChange}
-                  />
-                  <Form.Input
-                      label="Password"
-                      icon="lock"
-                      iconPosition="left"
-                      name="password"
-                      placeholder="Password"
-                      type="password"
-                      onChange={this.handleChange}
-                  />
-                  <Form.Button style={{ color: 'white', backgroundColor: '#024731' }} content="Log in"/>
-
-                    No account? <Link to="/signup"> Sign Up!</Link>
-
-                </Segment>
-
+                <Form.Input
+                    label="Email Address"
+                    icon="mail"
+                    iconPosition="left"
+                    name="email"
+                    type="email"
+                    placeholder="youremail@hawaii.edu"
+                    onChange={this.handleChange}
+                />
+                <Form.Input
+                    style={{ marginBottom: '5px' }}
+                    label="Password"
+                    icon="lock"
+                    iconPosition="left"
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    onChange={this.handleChange}
+                />
+                <Form.Button
+                    fluid
+                    style={{ color: 'white', backgroundColor: '#024731' }}
+                    disabled={!this.state.email || !this.state.password}
+                    content="LOG IN"
+                />
+                No account? <Link to="/signup"> Sign Up!</Link>
               </Form>
-
               {this.state.error === '' ? (
                   ''
               ) : (
@@ -102,7 +100,6 @@ class Signin extends React.Component {
             </Grid.Column>
           </Grid>
         </Container>
-       </div>
     );
   }
 }

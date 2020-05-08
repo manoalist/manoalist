@@ -8,42 +8,47 @@ import { NavLink, withRouter } from 'react-router-dom';
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 class Footer extends React.Component {
   render() {
-    const divStyle = { marginTop: '15px', backgroundColor: '#024731', flexShrink: 0 };
+    const divStyle = { paddingTop: '20px', paddingBottom: '20px', backgroundColor: '#024731', flexShrink: 0 };
     return (
         <footer style={divStyle}>
-            <Grid columns={3} container style={{ marginTop: 0, marginBottom: 0 }}>
-              <Grid.Column>
-                <Header as={'h3'} inverted>Information</Header>
-                <hr />
-                <List size={'large'} inverted>
-                <List.Item><a href={'/#/about'}><Icon name={'user secret'}/>About Us
+          <Grid columns={3} relaxed container style={{ marginTop: 0, marginBottom: 0 }}>
+            <Grid.Column width={5}>
+              <Header as={'h3'} inverted>INFORMATION</Header>
+              <hr/>
+              <List size={'large'} inverted>
+                <List.Item><a href={'/#/about'}><Icon name={'users'}/> About Us
                 </a></List.Item>
-                  <List.Item><a href={'/#/terms'}><Icon name={'privacy'}/>Terms & Conditions</a></List.Item>
-                  <List.Item>
-                    <a href={'https://manoalist.github.io/'}><Icon name={'github'}/>more information</a>
-                  </List.Item>
+                <List.Item><a href={'/#/terms'}><Icon name={'privacy'}/> Terms & Conditions</a></List.Item>
+                <List.Item>
+                  <a href={'https://manoalist.github.io/'}><Icon name={'github'}/> More Information</a>
+                </List.Item>
               </List>
-              </Grid.Column>
-
-              <Grid.Column>
-                <Header as={'h3'} inverted>Customer Service</Header>
-                <hr />
-                <List size={'large'} inverted>
-                  <List.Item><a href={'/#/contact'}><Icon name={'mail'}/>Contact Us</a></List.Item>
-                </List>
-              </Grid.Column>
-
-              <Grid.Column>
-                {this.props.currentUser ? (
-                  <Header as={'h3'} inverted textAlign='right'>Welcome {this.props.currentUser}</Header>
-                ) : (
-                  <Container textAlign='right'>
-                  <Header as={'h3'} inverted>NOT A MEMBER?</Header>
-                  <Button content={'Register'} size={'small'} color={'blue'} as={NavLink} exact to={'/signup'}/>
+            </Grid.Column>
+            <Grid.Column width={1}/>
+            <Grid.Column width={5}>
+              <Header as={'h3'} inverted>SUPPORT</Header>
+              <hr/>
+              <List size={'large'} inverted>
+                <List.Item><a href={'/#/contact'}><Icon name={'mail'}/> Contact Us</a></List.Item>
+              </List>
+            </Grid.Column>
+            <Grid.Column width={1}/>
+            <Grid.Column width={4} textAlign={'left'}>
+              {this.props.currentUser ? (
+                  <Header as={'h3'} inverted>Welcome {this.props.currentUser}!</Header>
+              ) : (
+                  <Container>
+                    <Header as={'h3'} inverted>NOT A MEMBER?</Header>
+                    <Button
+                        content={'REGISTER'}
+                        size={'small'}
+                        style={{ color: 'white', backgroundColor: '#6DA172' }}
+                        as={NavLink}
+                        exact to={'/signup'}/>
                   </Container>
-                )}
-              </Grid.Column>
-            </Grid>
+              )}
+            </Grid.Column>
+          </Grid>
         </footer>
     );
   }
