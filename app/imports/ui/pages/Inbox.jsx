@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Header, Divider, Segment, Button, Form } from 'semantic-ui-react';
+import { Header, Divider, Segment, Button, Form, Loader } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
@@ -42,6 +42,10 @@ class Inbox extends React.Component {
   };
 
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
+  }
+
+  renderPage() {
     const inboxStyle = {
       width: '80%',
       height: '663.59px',
@@ -116,6 +120,7 @@ class Inbox extends React.Component {
 /** Declare the types of all properties. */
 Inbox.propTypes = {
   emails: PropTypes.array.isRequired,
+  ready: PropTypes.bool.isRequired,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import {
   Header,
@@ -25,8 +26,7 @@ import { User } from '../../api/user/User';
 import { Ratings } from '../../api/ratings/Ratings';
 import { Contacts } from '../../api/contacts/Contacts';
 import RatingItem from '../components/RatingItem';
-import CategoryItem from '../components/CategoryItem';
-import { Categories } from '../../api/category/Category';
+import { Contactus } from '../../api/mail/Contactus';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class ItemPage extends React.Component {
@@ -38,10 +38,13 @@ class ItemPage extends React.Component {
       error: '',
       soldPopup: false,
       ratePopup: false,
+      openSendEmail: false,
       soldError: '',
       buyer: '',
       activePage: 1,
       thumbnail: '',
+      subject: '',
+      content: '',
     };
     this.renderPage = this.renderPage.bind(this);
     this.setThumbnail = this.setThumbnail.bind(this);
@@ -70,7 +73,7 @@ class ItemPage extends React.Component {
 };
 
   handleCloseSold = () => {
-    this.setState({ soldPopup: false, soldError: '', ratePopup: false });
+    this.setState({ soldPopup: false, soldError: '', ratePopup: false, openSendEmail: false });
   };
 
   handleSelect = (e, data) => {
@@ -103,11 +106,16 @@ class ItemPage extends React.Component {
     this.setState({ activePage: data.activePage });
   };
 
+  // send buy email to owner
+  handleFormChange = (e, { name, value }) => {
+    this.setState({ [name]: value });
+  };
+
   banUser = () => {
     const thisUser = User.findOne({ email: this.props.items.owner });
     const currentId = this.props.items._id;
     const currentURL = `list/${this.props.items.categoryGroup}/${this.props.items.categoryName}`;
-    if(!(User.findOne( {}).email === this.props.items.owner)) {
+    if (!(User.findOne({}).email === this.props.items.owner)) {
       User.update({ _id: thisUser._id }, { $set: { isBanned: 'true' } }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -123,7 +131,7 @@ class ItemPage extends React.Component {
       });
       Items.remove({ _id: this.props.items._id });
     } else {
-      swal('Error', 'can not ban yourself', 'error')
+      swal('Error', 'can not ban yourself', 'error');
     }
   };
 
@@ -146,22 +154,13 @@ class ItemPage extends React.Component {
   };
 
   eMail = () => {
-    Contacts.insert({ itemId: this.props.items._id, buyer: User.findOne({}).email,
-    seller: this.props.items.owner, contactDate: new Date() }, (error) => {
-      if(error) {
-        // eslint-disable-next-line no-undef
-        swal('Error', error.message, 'error');
-      } else {
-        // eslint-disable-next-line no-undef
-        swal('Success', 'Contact updated successfully', 'success');
-      }
-    });
+    this.setState({ openSendEmail: true });
   };
 
   sms = () => {
     Contacts.insert({ itemId: this.props.items._id, buyer: User.findOne({}).email,
       seller: this.props.items.owner, contactDate: new Date() }, (error) => {
-      if(error) {
+      if (error) {
         // eslint-disable-next-line no-undef
         swal('Error', error.message, 'error');
       } else {
@@ -206,6 +205,35 @@ class ItemPage extends React.Component {
     }
   };
 
+  // send Email to buy item
+  handleSendSubmit = () => {
+    const { subject, content } = this.state;
+    const recipient = this.props.items.owner;
+    const name = User.findOne().firstName;
+    const createdAt = new Date();
+    const beRead = false;
+    const issueType = 'Buy';
+    const email = Meteor.user().username;
+    Contactus.insert({ name, subject, issueType, content, email, createdAt, beRead, recipient }, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+      } else {
+        swal('Success', 'Message is sent', 'success').then(() => {
+          this.handleCloseSold();
+          Contacts.insert({ itemId: this.props.items._id, buyer: User.findOne({}).email,
+          seller: this.props.items.owner, contactDate: new Date() }, (error2) => {
+            if (error2) {
+              // eslint-disable-next-line no-undef
+              swal('Error', error2.message, 'error');
+            }
+          });
+        });
+      }
+    });
+    swal('Success', 'Message is sent', 'success');
+    this.handleCloseSold();
+  };
+
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
   }
@@ -219,7 +247,7 @@ class ItemPage extends React.Component {
       ));
 
     // list is a list of buyers that contacted the seller
-    let list = _.uniq(_.pluck(Contacts.find({ itemId: this.props.items._id }).fetch(), 'buyer'));
+    const list = _.uniq(_.pluck(Contacts.find({ itemId: this.props.items._id }).fetch(), 'buyer'));
 
     const buyers = [];
 
@@ -315,7 +343,8 @@ class ItemPage extends React.Component {
                 <Header as="h4">DESCRIPTION</Header>
                 <Header.Subheader>{this.props.items.description}</Header.Subheader>
               </Grid.Row>
-              <Grid.Row className='item-row'>
+              { this.props.items.sold ? <Header color={'red'} content={'This Item has been sold'}/>
+              : <Grid.Row className='item-row'>
                 <Header as="h4">CONTACT</Header>
                 <Button color='black'
                         icon
@@ -331,7 +360,7 @@ class ItemPage extends React.Component {
                   <Icon name='mobile alternate'/>
                   TEXT
                 </Button>
-              </Grid.Row>
+              </Grid.Row>}
               <Grid.Row>
                 {/** If user is owner, they can see edit and sold button */}
                 {Meteor.user().username === this.props.items.owner ?
@@ -477,6 +506,31 @@ class ItemPage extends React.Component {
                 </Form>
               </Segment>
             </div> : ''}
+
+            {/* send email POPUP */}
+            {this.state.openSendEmail ? <div style={popupStyle}>
+              <Segment style={innerStyle}>
+                <Button icon={'close'} floated={'right'} circular onClick={this.handleCloseSold}/>
+                <Header as={'h1'} textAlign={'center'} content={'SEND EMAIL'}/>
+                <Divider/>
+                <Form onSubmit={this.handleSendSubmit}>
+                  <Header content={`To: ${this.props.items.owner}`}/>
+                  <Form.Input required
+                              label='Subject'
+                              type='subject'
+                              name='subject'
+                              onChange={this.handleFormChange}
+                              placeholder='Subject'/>
+                  <Form.TextArea style={{ maxHeight: 261, height: 261 }}
+                                 required
+                                 label='Content'
+                                 name='content'
+                                 onChange={this.handleFormChange}
+                                 type='content'/>
+                  <Form.Button content='Send' color={'blue'}/>
+                </Form>
+              </Segment>
+            </div> : ''}
         </Grid>
     );
   }
@@ -492,9 +546,14 @@ export default withTracker(({ match }) => {
   // Get access to Items and User documents.
   const itemID = match.params._id;
   const subscription = Meteor.subscribe('Items');
-  const subscription2 = Meteor.subscribe('User');
+  let subscription2;
   const subscription3 = Meteor.subscribe('Ratings');
   const subscription4 = Meteor.subscribe('Contacts');
+  if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
+    subscription2 = Meteor.subscribe('UserAdmin');
+  } else {
+    subscription2 = Meteor.subscribe('User');
+  }
   return {
     items: Items.find({ _id: itemID }).fetch()[0],
     ready: subscription.ready() && subscription2.ready() && subscription3.ready() && subscription4.ready(),
