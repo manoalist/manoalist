@@ -65,7 +65,6 @@ class Inbox extends React.Component {
     const innerStyle = {
       position: 'absolute',
       width: '80%',
-      height: '663.59px',
       left: '10%',
       top: '10%',
       margin: 'auto',
@@ -78,7 +77,7 @@ class Inbox extends React.Component {
                     textAlign={'center'}
                     content={'INBOX'}/>
             <Divider/>
-            <div style={{ height: '80%', overflow: 'auto' }}>
+            <div style={{ height: '80%' }}>
               {this.props.emails.map((email, index) => <EmailItem email={email}
                                                                   inbox={this}
                                                                   key={index}/>)}
@@ -89,7 +88,8 @@ class Inbox extends React.Component {
           </div>
 
           {/* send email POPUP */}
-          {this.state.openSendEmail ? <div style={popupStyle}>
+          {this.state.openSendEmail ? <div>
+            <div style={popupStyle}/>
             <Segment style={innerStyle}>
               <Button icon={'close'} floated={'right'} circular onClick={this.handleClose}/>
               <Header as={'h1'} textAlign={'center'} content={'SEND EMAIL'}/>
@@ -128,7 +128,7 @@ export default withTracker(() => {
   const subscription = Meteor.subscribe('Email');
   const subscription2 = Meteor.subscribe('User');
   return {
-    emails: Contactus.find({}).fetch(),
+    emails: Contactus.find({}, { sort: { createdAt: -1 } }).fetch(),
     ready: subscription.ready() && subscription2.ready(),
   };
   })(Inbox);

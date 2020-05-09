@@ -277,8 +277,9 @@ class ItemPage extends React.Component {
 
     const innerStyle = {
       position: 'absolute',
-      width: '504px',
-      left: '35%',
+      // width: '504px',
+      width: '50%',
+      left: '25%',
       top: '25%',
       margin: 'auto',
     };
@@ -458,7 +459,8 @@ class ItemPage extends React.Component {
           </Grid.Row>
 
             {/** Sold Popup, ask to select buyer */}
-            {this.state.soldPopup ? <div style={popupStyle}>
+            {this.state.soldPopup ? <div>
+              <div style={popupStyle}/>
               <Segment style={innerStyle}>
                 <Button icon={'close'}
                         floated={'right'} circular
@@ -480,7 +482,8 @@ class ItemPage extends React.Component {
             </div> : ''}
 
             {/** Rate Popup, after sold user can rate buyer */}
-            {this.state.ratePopup ? <div style={popupStyle}>
+            {this.state.ratePopup ? <div>
+              <div style={popupStyle}/>
               <Segment style={innerStyle}>
                 <Button icon={'close'}
                         floated={'right'} circular
@@ -508,7 +511,8 @@ class ItemPage extends React.Component {
             </div> : ''}
 
             {/* send email POPUP */}
-            {this.state.openSendEmail ? <div style={popupStyle}>
+            {this.state.openSendEmail ? <div>
+              <div style={popupStyle}/>
               <Segment style={innerStyle}>
                 <Button icon={'close'} floated={'right'} circular onClick={this.handleCloseSold}/>
                 <Header as={'h1'} textAlign={'center'} content={'SEND EMAIL'}/>

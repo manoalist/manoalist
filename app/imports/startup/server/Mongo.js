@@ -60,7 +60,7 @@ if (Ratings.find().count() === 0) {
 
 /** Initialize the collection if empty. */
 if (Contacts.find().count() === 0) {
-  if (Meteor.settings.defaultRatings) {
+  if (Meteor.settings.defaultContacts) {
     console.log('Creating default contacts.');
     Meteor.settings.defaultContacts.map(data => addContacts(data));
   }

@@ -71,6 +71,7 @@ class HomeAdmin extends React.Component {
     if (recipient === '') {
       this.setState({ recipientError: true });
     } else {
+      this.setState({ recipientError: false, recipient: '' });
       Contactus.insert({ name, subject, issueType, content, email, createdAt, beRead, recipient });
       swal('Success', 'Message is sent', 'success');
       this.handleClose();
@@ -102,7 +103,7 @@ class HomeAdmin extends React.Component {
     const innerStyle = {
       position: 'absolute',
       width: '80%',
-      height: '70%',
+      height: '550px',
       left: '10%',
       top: '10%',
       margin: 'auto',
@@ -189,7 +190,8 @@ class HomeAdmin extends React.Component {
           </Container>
 
 
-          {this.state.openInbox ? <div style={popupStyle}>
+          {this.state.openInbox ? <div>
+            <div style={popupStyle}/>
             <Segment style={innerStyle}>
               <Button icon={'close'}
                       floated={'right'}
@@ -207,7 +209,8 @@ class HomeAdmin extends React.Component {
             </Segment>
           </div> : ''}
           {/* send notification POPUP */}
-          {this.state.openSendEmail ? <div style={popupStyle}>
+          {this.state.openSendEmail ? <div>
+            <div style={popupStyle}/>
             <Segment style={innerStyle}>
               <Button icon={'close'} floated={'right'} circular onClick={this.handleClose}/>
               <Header as={'h1'} textAlign={'center'} content={'SEND EMAIL'}/>
@@ -244,7 +247,8 @@ class HomeAdmin extends React.Component {
               </Form>
             </Segment>
           </div> : ''}
-          {this.state.openRestore ? <div style={popupStyle2}>
+          {this.state.openRestore ? <div>
+            <div style={popupStyle2}/>
             <Segment style={innerStyle2}>
               <Button icon={'close'}
                       floated={'right'}
@@ -281,7 +285,7 @@ export default withTracker(() => {
   return {
     users: User.find({}).fetch(),
     items: Items.find({}).fetch(),
-    emails: Contactus.find({ recipient: 'admin' }).fetch(),
+    emails: Contactus.find({ recipient: 'admin' }, { sort: { createdAt: -1 } }).fetch(),
     ready: subscription.ready() && subscription2.ready() && subscription3.ready(),
   };
 })(HomeAdmin);
