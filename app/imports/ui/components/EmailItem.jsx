@@ -47,7 +47,7 @@ class EmailItem extends React.Component {
               </Grid.Column>
               <Grid.Column width={1}/>
               <Grid.Column width={1}>{this.props.email.issueType}</Grid.Column>
-              <Grid.Column width={3}/>
+              <Grid.Column width={2}/>
               <Grid.Column width={4}>{this.props.email.subject}</Grid.Column>
               <Grid.Column width={1}/>
               <Grid.Column width={3}>{this.props.email.email}</Grid.Column>

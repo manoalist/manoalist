@@ -38,8 +38,10 @@ class Home extends React.Component {
   }
 
   renderPage() {
-    const newList = Items.find({}, { limit: 4, sort: { createdAt: -1 } }).fetch();
-    const popularList = Items.find({}, { limit: 4, sort: { numberOfLike: -1 } }).fetch();
+    const newList = Items.find({ forSale: true, approvedForSale: true, sold: false },
+        { limit: 4, sort: { createdAt: -1 } }).fetch();
+    const popularList = Items.find({ forSale: true, approvedForSale: true, sold: false },
+        { limit: 4, sort: { numberOfLike: -1 } }).fetch();
     if (this.state.directToList) {
       return <Redirect to={`/list/${this.state.searchWords}/search`}/>;
     }
