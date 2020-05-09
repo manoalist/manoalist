@@ -26,6 +26,7 @@ import EditItem from '../pages/EditItem';
 import Terms from '../pages/Terms';
 import ChangePsword from '../pages/ChangePsword';
 import Inbox from '../pages/Inbox';
+import Likes from '../pages/Likes';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -52,6 +53,7 @@ class App extends React.Component {
                 <ProtectedRoute path="/edit/:_id" component={EditUserInfo}/>
                 <ProtectedRoute path="/editItem/:_id/:group" component={EditItem}/>
                 <ProtectedRoute path="/inbox" component={Inbox}/>
+                <ProtectedRoute path="/likes" component={Likes}/>
                 <AdminProtectedRoute path="/admin" component={HomeAdmin}/>
                 <AdminProtectedRoute path="/addCate" component={AddCategory}/>
                 <ProtectedRoute path="/signout" component={Signout}/>
