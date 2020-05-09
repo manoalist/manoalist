@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Icon, Dropdown, Image, Label } from 'semantic-ui-react';
+import { Menu, Icon, Dropdown, Image, Label, Divider } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import { Categories } from '../../api/category/Category';
 import CategoryItem from './CategoryItem';
@@ -90,28 +90,35 @@ class NavBar extends React.Component {
                 Sign In
               </Menu.Item>) : (
               <Menu.Item>
-                <Dropdown trigger={trigger} style={ { color: '#024731' } } icon={null} pointing={'top right'}>
+                <Dropdown trigger={trigger} style={{ color: '#024731' }} icon={null} pointing={'top right'}>
                   <Dropdown.Menu>
                     <Dropdown.Item text="Profile"
                                    icon={'user circle'}
                                    as={NavLink}
                                    exact
                                    to="/profile"/>
-                    <Dropdown.Item text="Security"
-                                   icon={'lock'}
+                    <Dropdown.Item text="Likes"
+                                   icon={'heart'}
                                    as={NavLink}
                                    exact
-                                   to="/changepsword"/>
+                                   to="/likes"/>
                     <Dropdown.Item as={NavLink}
                                    exact
                                    to="/inbox">
                       <Icon name={'mail'}/>
                       Inbox
-                      {Contactus.find({ beRead: false }).fetch().length > 0 ? <Label circular
-                              style={{ marginBottom: '8px' }}
-                              empty
-                              color={'red'}/> : ''}
+                      {Contactus.find({ beRead: false }).fetch().length > 0 ?
+                          <Label circular
+                                 style={{ marginBottom: '8px' }}
+                                 empty
+                                 color={'red'}/> : ''}
                     </Dropdown.Item>
+                    <Divider/>
+                    <Dropdown.Item text="Security"
+                                   icon={'lock'}
+                                   as={NavLink}
+                                   exact
+                                   to="/changepsword"/>
                     <Dropdown.Item icon="sign out"
                                    text="Sign Out"
                                    as={NavLink}
