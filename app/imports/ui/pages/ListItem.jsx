@@ -25,7 +25,10 @@ class ListItem extends React.Component {
 
   handleSearch = () => {
     /* eslint-env browser */
-    window.location.href = `${window.location.origin}/#/list/${this.state.search}/search`;
+    if (this.state.search) {
+      window.location.href = `${window.location.origin}/#/list/${this.state.search
+        .replace(/\+/g, '%2B').replace(/\\/g, '%5C').replace(/\*/g, '%2A').replace(/\//g, '%2F')}/search`;
+    }
   };
 
   handleInputChange = (e) => {
@@ -249,7 +252,7 @@ ListItem.propTypes = {
 export default withTracker(({ match }) => {
   // Get access to Stuff documents.
   const subscription = Meteor.subscribe('Items');
-  const documentGroup = match.params.group;
+  let documentGroup =  match.params.group;
   const documentName = match.params.name;
   if (documentGroup === undefined) {
     return {
@@ -268,11 +271,13 @@ export default withTracker(({ match }) => {
     };
   }
   if (documentName === 'search') {
+    // Convert %encoded characters back to normal for searching in case it doesn't auto convert
+    documentGroup = documentGroup.replace(/%2B/g, '+').replace(/%5C/g, '\\').replace(/%2A/g, '*').replace(/%2F/g, '/');
     return {
       items: Items.find({
-        $or: [{ name: { $regex: documentGroup, $options: 'i' } },
-          { categoryGroup: { $regex: documentGroup, $options: 'i' } },
-          { categoryName: { $regex: documentGroup, $options: 'i' } }],
+        $or: [{ name: { $regex: documentGroup.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), $options: 'i' } },
+          { categoryGroup: { $regex: documentGroup.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), $options: 'i' } },
+          { categoryName: { $regex: documentGroup.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), $options: 'i' } }],
       }).fetch(),
       ready: subscription.ready(),
       group: documentGroup,
