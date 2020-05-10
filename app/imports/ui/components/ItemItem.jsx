@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Card, Image, Container, Button, Loader } from 'semantic-ui-react';
+import { Roles } from 'meteor/alanning:roles';
+import { Card, Image, Container, Button, Loader, Label, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { NavLink } from 'react-router-dom';
@@ -12,6 +13,21 @@ import { User } from '../../api/user/User';
 class ItemItem extends React.Component {
 
   handleClick = () => this.reportItem(this.props.item._id);
+
+  handleDelete = () => {
+    swal({
+      title: 'Delete',
+      text: 'Are you sure to delte this Item?',
+      buttons: {
+        cancel: 'Cancel',
+        confirm: 'Delete',
+      },
+    }).then((value) => {
+      if (value) {
+        Items.remove({ _id: this.props.item._id });
+      }
+    });
+  };
 
   reportItem(id) {
     swal({
@@ -31,6 +47,7 @@ class ItemItem extends React.Component {
         if (str.split(' ').length <= 100) {
           Items.update({ _id: id.toString() }, { $set: { flagged: 'true' } });
           Items.update({ _id: id.toString() }, { $set: { reportReason: value } });
+          swal('Success', 'Report Successfully! We will deal it as soon as possible.', 'success');
         } else {
           swal('Error', 'Input cannot exceed 100 words', 'error');
         }
@@ -59,6 +76,11 @@ class ItemItem extends React.Component {
   renderPage() {
     return (
         <Card centered>
+          {Roles.userIsInRole(Meteor.userId(), 'admin') ?
+              <Label corner={'right'} color={'red'}>
+                <Icon style={{ cursor: 'pointer' }} link name={'close'} onClick={this.handleDelete}/>
+              </Label>
+              : ''}
           <Container style={{ height: '300px' }} as={NavLink} exact to={`/details/${this.props.item._id}`}>
             <Image centered
                    src={this.props.item.picture.split(',:;')[0]}
