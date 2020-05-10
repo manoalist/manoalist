@@ -99,6 +99,11 @@ class Profile extends React.Component {
   renderPage() {
     const ratings = Ratings.find({}, { sort: { createdAt: -1 } }).fetch()
         .filter(rate => rate.target === this.props.user.email);
+
+    const avgRatings = (Math.round((ratings
+            .reduce((pre, cur) => pre + cur.rating, 0)
+        / ratings.length) * 10) / 10);
+
     return (
         <Grid columns={2} className='profile-page'>
           <Grid.Column width={4}>
@@ -128,15 +133,11 @@ class Profile extends React.Component {
                         <Statistic>
                           <Statistic.Label>Average Rating</Statistic.Label>
                           <Statistic.Value>
-                            {(Math.round((ratings
-                                    .reduce((pre, cur) => pre + cur.rating, 0)
-                                / ratings.length) * 10) / 10).toString()}
+                            {(Number.isNaN(avgRatings)) ? '0' : avgRatings.toString()}
                           </Statistic.Value>
                         </Statistic>
                         <Rating maxRating={5}
-                                   defaultRating={Math.round((ratings
-                                           .reduce((pre, cur) => pre + cur.rating, 0)
-                                       / ratings.length) * 10) / 10}
+                                   defaultRating={avgRatings}
                                    icon='star'
                                    style={{ marginLeft: '1em' }}
                                    size='massive'
