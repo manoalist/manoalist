@@ -50,7 +50,6 @@ class Signin extends React.Component {
       }
         return <Redirect to={from}/>;
     }
-      
     return (
         <Container style={{ paddingLeft: '130px', paddingRight: '130px', marginTop: '50px', marginBottom: '95px' }}>
           <Image src={'/images/manoalist-circle.png'} size={'tiny'} centered style={{ marginBottom: '-12px' }}/>

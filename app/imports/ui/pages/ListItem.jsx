@@ -49,7 +49,7 @@ class ListItem extends React.Component {
 
   handleDropdownChange = (event, data, dropdown) => {
     this.setState({ [dropdown]: data.value });
-  }
+  };
 
   renderCards() {
     const sortItem = this.state.sortBy;
@@ -59,39 +59,32 @@ class ListItem extends React.Component {
         if (this.state.order === 'asc') {
           if (a[sortItem].getTime() > b[sortItem].getTime()) {
             return 1;
-          } else if (a[sortItem].getTime() < b[sortItem].getTime()) {
+          } if (a[sortItem].getTime() < b[sortItem].getTime()) {
             return -1;
-          } else {
-            return 0;
           }
-        } else {
+            return 0;
+        }
           if (a[sortItem].getTime() > b[sortItem].getTime()) {
             return -1;
-          } else if (a[sortItem].getTime() < b[sortItem].getTime()) {
+          } if (a[sortItem].getTime() < b[sortItem].getTime()) {
             return 1;
-          } else {
-            return 0;
           }
-        }
-      } else {
+            return 0;
+      }
         if (this.state.order === 'asc') {
           if (a[sortItem] > b[sortItem]) {
             return 1;
-          } else if (a[sortItem] < b[sortItem]) {
+          } if (a[sortItem] < b[sortItem]) {
             return -1;
-          } else {
-            return 0;
           }
-        } else {
+            return 0;
+        }
           if (a[sortItem] > b[sortItem]) {
             return -1;
-          } else if (a[sortItem] < b[sortItem]) {
+          } if (a[sortItem] < b[sortItem]) {
             return 1;
-          } else {
-            return 0;
           }
-        }
-      }
+            return 0;
     })
     .filter(item => item.forSale === true)
     .filter(item => item.approvedForSale === true)
@@ -252,7 +245,7 @@ ListItem.propTypes = {
 export default withTracker(({ match }) => {
   // Get access to Stuff documents.
   const subscription = Meteor.subscribe('Items');
-  let documentGroup =  match.params.group;
+  let documentGroup = match.params.group;
   const documentName = match.params.name;
   if (documentGroup === undefined) {
     return {
@@ -275,8 +268,11 @@ export default withTracker(({ match }) => {
     documentGroup = documentGroup.replace(/%2B/g, '+').replace(/%5C/g, '\\').replace(/%2A/g, '*').replace(/%2F/g, '/');
     return {
       items: Items.find({
+        // eslint-disable-next-line no-useless-escape
         $or: [{ name: { $regex: documentGroup.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), $options: 'i' } },
+          // eslint-disable-next-line no-useless-escape
           { categoryGroup: { $regex: documentGroup.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), $options: 'i' } },
+          // eslint-disable-next-line no-useless-escape
           { categoryName: { $regex: documentGroup.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), $options: 'i' } }],
       }).fetch(),
       ready: subscription.ready(),

@@ -45,7 +45,7 @@ class AddItem extends React.Component {
 
     this.state.images.forEach(image => {
       totalSize += image.fileSize;
-      picture = `${image.image},:;`;
+      picture = picture.concat(`${image.image},:;`);
     });
 
     if (totalSize >= 10.0) {
@@ -124,8 +124,7 @@ class AddItem extends React.Component {
   }
 
   renderFileList() {
-    const fileList = this.state.images.map((image) => {
-      return (
+    const fileList = this.state.images.map((image) => (
         <Grid.Row key={image.image}>
           <Grid columns={3} className='negate-semantic-grid'>
             <Grid.Column width={10} style={{ wordBreak: 'break-all' }}>
@@ -139,8 +138,7 @@ class AddItem extends React.Component {
             </Grid.Column>
           </Grid>
         </Grid.Row>
-      );
-    });
+      ));
     return <Grid.Row className='image-list'>{fileList}</Grid.Row>;
   }
 
