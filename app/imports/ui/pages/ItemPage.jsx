@@ -317,9 +317,8 @@ class ItemPage extends React.Component {
                       defaultRating={averageRating}
                       maxRating={5}
                       disabled/>
-              <Label content={averageRating}
-                     color={'yellow'}
-                     position={'right'}/>
+              {(Number.isNaN(averageRating)) ? <Label content={'0'} color={'yellow'} position={'right'}/> :
+                  <Label content={averageRating} color={'yellow'} position={'right'}/>}
             </Grid.Row>
           </Grid.Column>
 
