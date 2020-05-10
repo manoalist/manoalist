@@ -88,25 +88,26 @@ class AddItem extends React.Component {
     let i = 0;
     /* global FileReader */
     const reader = new FileReader();
-    const processedImages = [];
+    const processedImages = this.state.images;
     const files = event.target.files;
-
-    this.setState({ processingImages: true }, () => {
-      reader.onloadend = () => {
-        processedImages.push({
-          fileName: files[i].name,
-          image: reader.result,
-          fileSize: files[i].size / 1000 / 1000,
-        });
-        i++;
-        if (files[i]) {
-          reader.readAsDataURL(files[i]);
-        } else if (processedImages.length === files.length) {
-          this.setState({ images: processedImages, processingImages: false });
-        }
-      };
-      reader.readAsDataURL(files[0]);
-    });
+    if (event.target.files.length > 0) {
+      this.setState({ processingImages: true }, () => {
+        reader.onloadend = () => {
+          processedImages.push({
+            fileName: files[i].name,
+            image: reader.result,
+            fileSize: files[i].size / 1000 / 1000,
+          });
+          i++;
+          if (files[i]) {
+            reader.readAsDataURL(files[i]);
+          } else if (processedImages.length === files.length) {
+            this.setState({ images: processedImages, processingImages: false });
+          }
+        };
+        reader.readAsDataURL(files[0]);
+      });
+    }
   }
 
   removeImage(image) {
@@ -123,7 +124,7 @@ class AddItem extends React.Component {
   }
 
   renderFileList() {
-    const fileList = this.state.images.map(function (image) {
+    const fileList = this.state.images.map((image) => {
       return (
         <Grid.Row key={image.image}>
           <Grid columns={3} className='negate-semantic-grid'>
