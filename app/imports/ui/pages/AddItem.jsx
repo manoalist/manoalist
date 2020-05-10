@@ -88,9 +88,9 @@ class AddItem extends React.Component {
     let i = 0;
     /* global FileReader */
     const reader = new FileReader();
-    const processedImages = [];
+    const processedImages = this.state.images;
     const files = event.target.files;
-    if (event.target.files) {
+    if (event.target.files.length > 0) {
       this.setState({ processingImages: true }, () => {
         reader.onloadend = () => {
           processedImages.push({
@@ -124,7 +124,7 @@ class AddItem extends React.Component {
   }
 
   renderFileList() {
-    const fileList = this.state.images.map(function (image) {
+    const fileList = this.state.images.map((image) => {
       return (
         <Grid.Row key={image.image}>
           <Grid columns={3} className='negate-semantic-grid'>
