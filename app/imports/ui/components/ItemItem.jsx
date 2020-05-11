@@ -17,7 +17,7 @@ class ItemItem extends React.Component {
   handleDelete = () => {
     swal({
       title: 'Delete',
-      text: 'Are you sure to delte this Item?',
+      text: 'Are you sure you want to delete this item?',
       buttons: {
         cancel: 'Cancel',
         confirm: 'Delete',
