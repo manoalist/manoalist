@@ -157,18 +157,23 @@ class ItemPage extends React.Component {
     this.setState({ openSendEmail: true });
   };
 
-  sms = () => {
-    Contacts.insert({ itemId: this.props.items._id, buyer: User.findOne({}).email,
-      seller: this.props.items.owner, contactDate: new Date() }, (error) => {
-      if (error) {
-        // eslint-disable-next-line no-undef
-        swal('Error', error.message, 'error');
-      } else {
-        // eslint-disable-next-line no-undef
-        swal('Success', 'Contact updated successfully', 'success');
-      }
-    });
-  };
+  /**
+   * Content removed for future implementation
+   *
+   * sms = () => {
+   *  Contacts.insert({ itemId: this.props.items._id, buyer: User.findOne({}).email,
+   *  seller: this.props.items.owner, contactDate: new Date() }, (error) => {
+   *    if (error) {
+   *      // eslint-disable-next-line no-undef
+   *      swal('Error', error.message, 'error');
+   *    } else {
+   *      // eslint-disable-next-line no-undef
+   *      swal('Success', 'Contact updated successfully', 'success');
+   *    }
+   *  });
+   * };
+   *
+   */
 
   // submit rating to seller
   submit = () => {
@@ -353,13 +358,16 @@ class ItemPage extends React.Component {
                   <Icon name='mail'/>
                   EMAIL
                 </Button>
-                <Button color='black'
-                        icon
-                        labelPosition='right'
-                        onClick={this.sms}>
-                  <Icon name='mobile alternate'/>
-                  TEXT
-                </Button>
+                    { /**
+                     <Button color='black'
+                     icon
+                     labelPosition='right'
+                     onClick={this.sms}>
+                     <Icon name='mobile alternate'/>
+                     TEXT
+                     </Button>
+                      */
+                    }
               </Grid.Row>}
               <Grid.Row>
                 {/** If user is owner, they can see edit and sold button */}
@@ -454,7 +462,7 @@ class ItemPage extends React.Component {
                   </Container> : ''}
                 </Comment.Group>
                 : <Header as={Container}
-                          textAlign={'center'}>There is no rating for you</Header>}
+                          textAlign={'center'}>This user does not have ratings</Header>}
           </Grid.Row>
 
             {/** Sold Popup, ask to select buyer */}
