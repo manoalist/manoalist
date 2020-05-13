@@ -239,6 +239,32 @@ class ItemPage extends React.Component {
     this.handleCloseSold();
   };
 
+  handleReport(id) {
+    swal({
+      title: 'Report',
+      text: 'Please provide the reason for reporting\n(no more than 100 words):',
+      content: 'input',
+      buttons: {
+        cancel: 'Cancel',
+        confirm: 'Report',
+      },
+    }).then((value) => {
+      let str = value;
+      if (value !== null) {
+        str = str.replace(/(^\s*)|(\s*$)/gi, '');
+        str = str.replace(/[ ]{2,}/gi, ' ');
+        str = str.replace(/\n /, '\n');
+        if (str.split(' ').length <= 100) {
+          Items.update({ _id: id.toString() }, { $set: { flagged: 'true' } });
+          Items.update({ _id: id.toString() }, { $set: { reportReason: value } });
+          swal('Success', 'Report Successfully! We will deal it as soon as possible.', 'success');
+        } else {
+          swal('Error', 'Input cannot exceed 100 words', 'error');
+        }
+      }
+    });
+  }
+
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Retrieving Item Data</Loader>;
   }
@@ -329,6 +355,8 @@ class ItemPage extends React.Component {
 
           <Grid.Column textAlign="left"
                        width={8}>
+            <Button content={'report'} disabled={this.props.items.flagged}
+                    color={'red'} onClick={() => this.handleReport(this.props.items._id)} floated={'right'}/>
             <Button icon='heart'
                     floated='right'
                     onClick={this.addLike}
