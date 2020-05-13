@@ -137,7 +137,7 @@ class ListItem extends React.Component {
     ];
 
     return (
-        <Container textAlign={'center'}>
+        <Container textAlign={'center'} style={{ paddingBottom: '50px', paddingTop: '20px' }}>
           <Breadcrumb size={'massive'}>
             <Breadcrumb.Section href={'#/list'}>All Items</Breadcrumb.Section>
             { this.props.group !== '' ? (<Breadcrumb.Divider/>) : ''}
@@ -166,7 +166,7 @@ class ListItem extends React.Component {
             />
           </Grid.Row>
           <Grid.Row>
-            <Grid columns={3} stackable>
+            <Grid columns={3} stackable style ={{ paddingTop: '30px' }}>
               <Grid.Column textAlign={'left'} width={6} style={{ paddingTop: '2em' }}>
                 <Input icon='search' placeholder='Search...'
                     onChange={this.handleInputChange} onKeyDown={ this.pressEnter }

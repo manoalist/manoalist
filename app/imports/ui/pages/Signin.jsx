@@ -81,7 +81,7 @@ class Signin extends React.Component {
                 />
                 <Form.Button
                     fluid
-                    style={{ color: 'white', backgroundColor: '#024731' }}
+                    style={{ color: 'white', backgroundColor: '#6DA172' }}
                     disabled={!this.state.email || !this.state.password}
                     content="LOG IN"
                 />

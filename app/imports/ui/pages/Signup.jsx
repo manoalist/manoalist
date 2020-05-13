@@ -217,7 +217,8 @@ or other material ("Content").`;
                       onChange={this.handleChange}
                       error={this.state.errorConfirm}
                   />
-                  <Form.Button fluid style={{ marginTop: '20px' }} color={'blue'} content="SIGN UP" type={'submit'}
+                  <Form.Button fluid style={{ marginTop: '20px', color: 'white', backgroundColor: '#6DA172' }}
+                               content="SIGN UP" type={'submit'}
                                disabled={!this.state.firstName || !this.state.lastName || !this.state.email ||
                                !this.state.mobileNumber || !this.state.password || !this.state.confirm}/>
                   Already have an account? <Link to="/signin">Login</Link>

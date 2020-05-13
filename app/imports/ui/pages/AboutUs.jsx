@@ -6,7 +6,7 @@ class AboutUs extends React.Component {
 
   render() {
     const pageStyle = { paddingTop: '1em' };
-    const gridStyle = { paddingBottom: '5em' };
+    const gridStyle = { paddingTop: '5px', paddingBottom: '5em' };
 
     return (
         <div style={pageStyle}>
@@ -18,7 +18,7 @@ class AboutUs extends React.Component {
             <Grid.Column>
               <a href={'https://craigopie.github.io/'}>
                 <Segment padded inverted>
-                  <Image centered size={'small'} circular src={'/images/craig.jpg'}/>
+                  <Image circular centered size={'small'} src={'/images/craig.jpg'}/>
                   <Header textAlign={'center'}>CRAIG OPIE</Header>
                   <p>
                     Been programming as a hobby for 21 years. An experienced project manager.
@@ -29,7 +29,7 @@ class AboutUs extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <a href={'https://heweiron.github.io/'}>
-                <Segment padded inverted>
+                <Segment padded raised inverted>
                   <Image circular centered size={'small'} src={'/images/weirong.jpg'}/>
                   <Header textAlign={'center'}>WEIRONG HE</Header>
                   <p>

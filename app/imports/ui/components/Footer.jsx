@@ -42,7 +42,7 @@ class Footer extends React.Component {
                     <Button
                         content={'REGISTER'}
                         size={'small'}
-                        style={{ color: 'white', backgroundColor: '#6DA172' }}
+                        style={{ color: 'white', backgroundColor: '#8EA4D2' }}
                         as={NavLink}
                         exact to={'/signup'}/>
                   </Container>

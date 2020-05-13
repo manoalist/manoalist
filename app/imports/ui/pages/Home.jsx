@@ -46,7 +46,7 @@ class Home extends React.Component {
       return <Redirect to={`/list/${this.state.searchWords}/search`}/>;
     }
     return (
-        <div>
+        <div style={{ paddingBottom: '60px' }}>
           <Container className={'topLanding'} fluid textAlign={'center'}
                      style={{ paddingTop: '25px', marginTop: '-10px' }}>
             <Image src={'/images/manoalist-circle.png'} size={'small'} centered/>
@@ -54,7 +54,7 @@ class Home extends React.Component {
                    onChange={this.handleInputChange} onKeyDown={ this.pressEnter }
                    style={{ marginTop: '25px' }}/>
           </Container>
-          <Container>
+          <Container style={{ paddingTop: '10px' }}>
             <Divider hidden/>
             <Header as='h2'>New Listings</Header>
             <Segment><Grid columns={5}>
@@ -68,7 +68,7 @@ class Home extends React.Component {
           <Divider hidden/>
           <Container>
             <Divider hidden/>
-            <Header as='h2'>POPULAR</Header>
+            <Header as='h2'>Popular</Header>
             <Segment><Grid columns={5}>
               {popularList.map((item, index) => <HomeItem key={index} item={item}/>)}
               <Grid.Column textAlign={'center'} verticalAlign={'middle'} as={NavLink} exact to={'/list'}>

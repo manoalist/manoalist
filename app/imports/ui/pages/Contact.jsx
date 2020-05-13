@@ -47,17 +47,17 @@ class Contact extends React.Component {
   render() {
     const typeOptions = [
       { key: 'b', text: 'Bug', value: 'Bug' },
-      { key: 'a', text: 'Advise', value: 'Advise' },
-      { key: 'o', text: 'Other', value: 'other' },
+      { key: 'a', text: 'Advice', value: 'Advice' },
+      { key: 'o', text: 'Other', value: 'Other' },
     ];
     const { from } = this.props.location.state || { from: { pathname: '/home' } };
     if (this.state.redirectToReferer) {
       return <Redirect to={from}/>;
     }
     return (
-        <Container>
+        <Container style={{ paddingTop: '20px', paddingBottom: '60px' }}>
           <Image centered size='tiny' src={'/images/manoalist-circle.png'}/>
-          <Header as='h2' textAlign='center'>Contact Us</Header>
+          <Header as='h2' textAlign='center'>CONTACT US</Header>
           <Segment>
         <Form onSubmit={this.submit}>
           <Form.Group widths='equal'>
@@ -104,8 +104,7 @@ class Contact extends React.Component {
           <Form.Field
               id='form-button-control-public'
               control={Button}
-              content='Confirm'
-              label='Submit'
+              content='Submit'
           />
         </Form>
             {this.state.error === '' ? (
