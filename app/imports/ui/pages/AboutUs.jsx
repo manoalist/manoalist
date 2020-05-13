@@ -29,7 +29,7 @@ class AboutUs extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <a href={'https://heweiron.github.io/'}>
-                <Segment padded raised inverted>
+                <Segment padded inverted>
                   <Image circular centered size={'small'} src={'/images/weirong.jpg'}/>
                   <Header textAlign={'center'}>WEIRONG HE</Header>
                   <p>

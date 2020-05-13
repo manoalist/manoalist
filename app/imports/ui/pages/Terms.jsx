@@ -16,28 +16,28 @@ class Terms extends React.Component {
               http://manoalist.meteorapp.com website (the &quot;Service&quot;)
               operated by UH Manoa (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).
             </p>
-            <p textAlign="left" style={{ marginTop: '0px' }}>
+            <p style={{ marginTop: '0px' }}>
               Your access to and use of the Service is conditioned on your acceptance of and compliance with these
               Terms.
               These terms apply to all visitors, users and others who access or use the Service.
             </p>
-            <p textAlign="left" style={{ marginTop: '0px' }}>
+            <p style={{ marginTop: '0px' }}>
               By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of
               the
               terms then you may not access the Service.
             </p>
             <Header as="h3" textAlign="left">Termination</Header>
-            <p textAlign="left" style={{ marginTop: '-10px' }}>
+            <p style={{ marginTop: '-10px' }}>
               We may terminate or suspend access to our Service immediately, without prior notice or liability, for any
               reason whatsoever, including without limitation if you breach the Terms.
             </p>
-            <p textAlign="left" style={{ marginTop: '0px' }}>
+            <p style={{ marginTop: '0px' }}>
               All provisions of the Terms which by their nature should survive termination shall survive termination,
               including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of
               liability.
             </p>
             <Header as="h3" textAlign="left">Content</Header>
-            <p textAlign="left" style={{ marginTop: '-10px' }}>
+            <p style={{ marginTop: '-10px' }}>
               Our Service allows you to post, link, store, share and otherwise make available certain information, text,
               graphics, or other material (&quot;Content&quot;).
             </p>
