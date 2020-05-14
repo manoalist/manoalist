@@ -1,3 +1,3 @@
 
 
-For details, please see http://manoalist.github.io/manoalist/
+For details, please see https://manoalist.github.io/
