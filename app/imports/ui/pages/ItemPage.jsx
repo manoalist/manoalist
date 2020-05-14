@@ -138,6 +138,10 @@ class ItemPage extends React.Component {
   deleteItem = () => {
     const currentId = this.props.items._id;
     const currentURL = `list/${this.props.items.categoryGroup}/${this.props.items.categoryName}`;
+    if (User.findOne({}).likedItems.includes(this.props.items._id)) {
+      User.update({ _id: User.findOne({})._id },
+          { $pull: { likedItems: this.props.items._id } });
+    }
     Items.remove({ _id: this.props.items._id }, (error) => {
       if (error) {
         swal('Error', error.message, 'error');

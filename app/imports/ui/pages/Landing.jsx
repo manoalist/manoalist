@@ -45,17 +45,18 @@ export default class Landing extends React.Component {
       },
     ];
     return (
-        <div>
+        <div style={{ paddingBottom: '60px' }}>
           <Container className={'topLanding'} textAlign={'center'} fluid style={{ marginTop: '-10px' }}>
             <Header as={'h1'} textAlign={'center'} style={{ paddingTop: '25px', fontSize: '50px' }}
                     inverted id='fancy-font'>Shop with Aloha</Header>
             <Image src={'/images/manoalist-circle.png'} size='small' centered/>
-            <Button animated color='blue' style={{ marginTop: '50px' }} as={NavLink} exact to={'/signin'}>
+            <Button animated style={{ marginTop: '50px', color: 'white', backgroundColor: '#8EA4D2' }}
+                    as={NavLink} exact to={'/signin'}>
               <Button.Content visible>Sign In</Button.Content>
               <Button.Content hidden><Icon name='arrow right' /></Button.Content>
             </Button>
           </Container>
-          <Header as={'h2'} textAlign={'center'}>HOW IT WORKS</Header>
+          <Header as={'h2'} textAlign={'center'} style={{ paddingTop: '20px' }}>HOW IT WORKS</Header>
           <Container>
             <Tab menu={{ fluid: false, tabular: true }} menuPosition='left' panes={panes}/>
           </Container>
