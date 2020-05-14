@@ -130,11 +130,11 @@ class HomeAdmin extends React.Component {
     const userOptions = [];
     User.find({}).fetch().map((user) => userOptions.push({ key: user._id, value: user.email, text: user.email }));
     return (
-        <div>
+        <div style={{ paddingTop: '30px', paddingBottom: '70px' }}>
           <Image src={'/images/manoalist-circle.png'}
                  size={'small'}
                  centered/>
-          <Header as={'h2'}
+          <Header style={{ marginTop: '10px', paddingBottom: '15px' }} as={'h2'}
                   content={'Administrator Page'}
                   textAlign={'center'}/>
           <Divider hidden/>
@@ -147,8 +147,8 @@ class HomeAdmin extends React.Component {
               </Grid.Column>
               <Grid.Column textAlign={'center'} style={{ color: '#4183c4' }}
                            onClick={this.handleOpenRestore}>
-                <Icon link name={'user doctor'} size={'huge'}/>
-                <Header as={'h3'} content={'Baned Users'}/>
+                <Icon link name={'user cancel'} size={'huge'}/>
+                <Header as={'h3'} content={'Banned Users'}/>
               </Grid.Column>
               <Grid.Column as={NavLink} exact to={'/addCate'} textAlign={'center'}>
                 <Icon name={'add circle'} size={'huge'}/>
@@ -166,7 +166,7 @@ class HomeAdmin extends React.Component {
               </Grid.Column>
             </Grid>
             <Divider hidden/>
-            <Grid columns={2}>
+            <Grid relaxed columns={2} style={{ paddingTop: '40px' }}>
               <Grid.Column floated='left' width={8}>
                 <Header dividing>Reported Items</Header>
                 <Segment.Group raised>

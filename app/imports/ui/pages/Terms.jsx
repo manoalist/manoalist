@@ -5,7 +5,7 @@ import { Container, Header, Image } from 'semantic-ui-react';
 class Terms extends React.Component {
   render() {
     return (
-        <div style={{ paddingTop: '20px', paddingBottom: '60px' }}>
+        <div style={{ paddingTop: '20px', paddingBottom: '70px' }}>
           <Image centered size='tiny' src={'/images/manoalist-circle.png'} style={{ paddingBottom: '20px' }}/>
           <Container style={{ paddingLeft: '20px', paddingRight: '20px' }}>
             <Header as="h1" textAlign="center">Manoalist User Terms of Use</Header>

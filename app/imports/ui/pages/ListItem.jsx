@@ -137,7 +137,7 @@ class ListItem extends React.Component {
     ];
 
     return (
-        <Container textAlign={'center'} style={{ paddingBottom: '50px', paddingTop: '20px' }}>
+        <Container textAlign={'center'} style={{ paddingBottom: '60px', paddingTop: '20px' }}>
           <Breadcrumb size={'massive'}>
             <Breadcrumb.Section href={'#/list'}>All Items</Breadcrumb.Section>
             { this.props.group !== '' ? (<Breadcrumb.Divider/>) : ''}
