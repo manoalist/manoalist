@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "classnames": "^2.2.6",
     "core-js": "^3.6.5",
     "graphql": "^14.6.0",
